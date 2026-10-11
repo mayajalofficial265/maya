@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContentBondhu AI - বাংলা কনটেন্ট টুল</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6ff;
+      color: #18213b;
+    }
+    header {
+      background: linear-gradient(135deg, #5438ee, #087cf0);
+      color: white;
+      text-align: center;
+      padding: 32px 16px;
+    }
+    header h1 { margin: 0 0 10px; font-size: 30px; }
+    header p { margin: 0; }
+    main { max-width: 700px; margin: 22px auto; padding: 0 14px; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 18px #18213b12;
+    }
+    h2 { margin-top: 0; font-size: 21px; }
+    label { display: block; margin: 12px 0 7px; font-weight: bold; }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cdd5e8;
+      border-radius: 9px;
+      font-size: 16px;
+      background: white;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .generate {
+      width: 100%;
+      margin-top: 14px;
+      background: #5438ee;
+      color: white;
+    }
+    .copy { background: #e8eaff; color: #3925bd; margin-top: 10px; }
+    #result {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #f5f6ff;
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 55px;
+      line-height: 1.7;
+    }
+    footer { text-align: center; padding: 22px; color: #68718a; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>✨ ContentBondhu AI</h1>
+    <p>বাংলায় সহজে তৈরি করো সোশ্যাল মিডিয়া কনটেন্ট!</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>🚀 কনটেন্ট তৈরি করো</h2>
+      <label for="tool">কী তৈরি করতে চাও?</label>
+      <select id="tool">
+        <option value="caption">সোশ্যাল মিডিয়া ক্যাপশন</option>
+        <option value="title">YouTube ভিডিও টাইটেল</option>
+        <option value="hashtag">হ্যাশট্যাগ</option>
+        <option value="idea">Reels / Shorts ভিডিও আইডিয়া</option>
+      </select>
+
+      <label for="topic">তোমার বিষয় লিখো</label>
+      <input id="topic" placeholder="যেমন: ভ্রমণ, খাবার, প্রযুক্তি">
+
+      <label for="style">কনটেন্টের ধরন</label>
+      <select id="style">
+        <option value="friendly">বন্ধুসুলভ</option>
+        <option value="funny">মজার</option>
+        <option value="professional">প্রফেশনাল</option>
+        <option value="motivational">অনুপ্রেরণামূলক</option>
+      </select>
+
+      <button class="generate" onclick="generateContent()">✨ কনটেন্ট তৈরি করো</button>
+    </section>
+
+    <section class="card">
+      <h2>📝 তোমার তৈরি কনটেন্ট</h2>
+      <div id="result">তোমার কনটেন্ট এখানে দেখা যাবে।</div>
+      <button class="copy" onclick="copyContent()">📋 কপি করো</button>
+      <p id="message" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>💡 ContentBondhu কীভাবে কাজ করে?</h2>
+      <p>বিষয় লিখে একটি টুল বেছে নাও। তারপর তৈরি হওয়া লেখা কপি করে তোমার Facebook, YouTube বা অন্য প্ল্যাটফর্মে ব্যবহার করো।</p>
+      <p>এটি এখন টেমপ্লেট-ভিত্তিক টুল; এটি সরাসরি AI API ব্যবহার করে না।</p>
+    </section>
+  </main>
+
+  <footer>© 2026 ContentBondhu AI · Made for Bengali creators ❤️</footer>
+
+  <script>
+    function generateContent() {
+      const topic = document.getElementById("topic").value.trim();
+      const tool = document.getElementById("tool").value;
+      const style = document.getElementById("style").value;
+      const result = document.getElementById("result");
+      const message = document.getElementById("message");
+
+      if (!topic) {
+        result.textContent = "প্রথমে তোমার বিষয়টি লিখো।";
+        message.textContent = "";
+        return;
+      }
+
+      const captions = {
+        friendly: `চলো আজ কথা বলি ${topic} নিয়ে! 😊\nতোমার মতামত কমেন্টে জানাও।\nভালো লাগলে বন্ধুদের সঙ্গে শেয়ার করো ❤️`,
+        funny: `${topic} নিয়ে আজকের মজাটা কিন্তু আলাদা! 😂\nশেষ পর্যন্ত দেখো আর তোমার বন্ধুকে মেনশন করো!`,
+        professional: `${topic} সম্পর্কে জানতে চাও? এই পোস্টে রয়েছে কিছু গুরুত্বপূর্ণ কথা।\nআরও জানতে সঙ্গে থাকুন।`,
+        motivational: `স্বপ্ন পূরণের পথে ${topic} হতে পারে নতুন এক অনুপ্রেরণা! 💪\nশুরু করো আজই, এগিয়ে চলো নিজের গতিতে।`
+      };
+
+      const titles = {
+        friendly: `${topic}: সহজ ভাষায় সম্পূর্ণ গাইড`,
+        funny: `${topic} নিয়ে যা হলো 😂 | মিস কোরো না!`,
+        professional: `${topic}: ৫টি গুরুত্বপূর্ণ বিষয়`,
+        motivational: `${topic} তোমার জীবন বদলে দিতে পারে!`
+      };
+
+      const ideas = {
+        friendly: `${topic} নিয়ে ৩০ সেকেন্ডের একটি ভিডিও বানাও। প্রথমে পরিচয় দাও, তারপর ৩টি টিপস বলো এবং শেষে দর্শকদের মতামত জানতে চাও।`,
+        funny: `${topic} নিয়ে একটি মজার পরিস্থিতি দেখাও। প্রথম ৩ সেকেন্ডে আকর্ষণীয় দৃশ্য রাখো, শেষে অপ্রত্যাশিত মজার সমাপ্তি দাও।`,
+        professional: `${topic} নিয়ে একটি ছোট শিক্ষামূলক ভিডিও বানাও: সমস্যা, ৩টি সমাধান এবং একটি সংক্ষিপ্ত উপসংহার।`,
+        motivational: `${topic} নিয়ে নিজের লক্ষ্য, একটি বাধা এবং সেটি অতিক্রম করার উপায় দেখিয়ে অনুপ্রেরণামূলক ভিডিও বানাও।`
+      };
+
+      let output = "";
+
+      if (tool === "caption") {
+        output = captions[style] + `\n\n#${topic.replace(/\s+/g, "")} #বাংলা #ContentBondhu`;
+      } else if (tool === "title") {
+        output = titles[style] + "\n" +
+          `${topic} সম্পর্কে তোমার যা জানা দরকার` + "\n" +
+          `নতুনদের জন্য ${topic} | সম্পূর্ণ আলোচনা`;
+      } else if (tool === "hashtag") {
+        output = [
+          "#" + topic.replace(/\s+/g, ""),
+          "#বাংলা", "#Bangla", "#বাংলাদেশ",
+          "#ContentCreator", "#ContentBondhu",
+          "#Trending", "#ভিডিও"
+        ].join(" ");
+      } else {
+        output = ideas[style];
+      }
+
+      result.textContent = output;
+      message.textContent = "";
+    }
+
+    async function copyContent() {
+      const text = document.getElementById("result").textContent;
+      const message = document.getElementById("message");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        message.textContent = "✅ কপি হয়েছে!";
+      } catch (e) {
+        message.textContent = "লেখাটির ওপর চাপ দিয়ে ধরে রেখে কপি করো।";
+      }
+    }
+  </script>
+</body>
+  </html>
