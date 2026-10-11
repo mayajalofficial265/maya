@@ -1,187 +1,464 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ContentBondhu AI - বাংলা কনটেন্ট টুল</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6ff;
-      color: #18213b;
-    }
-    header {
-      background: linear-gradient(135deg, #5438ee, #087cf0);
-      color: white;
-      text-align: center;
-      padding: 32px 16px;
-    }
-    header h1 { margin: 0 0 10px; font-size: 30px; }
-    header p { margin: 0; }
-    main { max-width: 700px; margin: 22px auto; padding: 0 14px; }
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 4px 18px #18213b12;
-    }
-    h2 { margin-top: 0; font-size: 21px; }
-    label { display: block; margin: 12px 0 7px; font-weight: bold; }
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cdd5e8;
-      border-radius: 9px;
-      font-size: 16px;
-      background: white;
-    }
-    textarea { min-height: 90px; resize: vertical; }
-    button {
-      border: 0;
-      border-radius: 9px;
-      padding: 12px 16px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .generate {
-      width: 100%;
-      margin-top: 14px;
-      background: #5438ee;
-      color: white;
-    }
-    .copy { background: #e8eaff; color: #3925bd; margin-top: 10px; }
-    #result {
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      background: #f5f6ff;
-      border-radius: 10px;
-      padding: 14px;
-      min-height: 55px;
-      line-height: 1.7;
-    }
-    footer { text-align: center; padding: 22px; color: #68718a; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101828">
+<meta name="description" content="ContentBondhu AI - Create captions, YouTube titles, hashtags and short video ideas in Bengali and English.">
+<title>ContentBondhu AI</title>
+
+<style>
+:root {
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #182230;
+  --muted: #667085;
+  --primary: #6c4cff;
+  --primary-dark: #5035d5;
+  --border: #e4e7ec;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans Bengali", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+header {
+  background: #101828;
+  color: white;
+  padding: 18px 16px 30px;
+}
+.topbar {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.logo { font-size: 20px; font-weight: 800; }
+.lang-btn {
+  background: white;
+  color: #101828;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.hero {
+  max-width: 900px;
+  margin: 28px auto 0;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(27px, 6vw, 42px);
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+.hero p {
+  color: #d0d5dd;
+  line-height: 1.7;
+  margin: 0 auto;
+  max-width: 600px;
+}
+main {
+  max-width: 900px;
+  margin: 22px auto;
+  padding: 0 14px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 20px rgba(16,24,40,.04);
+}
+.card h2 { margin: 0 0 8px; font-size: 21px; }
+.description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin: 14px 0 8px;
+  font-size: 14px;
+}
+input, select, textarea {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 11px;
+  padding: 13px;
+  font: inherit;
+  font-size: 15px;
+  background: white;
+  color: var(--text);
+}
+textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+button { font: inherit; }
+.generate {
+  width: 100%;
+  border: none;
+  border-radius: 11px;
+  padding: 14px;
+  margin-top: 17px;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+.generate:hover { background: var(--primary-dark); }
+.result {
+  display: none;
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+}
+.result h3 { margin: 0 0 10px; font-size: 16px; }
+.output {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  font-size: 15px;
+}
+.copy {
+  background: #101828;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.notice {
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 8px 12px 25px;
+}
+footer {
+  text-align: center;
+  padding: 20px 12px;
+  background: #101828;
+  color: #d0d5dd;
+  font-size: 13px;
+}
+@media (min-width: 650px) {
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .card { margin-bottom: 0; }
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>✨ ContentBondhu AI</h1>
-    <p>বাংলায় সহজে তৈরি করো সোশ্যাল মিডিয়া কনটেন্ট!</p>
-  </header>
+<header>
+  <div class="topbar">
+    <div class="logo">✨ ContentBondhu AI</div>
+    <button class="lang-btn" id="languageButton" onclick="toggleLanguage()">
+      English
+    </button>
+  </div>
 
-  <main>
+  <div class="hero">
+    <h1 id="heroTitle">আপনার কনটেন্ট তৈরির বিশ্বস্ত বন্ধু!</h1>
+    <p id="heroDescription">
+      ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ ও শর্ট ভিডিওর আইডিয়া তৈরি করুন সহজেই।
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="tools-grid">
+
     <section class="card">
-      <h2>🚀 কনটেন্ট তৈরি করো</h2>
-      <label for="tool">কী তৈরি করতে চাও?</label>
-      <select id="tool">
-        <option value="caption">সোশ্যাল মিডিয়া ক্যাপশন</option>
-        <option value="title">YouTube ভিডিও টাইটেল</option>
-        <option value="hashtag">হ্যাশট্যাগ</option>
-        <option value="idea">Reels / Shorts ভিডিও আইডিয়া</option>
+      <h2 id="captionTitle">✍️ সোশ্যাল মিডিয়া ক্যাপশন</h2>
+      <p class="description" id="captionDescription">
+        Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করুন।
+      </p>
+
+      <label for="captionTopic" id="topicLabel">আপনার পোস্টের বিষয়</label>
+      <input id="captionTopic" type="text"
+        placeholder="যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা">
+
+      <label for="captionStyle" id="styleLabel">ক্যাপশনের ধরন</label>
+      <select id="captionStyle">
+        <option value="friendly" id="friendlyOption">বন্ধুত্বপূর্ণ</option>
+        <option value="funny" id="funnyOption">মজার</option>
+        <option value="professional" id="professionalOption">প্রফেশনাল</option>
+        <option value="motivational" id="motivationalOption">অনুপ্রেরণামূলক</option>
       </select>
 
-      <label for="topic">তোমার বিষয় লিখো</label>
-      <input id="topic" placeholder="যেমন: ভ্রমণ, খাবার, প্রযুক্তি">
+      <button class="generate" onclick="generate('caption')" id="captionButton">
+        ক্যাপশন তৈরি করুন
+      </button>
 
-      <label for="style">কনটেন্টের ধরন</label>
-      <select id="style">
-        <option value="friendly">বন্ধুসুলভ</option>
-        <option value="funny">মজার</option>
-        <option value="professional">প্রফেশনাল</option>
-        <option value="motivational">অনুপ্রেরণামূলক</option>
-      </select>
-
-      <button class="generate" onclick="generateContent()">✨ কনটেন্ট তৈরি করো</button>
+      <div class="result" id="captionResult">
+        <h3 id="captionResultTitle">আপনার ক্যাপশন</h3>
+        <div class="output" id="captionOutput"></div>
+        <button class="copy" onclick="copyOutput('captionOutput')" id="captionCopy">
+          📋 কপি করুন
+        </button>
+      </div>
     </section>
 
     <section class="card">
-      <h2>📝 তোমার তৈরি কনটেন্ট</h2>
-      <div id="result">তোমার কনটেন্ট এখানে দেখা যাবে।</div>
-      <button class="copy" onclick="copyContent()">📋 কপি করো</button>
-      <p id="message" aria-live="polite"></p>
+      <h2 id="youtubeTitle">🎬 YouTube টাইটেল</h2>
+      <p class="description" id="youtubeDescription">
+        আপনার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করুন।
+      </p>
+
+      <label for="youtubeTopic" id="youtubeTopicLabel">ভিডিওর বিষয়</label>
+      <input id="youtubeTopic" type="text"
+        placeholder="যেমন: মোবাইল টিপস, রান্না, ভ্রমণ">
+
+      <button class="generate" onclick="generate('youtube')" id="youtubeButton">
+        টাইটেল তৈরি করুন
+      </button>
+
+      <div class="result" id="youtubeResult">
+        <h3 id="youtubeResultTitle">আপনার টাইটেল</h3>
+        <div class="output" id="youtubeOutput"></div>
+        <button class="copy" onclick="copyOutput('youtubeOutput')" id="youtubeCopy">
+          📋 কপি করুন
+        </button>
+      </div>
     </section>
 
     <section class="card">
-      <h2>💡 ContentBondhu কীভাবে কাজ করে?</h2>
-      <p>বিষয় লিখে একটি টুল বেছে নাও। তারপর তৈরি হওয়া লেখা কপি করে তোমার Facebook, YouTube বা অন্য প্ল্যাটফর্মে ব্যবহার করো।</p>
-      <p>এটি এখন টেমপ্লেট-ভিত্তিক টুল; এটি সরাসরি AI API ব্যবহার করে না।</p>
+      <h2 id="hashtagTitle">#️⃣ হ্যাশট্যাগ জেনারেটর</h2>
+      <p class="description" id="hashtagDescription">
+        আপনার কনটেন্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করুন।
+      </p>
+
+      <label for="hashtagTopic" id="hashtagTopicLabel">কনটেন্টের বিষয়</label>
+      <input id="hashtagTopic" type="text"
+        placeholder="যেমন: খাবার, ফ্যাশন, প্রযুক্তি">
+
+      <button class="generate" onclick="generate('hashtag')" id="hashtagButton">
+        হ্যাশট্যাগ তৈরি করুন
+      </button>
+
+      <div class="result" id="hashtagResult">
+        <h3 id="hashtagResultTitle">আপনার হ্যাশট্যাগ</h3>
+        <div class="output" id="hashtagOutput"></div>
+        <button class="copy" onclick="copyOutput('hashtagOutput')" id="hashtagCopy">
+          📋 কপি করুন
+        </button>
+      </div>
     </section>
-  </main>
 
-  <footer>© 2026 ContentBondhu AI · Made for Bengali creators ❤️</footer>
+    <section class="card">
+      <h2 id="ideasTitle">💡 Reels ও Shorts আইডিয়া</h2>
+      <p class="description" id="ideasDescription">
+        ছোট ভিডিও বানানোর জন্য নতুন বিষয় ও আইডিয়া পান।
+      </p>
 
-  <script>
-    function generateContent() {
-      const topic = document.getElementById("topic").value.trim();
-      const tool = document.getElementById("tool").value;
-      const style = document.getElementById("style").value;
-      const result = document.getElementById("result");
-      const message = document.getElementById("message");
+      <label for="ideasTopic" id="ideasTopicLabel">ভিডিওর বিষয়</label>
+      <input id="ideasTopic" type="text"
+        placeholder="যেমন: পড়াশোনা, লাইফস্টাইল, রান্না">
 
-      if (!topic) {
-        result.textContent = "প্রথমে তোমার বিষয়টি লিখো।";
-        message.textContent = "";
-        return;
-      }
+      <button class="generate" onclick="generate('ideas')" id="ideasButton">
+        আইডিয়া তৈরি করুন
+      </button>
 
+      <div class="result" id="ideasResult">
+        <h3 id="ideasResultTitle">আপনার ভিডিও আইডিয়া</h3>
+        <div class="output" id="ideasOutput"></div>
+        <button class="copy" onclick="copyOutput('ideasOutput')" id="ideasCopy">
+          📋 কপি করুন
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <p class="notice" id="notice">
+    নোট: এই সংস্করণটি বিনামূল্যের টেমপ্লেট ব্যবহার করে ফলাফল তৈরি করে।
+    এটি এখনো কোনো আসল AI API-এর সঙ্গে যুক্ত নয়।
+  </p>
+</main>
+
+<footer id="footerText">
+  © 2026 ContentBondhu AI · কনটেন্ট তৈরি হোক আরও সহজ
+</footer>
+
+<script>
+let currentLanguage = "bn";
+
+const translations = {
+  bn: {
+    languageButton: "English",
+    heroTitle: "আপনার কনটেন্ট তৈরির বিশ্বস্ত বন্ধু!",
+    heroDescription: "ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ ও শর্ট ভিডিওর আইডিয়া তৈরি করুন সহজেই।",
+    captionTitle: "✍️ সোশ্যাল মিডিয়া ক্যাপশন",
+    captionDescription: "Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করুন।",
+    topicLabel: "আপনার পোস্টের বিষয়",
+    styleLabel: "ক্যাপশনের ধরন",
+    friendlyOption: "বন্ধুত্বপূর্ণ",
+    funnyOption: "মজার",
+    professionalOption: "প্রফেশনাল",
+    motivationalOption: "অনুপ্রেরণামূলক",
+    captionButton: "ক্যাপশন তৈরি করুন",
+    captionResultTitle: "আপনার ক্যাপশন",
+    captionCopy: "📋 কপি করুন",
+    youtubeTitle: "🎬 YouTube টাইটেল",
+    youtubeDescription: "আপনার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করুন।",
+    youtubeTopicLabel: "ভিডিওর বিষয়",
+    youtubeButton: "টাইটেল তৈরি করুন",
+    youtubeResultTitle: "আপনার টাইটেল",
+    youtubeCopy: "📋 কপি করুন",
+    hashtagTitle: "#️⃣ হ্যাশট্যাগ জেনারেটর",
+    hashtagDescription: "আপনার কনটেন্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করুন।",
+    hashtagTopicLabel: "কনটেন্টের বিষয়",
+    hashtagButton: "হ্যাশট্যাগ তৈরি করুন",
+    hashtagResultTitle: "আপনার হ্যাশট্যাগ",
+    hashtagCopy: "📋 কপি করুন",
+    ideasTitle: "💡 Reels ও Shorts আইডিয়া",
+    ideasDescription: "ছোট ভিডিও বানানোর জন্য নতুন বিষয় ও আইডিয়া পান।",
+    ideasTopicLabel: "ভিডিওর বিষয়",
+    ideasButton: "আইডিয়া তৈরি করুন",
+    ideasResultTitle: "আপনার ভিডিও আইডিয়া",
+    ideasCopy: "📋 কপি করুন",
+    notice: "নোট: এই সংস্করণটি বিনামূল্যের টেমপ্লেট ব্যবহার করে ফলাফল তৈরি করে। এটি এখনো কোনো আসল AI API-এর সঙ্গে যুক্ত নয়।",
+    footerText: "© 2026 ContentBondhu AI · কনটেন্ট তৈরি হোক আরও সহজ",
+    captionPlaceholder: "যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা",
+    youtubePlaceholder: "যেমন: মোবাইল টিপস, রান্না, ভ্রমণ",
+    hashtagPlaceholder: "যেমন: খাবার, ফ্যাশন, প্রযুক্তি",
+    ideasPlaceholder: "যেমন: পড়াশোনা, লাইফস্টাইল, রান্না",
+    enterTopic: "আগে একটি বিষয় লিখুন।",
+    copySuccess: "কপি হয়েছে!",
+    copyFail: "কপি করা যায়নি। লেখাটি নির্বাচন করে কপি করুন।",
+    friendly: "বন্ধুত্বপূর্ণ",
+    funny: "মজার",
+    professional: "প্রফেশনাল",
+    motivational: "অনুপ্রেরণামূলক"
+  },
+  en: {
+    languageButton: "বাংলা",
+    heroTitle: "Your Friendly Content Creation Partner!",
+    heroDescription: "Create social captions, YouTube titles, hashtags, and short-video ideas with ease.",
+    captionTitle: "✍️ Social Media Captions",
+    captionDescription: "Create captions for Facebook, Instagram, and other posts.",
+    topicLabel: "Your post topic",
+    styleLabel: "Caption style",
+    friendlyOption: "Friendly",
+    funnyOption: "Funny",
+    professionalOption: "Professional",
+    motivationalOption: "Motivational",
+    captionButton: "Generate Caption",
+    captionResultTitle: "Your Caption",
+    captionCopy: "📋 Copy",
+    youtubeTitle: "🎬 YouTube Titles",
+    youtubeDescription: "Create engaging titles for your videos.",
+    youtubeTopicLabel: "Video topic",
+    youtubeButton: "Generate Titles",
+    youtubeResultTitle: "Your Titles",
+    youtubeCopy: "📋 Copy",
+    hashtagTitle: "#️⃣ Hashtag Generator",
+    hashtagDescription: "Generate relevant hashtags for your content.",
+    hashtagTopicLabel: "Content topic",
+    hashtagButton: "Generate Hashtags",
+    hashtagResultTitle: "Your Hashtags",
+    hashtagCopy: "📋 Copy",
+    ideasTitle: "💡 Reels & Shorts Ideas",
+    ideasDescription: "Get ideas and topics for your short videos.",
+    ideasTopicLabel: "Video topic",
+    ideasButton: "Generate Ideas",
+    ideasResultTitle: "Your Video Ideas",
+    ideasCopy: "📋 Copy",
+    notice: "Note: This version uses free templates to generate results. It is not connected to a real AI API yet.",
+    footerText: "© 2026 ContentBondhu AI · Make content creation easier",
+    captionPlaceholder: "e.g. friendship, travel, business",
+    youtubePlaceholder: "e.g. mobile tips, cooking, travel",
+    hashtagPlaceholder: "e.g. food, fashion, technology",
+    ideasPlaceholder: "e.g. study, lifestyle, cooking",
+    enterTopic: "Please enter a topic first.",
+    copySuccess: "Copied!",
+    copyFail: "Could not copy. Please select and copy the text.",
+    friendly: "Friendly",
+    funny: "Funny",
+    professional: "Professional",
+    motivational: "Motivational"
+  }
+};
+
+function toggleLanguage() {
+  currentLanguage = currentLanguage === "bn" ? "en" : "bn";
+  const t = translations[currentLanguage];
+
+  document.documentElement.lang = currentLanguage;
+
+  Object.keys(t).forEach(function(key) {
+    const element = document.getElementById(key);
+    if (element) element.textContent = t[key];
+  });
+
+  document.getElementById("captionTopic").placeholder = t.captionPlaceholder;
+  document.getElementById("youtubeTopic").placeholder = t.youtubePlaceholder;
+  document.getElementById("hashtagTopic").placeholder = t.hashtagPlaceholder;
+  document.getElementById("ideasTopic").placeholder = t.ideasPlaceholder;
+}
+
+function generate(type) {
+  const t = translations[currentLanguage];
+  let topic, output, resultBox;
+
+  if (type === "caption") {
+    topic = document.getElementById("captionTopic").value.trim();
+    resultBox = "captionResult";
+    const style = document.getElementById("captionStyle").value;
+
+    if (!topic) {
+      alert(t.enterTopic);
+      return;
+    }
+
+    if (currentLanguage === "bn") {
       const captions = {
-        friendly: `চলো আজ কথা বলি ${topic} নিয়ে! 😊\nতোমার মতামত কমেন্টে জানাও।\nভালো লাগলে বন্ধুদের সঙ্গে শেয়ার করো ❤️`,
-        funny: `${topic} নিয়ে আজকের মজাটা কিন্তু আলাদা! 😂\nশেষ পর্যন্ত দেখো আর তোমার বন্ধুকে মেনশন করো!`,
-        professional: `${topic} সম্পর্কে জানতে চাও? এই পোস্টে রয়েছে কিছু গুরুত্বপূর্ণ কথা।\nআরও জানতে সঙ্গে থাকুন।`,
-        motivational: `স্বপ্ন পূরণের পথে ${topic} হতে পারে নতুন এক অনুপ্রেরণা! 💪\nশুরু করো আজই, এগিয়ে চলো নিজের গতিতে।`
+        friendly: [
+          topic + " নিয়ে সুন্দর কিছু মুহূর্ত ❤️",
+          "ছোট ছোট আনন্দেই লুকিয়ে আছে জীবনের সৌন্দর্য। " + topic + " 💖",
+          "আপনাদের সঙ্গে ভাগ করে নিলাম আমার " + topic + " ✨"
+        ],
+        funny: [
+          topic + " নিয়ে কাণ্ডকারখানা! 😂",
+          "জীবনটা একটু মজার হোক, আর " + topic + " থাকুক জমজমাট! 😄",
+          topic + " করতে গিয়ে যা হলো, তা কল্পনাও করিনি! 🤣"
+        ],
+        professional: [
+          topic + " নিয়ে নতুন অভিজ্ঞতা ও সম্ভাবনা।",
+          "আমাদের লক্ষ্য, " + topic + " নিয়ে আরও ভালো কিছু করা।",
+          topic + " — মান, সৃজনশীলতা ও প্রতিশ্রুতির সমন্বয়।"
+        ],
+        motivational: [
+          "স্বপ্ন পূরণে প্রতিদিন এক ধাপ এগিয়ে চলুন। " + topic + " 🌟",
+          "হাল ছাড়বেন না। আপনার চেষ্টাই একদিন সাফল্য এনে দেবে। " + topic,
+          "আজকের ছোট পদক্ষেপই আগামী দিনের বড় সাফল্য। " + topic + " 💪"
+        ]
       };
-
-      const titles = {
-        friendly: `${topic}: সহজ ভাষায় সম্পূর্ণ গাইড`,
-        funny: `${topic} নিয়ে যা হলো 😂 | মিস কোরো না!`,
-        professional: `${topic}: ৫টি গুরুত্বপূর্ণ বিষয়`,
-        motivational: `${topic} তোমার জীবন বদলে দিতে পারে!`
-      };
-
-      const ideas = {
-        friendly: `${topic} নিয়ে ৩০ সেকেন্ডের একটি ভিডিও বানাও। প্রথমে পরিচয় দাও, তারপর ৩টি টিপস বলো এবং শেষে দর্শকদের মতামত জানতে চাও।`,
-        funny: `${topic} নিয়ে একটি মজার পরিস্থিতি দেখাও। প্রথম ৩ সেকেন্ডে আকর্ষণীয় দৃশ্য রাখো, শেষে অপ্রত্যাশিত মজার সমাপ্তি দাও।`,
-        professional: `${topic} নিয়ে একটি ছোট শিক্ষামূলক ভিডিও বানাও: সমস্যা, ৩টি সমাধান এবং একটি সংক্ষিপ্ত উপসংহার।`,
-        motivational: `${topic} নিয়ে নিজের লক্ষ্য, একটি বাধা এবং সেটি অতিক্রম করার উপায় দেখিয়ে অনুপ্রেরণামূলক ভিডিও বানাও।`
-      };
-
-      let output = "";
-
-      if (tool === "caption") {
-        output = captions[style] + `\n\n#${topic.replace(/\s+/g, "")} #বাংলা #ContentBondhu`;
-      } else if (tool === "title") {
-        output = titles[style] + "\n" +
-          `${topic} সম্পর্কে তোমার যা জানা দরকার` + "\n" +
-          `নতুনদের জন্য ${topic} | সম্পূর্ণ আলোচনা`;
-      } else if (tool === "hashtag") {
-        output = [
-          "#" + topic.replace(/\s+/g, ""),
-          "#বাংলা", "#Bangla", "#বাংলাদেশ",
-          "#ContentCreator", "#ContentBondhu",
-          "#Trending", "#ভিডিও"
-        ].join(" ");
-      } else {
-        output = ideas[style];
-      }
-
-      result.textContent = output;
-      message.textContent = "";
-    }
-
-    async function copyContent() {
-      const text = document.getElementById("result").textContent;
-      const message = document.getElementById("message");
-
-      try {
-        await navigator.clipboard.writeText(text);
-        message.textContent = "✅ কপি হয়েছে!";
-      } catch (e) {
-        message.textContent = "লেখাটির ওপর চাপ দিয়ে ধরে রেখে কপি করো।";
-      }
-    }
-  </script>
-</body>
-  </html>
+      output = captions[style].join("\n\n");
+    } else {
+      const captions = {
+        friendly: [
+          "Sharing some lovely moments around " + topic + " ❤️",
+          "Life's beauty is hidden in little joys. " + topic + " 💖",
+          "Here's a little glimpse of my " + topic + " ✨"
+        ],
+        funny: [
+          "Things got hilarious with " + topic + "!
