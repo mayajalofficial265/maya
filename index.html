@@ -1,208 +1,260 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101828">
-<meta name="description" content="ContentBondhu AI - Bengali and English content creation tools.">
+<meta name="theme-color" content="#635bff">
+<meta name="description" content="ContentBondhu AI - Create social captions, YouTube titles, hashtags and video ideas.">
 <title>ContentBondhu AI</title>
 <style>
-:root{--bg:#f4f7fb;--card:#fff;--text:#182230;--muted:#667085;--primary:#6c4cff;--border:#e4e7ec}
+:root{--primary:#635bff;--dark:#17172b;--bg:#f5f6ff;--card:#fff;--text:#24243a;--muted:#686980;--border:#e4e5f2}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--text)}
-header{background:#101828;color:#fff;padding:18px 16px 30px}
-.topbar{max-width:900px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.logo{font-size:20px;font-weight:800}
-.lang-btn{background:#fff;color:#101828;border:0;border-radius:10px;padding:10px 12px;font-weight:bold;cursor:pointer}
-.hero{max-width:900px;margin:28px auto 0;text-align:center}
-.hero h1{font-size:clamp(27px,6vw,42px);line-height:1.25;margin:0 0 12px}
-.hero p{color:#d0d5dd;line-height:1.7;margin:0 auto;max-width:600px}
-main{max-width:900px;margin:22px auto;padding:0 14px}
-.tools-grid{display:grid;grid-template-columns:1fr;gap:18px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 5px 20px #1018280a}
-.card h2{margin:0 0 8px;font-size:21px}
-.description{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 18px}
-label{display:block;font-weight:bold;margin:14px 0 8px;font-size:14px}
-input,select{width:100%;border:1px solid #d0d5dd;border-radius:11px;padding:13px;font:inherit;font-size:15px;background:#fff;color:var(--text)}
-button{font:inherit;cursor:pointer}
-.generate{width:100%;border:0;border-radius:11px;padding:14px;margin-top:17px;background:var(--primary);color:#fff;font-weight:bold;font-size:16px}
-.generate:hover{background:#5035d5}
-.result{display:none;margin-top:18px;padding:15px;border-radius:12px;background:#f5f3ff;border:1px solid #ddd6fe}
-.result h3{margin:0 0 10px;font-size:16px}
-.output{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;font-size:15px}
-.copy{background:#101828;color:#fff;border:0;border-radius:9px;padding:10px 14px;margin-top:12px}
-.notice{color:var(--muted);text-align:center;font-size:13px;line-height:1.7;padding:8px 12px 25px}
-footer{text-align:center;padding:20px 12px;background:#101828;color:#d0d5dd;font-size:13px}
-@media(min-width:650px){.tools-grid{grid-template-columns:1fr 1fr}}
+body{margin:0;background:var(--bg);font-family:Arial,"Noto Sans Bengali",sans-serif;color:var(--text);line-height:1.6}
+header{background:linear-gradient(135deg,#635bff,#9a54e8);color:white;padding:24px 16px 30px;text-align:center}
+.brand{font-size:29px;font-weight:800;margin:0}
+header p{margin:6px 0 16px}
+.lang{background:white;color:#5148d9;border:0;border-radius:20px;padding:9px 17px;font-weight:bold;cursor:pointer}
+main{max-width:780px;margin:20px auto;padding:0 14px}
+.intro{text-align:center;margin:22px 0}
+.intro h2{margin-bottom:5px}
+.intro p{color:var(--muted);margin-top:0}
+.card{background:var(--card);padding:20px;margin:16px 0;border:1px solid var(--border);border-radius:18px;box-shadow:0 5px 18px #20204b08}
+.card h3{margin:0 0 5px;font-size:20px}
+.desc{color:var(--muted);font-size:14px;margin:0 0 14px}
+label{display:block;font-weight:bold;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d8d9e8;border-radius:10px;font-size:16px;background:white;color:var(--text)}
+textarea{min-height:75px;resize:vertical}
+button{cursor:pointer;font-size:15px}
+.generate{width:100%;margin-top:14px;padding:13px;border:0;border-radius:10px;background:var(--primary);color:white;font-weight:bold}
+.generate:active{opacity:.8}
+.result{display:none;margin-top:15px;padding:14px;border-radius:12px;background:#f0efff;border:1px solid #dedbff;overflow-wrap:anywhere}
+.result h4{margin:0 0 8px}
+.result p{white-space:pre-wrap;margin:0}
+.copy{margin-top:12px;background:white;color:#5148d9;border:1px solid #c9c5ff;border-radius:8px;padding:9px 14px;font-weight:bold}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:13px}
+.small{font-size:12px;color:var(--muted);margin-top:10px}
 </style>
 </head>
 <body>
 <header>
-  <div class="topbar">
-    <div class="logo">✨ ContentBondhu AI</div>
-    <button class="lang-btn" id="languageButton" type="button">English</button>
-  </div>
-  <div class="hero">
-    <h1 id="heroTitle">আপনার কনটেন্ট তৈরির বিশ্বস্ত বন্ধু!</h1>
-    <p id="heroDescription">ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ ও শর্ট ভিডিওর আইডিয়া তৈরি করুন সহজেই।</p>
-  </div>
+  <h1 class="brand">✨ ContentBondhu AI</h1>
+  <p data-i18n="tagline">কনটেন্ট তৈরিতে তোমার বিশ্বস্ত বন্ধু!</p>
+  <button class="lang" id="langBtn" type="button">English</button>
 </header>
+
 <main>
-<div class="tools-grid">
+  <section class="intro">
+    <h2 data-i18n="welcome">তোমার কনটেন্ট তৈরি হোক আরও সহজ!</h2>
+    <p data-i18n="intro">ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ এবং ভিডিও আইডিয়া তৈরি করো এক জায়গায়।</p>
+  </section>
+
   <section class="card">
-    <h2 id="captionTitle">✍️ সোশ্যাল মিডিয়া ক্যাপশন</h2>
-    <p class="description" id="captionDescription">Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করুন।</p>
-    <label id="topicLabel" for="captionTopic">আপনার পোস্টের বিষয়</label>
-    <input id="captionTopic" placeholder="যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা">
-    <label id="styleLabel" for="captionStyle">ক্যাপশনের ধরন</label>
-    <select id="captionStyle">
-      <option value="friendly" id="friendlyOption">বন্ধুত্বপূর্ণ</option>
-      <option value="funny" id="funnyOption">মজার</option>
-      <option value="professional" id="professionalOption">প্রফেশনাল</option>
-      <option value="motivational" id="motivationalOption">অনুপ্রেরণামূলক</option>
+    <h3 data-i18n="captionTitle">✍️ সোশ্যাল মিডিয়া ক্যাপশন</h3>
+    <p class="desc" data-i18n="captionDesc">Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করো।</p>
+    <label for="captionTopic" data-i18n="topicLabel">তোমার পোস্টের বিষয়</label>
+    <input id="captionTopic" data-placeholder="topicPlaceholder" placeholder="যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা">
+    <label for="captionType" data-i18n="typeLabel">ক্যাপশনের ধরন</label>
+    <select id="captionType">
+      <option value="friendly" data-i18n="friendly">বন্ধুত্বপূর্ণ</option>
+      <option value="professional" data-i18n="professional">প্রফেশনাল</option>
+      <option value="funny" data-i18n="funny">মজার</option>
+      <option value="emotional" data-i18n="emotional">আবেগপূর্ণ</option>
+      <option value="motivational" data-i18n="motivational">অনুপ্রেরণামূলক</option>
     </select>
-    <button class="generate" id="captionButton" data-generate="caption">ক্যাপশন তৈরি করুন</button>
-    <div class="result" id="captionResult"><h3 id="captionResultTitle">আপনার ক্যাপশন</h3><div class="output" id="captionOutput"></div><button class="copy" id="captionCopy" data-copy="captionOutput">📋 কপি করুন</button></div>
+    <button class="generate" type="button" data-action="caption" data-i18n="createCaption">ক্যাপশন তৈরি করো</button>
+    <div class="result" id="captionResult" aria-live="polite">
+      <h4 data-i18n="resultLabel">তোমার ফলাফল</h4>
+      <p class="output"></p>
+      <button class="copy" type="button" data-i18n="copy">কপি করো</button>
+    </div>
   </section>
+
   <section class="card">
-    <h2 id="youtubeTitle">🎬 YouTube টাইটেল</h2>
-    <p class="description" id="youtubeDescription">আপনার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করুন।</p>
-    <label id="youtubeTopicLabel" for="youtubeTopic">ভিডিওর বিষয়</label>
-    <input id="youtubeTopic" placeholder="যেমন: মোবাইল টিপস, রান্না, ভ্রমণ">
-    <button class="generate" id="youtubeButton" data-generate="youtube">টাইটেল তৈরি করুন</button>
-    <div class="result" id="youtubeResult"><h3 id="youtubeResultTitle">আপনার টাইটেল</h3><div class="output" id="youtubeOutput"></div><button class="copy" id="youtubeCopy" data-copy="youtubeOutput">📋 কপি করুন</button></div>
+    <h3 data-i18n="youtubeTitle">🎬 YouTube টাইটেল</h3>
+    <p class="desc" data-i18n="youtubeDesc">তোমার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করো।</p>
+    <label for="youtubeTopic" data-i18n="videoTopic">ভিডিওর বিষয়</label>
+    <input id="youtubeTopic" data-placeholder="videoPlaceholder" placeholder="যেমন: মোবাইল টিপস, রান্না, ভ্রমণ">
+    <button class="generate" type="button" data-action="youtube" data-i18n="createTitles">টাইটেল তৈরি করো</button>
+    <div class="result" id="youtubeResult" aria-live="polite">
+      <h4 data-i18n="resultLabel">তোমার ফলাফল</h4>
+      <p class="output"></p>
+      <button class="copy" type="button" data-i18n="copy">কপি করো</button>
+    </div>
   </section>
+
   <section class="card">
-    <h2 id="hashtagTitle">#️⃣ হ্যাশট্যাগ জেনারেটর</h2>
-    <p class="description" id="hashtagDescription">আপনার কনটেন্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করুন।</p>
-    <label id="hashtagTopicLabel" for="hashtagTopic">কনটেন্টের বিষয়</label>
-    <input id="hashtagTopic" placeholder="যেমন: খাবার, ফ্যাশন, প্রযুক্তি">
-    <button class="generate" id="hashtagButton" data-generate="hashtag">হ্যাশট্যাগ তৈরি করুন</button>
-    <div class="result" id="hashtagResult"><h3 id="hashtagResultTitle">আপনার হ্যাশট্যাগ</h3><div class="output" id="hashtagOutput"></div><button class="copy" id="hashtagCopy" data-copy="hashtagOutput">📋 কপি করুন</button></div>
+    <h3 data-i18n="hashtagTitle">#️⃣ হ্যাশট্যাগ জেনারেটর</h3>
+    <p class="desc" data-i18n="hashtagDesc">তোমার পোস্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করো।</p>
+    <label for="hashtagTopic" data-i18n="hashtagTopic">পোস্টের বিষয়</label>
+    <input id="hashtagTopic" data-placeholder="hashtagPlaceholder" placeholder="যেমন: খাবার, ফ্যাশন, প্রযুক্তি">
+    <button class="generate" type="button" data-action="hashtags" data-i18n="createHashtags">হ্যাশট্যাগ তৈরি করো</button>
+    <div class="result" id="hashtagsResult" aria-live="polite">
+      <h4 data-i18n="resultLabel">তোমার ফলাফল</h4>
+      <p class="output"></p>
+      <button class="copy" type="button" data-i18n="copy">কপি করো</button>
+    </div>
   </section>
+
   <section class="card">
-    <h2 id="ideasTitle">💡 Reels ও Shorts আইডিয়া</h2>
-    <p class="description" id="ideasDescription">ছোট ভিডিও বানানোর জন্য নতুন বিষয় ও আইডিয়া পান।</p>
-    <label id="ideasTopicLabel" for="ideasTopic">ভিডিওর বিষয়</label>
-    <input id="ideasTopic" placeholder="যেমন: পড়াশোনা, লাইফস্টাইল, রান্না">
-    <button class="generate" id="ideasButton" data-generate="ideas">আইডিয়া তৈরি করুন</button>
-    <div class="result" id="ideasResult"><h3 id="ideasResultTitle">আপনার ভিডিও আইডিয়া</h3><div class="output" id="ideasOutput"></div><button class="copy" id="ideasCopy" data-copy="ideasOutput">📋 কপি করুন</button></div>
+    <h3 data-i18n="ideasTitle">💡 Reels ও Shorts আইডিয়া</h3>
+    <p class="desc" data-i18n="ideasDesc">তোমার পরবর্তী ছোট ভিডিওর জন্য নতুন আইডিয়া খুঁজে নাও।</p>
+    <label for="ideaTopic" data-i18n="ideaTopic">ভিডিওর বিষয়</label>
+    <input id="ideaTopic" data-placeholder="ideaPlaceholder" placeholder="যেমন: দৈনন্দিন জীবন, শিক্ষা, কমেডি">
+    <button class="generate" type="button" data-action="ideas" data-i18n="createIdeas">আইডিয়া তৈরি করো</button>
+    <div class="result" id="ideasResult" aria-live="polite">
+      <h4 data-i18n="resultLabel">তোমার ফলাফল</h4>
+      <p class="output"></p>
+      <button class="copy" type="button" data-i18n="copy">কপি করো</button>
+    </div>
   </section>
-</div>
-<p class="notice" id="notice">নোট: এই সংস্করণটি বিনামূল্যের টেমপ্লেট ব্যবহার করে ফলাফল তৈরি করে। এটি এখনো কোনো আসল AI API-এর সঙ্গে যুক্ত নয়।</p>
+  <p class="small" data-i18n="note">নোট: এই সংস্করণে নমুনা ও টেমপ্লেট থেকে কনটেন্ট তৈরি হয়।</p>
 </main>
-<footer id="footerText">© 2026 ContentBondhu AI · কনটেন্ট তৈরি হোক আরও সহজ</footer>
+
+<footer>Made with ❤️ | ContentBondhu AI</footer>
 
 <script>
-"use strict";
-let currentLanguage = "bn";
-
 const translations = {
 bn:{
-languageButton:"English",heroTitle:"আপনার কনটেন্ট তৈরির বিশ্বস্ত বন্ধু!",heroDescription:"ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ ও শর্ট ভিডিওর আইডিয়া তৈরি করুন সহজেই।",
-captionTitle:"✍️ সোশ্যাল মিডিয়া ক্যাপশন",captionDescription:"Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করুন।",topicLabel:"আপনার পোস্টের বিষয়",styleLabel:"ক্যাপশনের ধরন",
-friendlyOption:"বন্ধুত্বপূর্ণ",funnyOption:"মজার",professionalOption:"প্রফেশনাল",motivationalOption:"অনুপ্রেরণামূলক",captionButton:"ক্যাপশন তৈরি করুন",captionResultTitle:"আপনার ক্যাপশন",captionCopy:"📋 কপি করুন",
-youtubeTitle:"🎬 YouTube টাইটেল",youtubeDescription:"আপনার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করুন।",youtubeTopicLabel:"ভিডিওর বিষয়",youtubeButton:"টাইটেল তৈরি করুন",youtubeResultTitle:"আপনার টাইটেল",youtubeCopy:"📋 কপি করুন",
-hashtagTitle:"#️⃣ হ্যাশট্যাগ জেনারেটর",hashtagDescription:"আপনার কনটেন্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করুন।",hashtagTopicLabel:"কনটেন্টের বিষয়",hashtagButton:"হ্যাশট্যাগ তৈরি করুন",hashtagResultTitle:"আপনার হ্যাশট্যাগ",hashtagCopy:"📋 কপি করুন",
-ideasTitle:"💡 Reels ও Shorts আইডিয়া",ideasDescription:"ছোট ভিডিও বানানোর জন্য নতুন বিষয় ও আইডিয়া পান।",ideasTopicLabel:"ভিডিওর বিষয়",ideasButton:"আইডিয়া তৈরি করুন",ideasResultTitle:"আপনার ভিডিও আইডিয়া",ideasCopy:"📋 কপি করুন",
-notice:"নোট: এই সংস্করণটি বিনামূল্যের টেমপ্লেট ব্যবহার করে ফলাফল তৈরি করে। এটি এখনো কোনো আসল AI API-এর সঙ্গে যুক্ত নয়।",footerText:"© 2026 ContentBondhu AI · কনটেন্ট তৈরি হোক আরও সহজ",
-captionPlaceholder:"যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা",youtubePlaceholder:"যেমন: মোবাইল টিপস, রান্না, ভ্রমণ",hashtagPlaceholder:"যেমন: খাবার, ফ্যাশন, প্রযুক্তি",ideasPlaceholder:"যেমন: পড়াশোনা, লাইফস্টাইল, রান্না",enterTopic:"আগে একটি বিষয় লিখুন।",copySuccess:"কপি হয়েছে!",copyFail:"কপি করা যায়নি। লেখাটি নির্বাচন করে কপি করুন।"
+tagline:"কনটেন্ট তৈরিতে তোমার বিশ্বস্ত বন্ধু!",
+welcome:"তোমার কনটেন্ট তৈরি হোক আরও সহজ!",
+intro:"ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ এবং ভিডিও আইডিয়া তৈরি করো এক জায়গায়।",
+captionTitle:"✍️ সোশ্যাল মিডিয়া ক্যাপশন",
+captionDesc:"Facebook, Instagram ও অন্যান্য পোস্টের জন্য ক্যাপশন তৈরি করো।",
+topicLabel:"তোমার পোস্টের বিষয়",topicPlaceholder:"যেমন: বন্ধুত্ব, ভ্রমণ, ব্যবসা",
+typeLabel:"ক্যাপশনের ধরন",friendly:"বন্ধুত্বপূর্ণ",professional:"প্রফেশনাল",funny:"মজার",emotional:"আবেগপূর্ণ",motivational:"অনুপ্রেরণামূলক",
+createCaption:"ক্যাপশন তৈরি করো",youtubeTitle:"🎬 YouTube টাইটেল",
+youtubeDesc:"তোমার ভিডিওর জন্য আকর্ষণীয় টাইটেল তৈরি করো।",videoTopic:"ভিডিওর বিষয়",videoPlaceholder:"যেমন: মোবাইল টিপস, রান্না, ভ্রমণ",
+createTitles:"টাইটেল তৈরি করো",hashtagTitle:"#️⃣ হ্যাশট্যাগ জেনারেটর",
+hashtagDesc:"তোমার পোস্টের জন্য প্রাসঙ্গিক হ্যাশট্যাগ তৈরি করো।",hashtagTopic:"পোস্টের বিষয়",hashtagPlaceholder:"যেমন: খাবার, ফ্যাশন, প্রযুক্তি",
+createHashtags:"হ্যাশট্যাগ তৈরি করো",ideasTitle:"💡 Reels ও Shorts আইডিয়া",
+ideasDesc:"তোমার পরবর্তী ছোট ভিডিওর জন্য নতুন আইডিয়া খুঁজে নাও।",ideaTopic:"ভিডিওর বিষয়",
+ideaPlaceholder:"যেমন: দৈনন্দিন জীবন, শিক্ষা, কমেডি",createIdeas:"আইডিয়া তৈরি করো",
+resultLabel:"তোমার ফলাফল",copy:"কপি করো",copied:"কপি হয়েছে!",note:"নোট: এই সংস্করণে নমুনা ও টেমপ্লেট থেকে কনটেন্ট তৈরি হয়।",
+empty:"আগে একটি বিষয় লিখো।",copyFail:"কপি করা যায়নি। ফলাফলটি চেপে ধরে কপি করো।",
+captions:{
+friendly:["{t} নিয়ে ছোট ছোট মুহূর্তই জীবনের সবচেয়ে সুন্দর স্মৃতি। ❤️","{t} থাকুক প্রতিটি দিনের আনন্দে! ✨","জীবন সুন্দর, যখন {t} নিয়ে মন ভরে যায়। 💖"],
+professional:["{t} নিয়ে নতুন ভাবনা, নতুন সম্ভাবনা। আপনার যাত্রা শুরু হোক আজই।","{t}-এর প্রতিটি পদক্ষেপে লক্ষ্য হোক উন্নতি ও সাফল্য।","সঠিক পরিকল্পনা ও ধারাবাহিকতায় {t} হতে পারে নতুন অর্জনের গল্প।"],
+funny:["{t} নিয়ে আমার প্ল্যান অনেক, কিন্তু বাস্তবে কী হয় সেটা পরে দেখা যাবে! 😂","{t} করতে গিয়ে নিজেরই হাসি থামছে না! 🤣","জীবন মানেই {t} আর একটু মজার কাণ্ড! 😎"],
+emotional:["কিছু অনুভূতি শব্দে বোঝানো যায় না—{t} ঠিক তেমনই। ❤️","মনের গভীরে রয়ে যায় {t}-এর কিছু অমূল্য স্মৃতি। 💕","সময় বদলায়, কিন্তু {t}-এর কিছু অনুভূতি থেকে যায়।"],
+motivational:["আজকের ছোট পদক্ষেপই {t}-এর বড় সাফল্যের শুরু। 💪","নিজের ওপর বিশ্বাস রাখো—{t} নিয়ে এগিয়ে যাও! 🌟","থেমে যেও না। {t}-এর স্বপ্ন পূরণে আজই শুরু করো।"]
+},
+titleTemplates:["{t} নিয়ে যা জানলে অবাক হবে! 😲","{t}: নতুনদের জন্য সম্পূর্ণ গাইড","মাত্র কয়েক মিনিটে {t} শেখার সহজ উপায়","{t} করার আগে এই বিষয়গুলো জেনে নাও!","সেরা {t} টিপস | সহজ ও কার্যকর"],
+ideaTemplates:["{t} নিয়ে ৩টি দ্রুত টিপস","{t} সম্পর্কে ১ মিনিটে যা জানা দরকার","{t} নিয়ে ভুল বনাম সঠিক পদ্ধতি","{t} নিয়ে আমার অভিজ্ঞতা","{t} নিয়ে ৫টি মজার তথ্য"],
+hashtags:["ContentCreation","BanglaContent","SocialMedia","Trending","Creative","DailyLife","Inspiration","Explore","DigitalCreator","ContentBondhu"]
 },
 en:{
-languageButton:"বাংলা",heroTitle:"Your Friendly Content Creation Partner!",heroDescription:"Create social captions, YouTube titles, hashtags, and short-video ideas with ease.",
-captionTitle:"✍️ Social Media Captions",captionDescription:"Create captions for Facebook, Instagram, and other posts.",topicLabel:"Your post topic",styleLabel:"Caption style",
-friendlyOption:"Friendly",funnyOption:"Funny",professionalOption:"Professional",motivationalOption:"Motivational",captionButton:"Generate Caption",captionResultTitle:"Your Caption",captionCopy:"📋 Copy",
-youtubeTitle:"🎬 YouTube Titles",youtubeDescription:"Create engaging titles for your videos.",youtubeTopicLabel:"Video topic",youtubeButton:"Generate Titles",youtubeResultTitle:"Your Titles",youtubeCopy:"📋 Copy",
-hashtagTitle:"#️⃣ Hashtag Generator",hashtagDescription:"Generate relevant hashtags for your content.",hashtagTopicLabel:"Content topic",hashtagButton:"Generate Hashtags",hashtagResultTitle:"Your Hashtags",hashtagCopy:"📋 Copy",
-ideasTitle:"💡 Reels & Shorts Ideas",ideasDescription:"Get ideas and topics for your short videos.",ideasTopicLabel:"Video topic",ideasButton:"Generate Ideas",ideasResultTitle:"Your Video Ideas",ideasCopy:"📋 Copy",
-notice:"Note: This version uses free templates to generate results. It is not connected to a real AI API yet.",footerText:"© 2026 ContentBondhu AI · Make content creation easier",
-captionPlaceholder:"e.g. friendship, travel, business",youtubePlaceholder:"e.g. mobile tips, cooking, travel",hashtagPlaceholder:"e.g. food, fashion, technology",ideasPlaceholder:"e.g. study, lifestyle, cooking",enterTopic:"Please enter a topic first.",copySuccess:"Copied!",copyFail:"Could not copy. Please select and copy the text."
+tagline:"Your trusted friend in content creation!",
+welcome:"Make content creation easier!",
+intro:"Create captions, YouTube titles, hashtags and video ideas in one place.",
+captionTitle:"✍️ Social Media Captions",captionDesc:"Create captions for Facebook, Instagram and other posts.",
+topicLabel:"Your post topic",topicPlaceholder:"e.g. friendship, travel, business",
+typeLabel:"Caption style",friendly:"Friendly",professional:"Professional",funny:"Funny",emotional:"Emotional",motivational:"Motivational",
+createCaption:"Create Captions",youtubeTitle:"🎬 YouTube Titles",
+youtubeDesc:"Create catchy titles for your videos.",videoTopic:"Video topic",videoPlaceholder:"e.g. mobile tips, cooking, travel",
+createTitles:"Generate Titles",hashtagTitle:"#️⃣ Hashtag Generator",
+hashtagDesc:"Generate relevant hashtags for your post.",hashtagTopic:"Post topic",hashtagPlaceholder:"e.g. food, fashion, technology",
+createHashtags:"Generate Hashtags",ideasTitle:"💡 Reels & Shorts Ideas",
+ideasDesc:"Find fresh ideas for your next short video.",ideaTopic:"Video topic",
+ideaPlaceholder:"e.g. daily life, education, comedy",createIdeas:"Generate Ideas",
+resultLabel:"Your Results",copy:"Copy",copied:"Copied!",note:"Note: This version generates content using sample templates.",
+empty:"Please enter a topic first.",copyFail:"Could not copy. Press and hold the result to copy it.",
+captions:{
+friendly:["Small moments make the best memories with {t}. ❤️","Let {t} bring joy to every day! ✨","Life feels beautiful when your heart is full of {t}. 💖"],
+professional:["New ideas, new possibilities with {t}. Start your journey today.","Make every step in {t} count toward progress and success.","With the right plan, {t} can become a story of achievement."],
+funny:["I have big plans for {t}. Let's see what actually happens! 😂","Trying {t} and laughing at myself! 🤣","Life is {t} with a little extra fun! 😎"],
+emotional:["Some feelings cannot be explained in words—{t} is one of them. ❤️","Some precious memories of {t} stay in our hearts. 💕","Time changes, but some feelings about {t} remain."],
+motivational:["Today's small step can start great success in {t}. 💪","Believe in yourself and keep moving forward with {t}! 🌟","Never give up on your dreams of {t}. Start today!"]
+},
+titleTemplates:["Amazing things you should know about {t}! 😲","{t}: The Complete Beginner's Guide","Learn {t} in Just a Few Minutes","Watch This Before Trying {t}!","Best {t} Tips | Simple and Effective"],
+ideaTemplates:["3 quick tips about {t}","Everything to know about {t} in one minute","{t}: Common mistakes vs. the right way","My experience with {t}","5 fun facts about {t}"],
+hashtags:["ContentCreation","SocialMedia","Trending","Creative","DailyLife","Inspiration","Explore","DigitalCreator","Shorts","ContentBondhu"]
 }
 };
 
-const textKeys=["heroTitle","heroDescription","captionTitle","captionDescription","topicLabel","styleLabel","friendlyOption","funnyOption","professionalOption","motivationalOption","captionButton","captionResultTitle","captionCopy","youtubeTitle","youtubeDescription","youtubeTopicLabel","youtubeButton","youtubeResultTitle","youtubeCopy","hashtagTitle","hashtagDescription","hashtagTopicLabel","hashtagButton","hashtagResultTitle","hashtagCopy","ideasTitle","ideasDescription","ideasTopicLabel","ideasButton","ideasResultTitle","ideasCopy","notice","footerText"];
-
-function toggleLanguage(){
-  currentLanguage=currentLanguage==="bn"?"en":"bn";
-  const t=translations[currentLanguage];
-  document.documentElement.lang=currentLanguage;
-  textKeys.forEach(key=>{
-    const el=document.getElementById(key);
-    if(el) el.textContent=t[key];
-  });
-  document.getElementById("languageButton").textContent=t.languageButton;
-  document.getElementById("captionTopic").placeholder=t.captionPlaceholder;
-  document.getElementById("youtubeTopic").placeholder=t.youtubePlaceholder;
-  document.getElementById("hashtagTopic").placeholder=t.hashtagPlaceholder;
-  document.getElementById("ideasTopic").placeholder=t.ideasPlaceholder;
+let language="bn";
+const $=id=>document.getElementById(id);
+function translatePage(){
+ const t=translations[language];
+ document.documentElement.lang=language;
+ document.querySelectorAll("[data-i18n]").forEach(el=>{
+   const key=el.dataset.i18n;
+   if(t[key]!==undefined) el.textContent=t[key];
+ });
+ document.querySelectorAll("[data-placeholder]").forEach(el=>{
+   const key=el.dataset.placeholder;
+   if(t[key]) el.placeholder=t[key];
+ });
+ $("langBtn").textContent=language==="bn"?"English":"বাংলা";
 }
+$("langBtn").addEventListener("click",()=>{
+ language=language==="bn"?"en":"bn";
+ translatePage();
+});
 
-function generate(type){
-  const t=translations[currentLanguage];
-  const inputIds={caption:"captionTopic",youtube:"youtubeTopic",hashtag:"hashtagTopic",ideas:"ideasTopic"};
-  const topic=document.getElementById(inputIds[type]).value.trim();
-  if(!topic){alert(t.enterTopic);return;}
-  let items=[];
-  if(type==="caption"){
-    const style=document.getElementById("captionStyle").value;
-    const data={
-      bn:{
-        friendly:[topic+" নিয়ে সুন্দর কিছু মুহূর্ত ❤️","ছোট ছোট আনন্দেই লুকিয়ে আছে জীবনের সৌন্দর্য। "+topic+" 💖","আপনাদের সঙ্গে ভাগ করে নিলাম আমার "+topic+" ✨"],
-        funny:[topic+" নিয়ে কাণ্ডকারখানা! 😂","জীবনটা একটু মজার হোক, আর "+topic+" থাকুক জমজমাট! 😄",topic+" করতে গিয়ে যা হলো, তা কল্পনাও করিনি! 🤣"],
-        professional:[topic+" নিয়ে নতুন অভিজ্ঞতা ও সম্ভাবনা।","আমাদের লক্ষ্য, "+topic+" নিয়ে আরও ভালো কিছু করা।",topic+" — মান, সৃজনশীলতা ও প্রতিশ্রুতির সমন্বয়।"],
-        motivational:["স্বপ্ন পূরণে প্রতিদিন এক ধাপ এগিয়ে চলুন। "+topic+" 🌟","হাল ছাড়বেন না। আপনার চেষ্টাই একদিন সাফল্য এনে দেবে। "+topic,"আজকের ছোট পদক্ষেপই আগামী দিনের বড় সাফল্য। "+topic+" 💪"]
-      },
-      en:{
-        friendly:["Sharing some lovely moments around "+topic+" ❤️","Life's beauty is hidden in little joys. "+topic+" 💖","Here's a little glimpse of my "+topic+" ✨"],
-        funny:["Things got hilarious with "+topic+"! 😂","Life is better with a little fun and plenty of "+topic+"! 😄","I never expected "+topic+" to turn out this way! 🤣"],
-        professional:["Discovering new experiences and opportunities with "+topic+".","Our goal is to do better with "+topic+".",topic+" — where quality meets creativity and commitment."],
-        motivational:["Take one step closer to your dreams every day. "+topic+" 🌟","Never give up; your effort can lead to success. "+topic,"Small steps today can create big success tomorrow. "+topic+" 💪"]
-      }
-    };
-    items=data[currentLanguage][style];
-  }else if(type==="youtube"){
-    items=currentLanguage==="bn"
-      ?["🔥 "+topic+" নিয়ে যা জানা দরকার!","অবিশ্বাস্য "+topic+" টিপস — মিস করবেন না! 😲",topic+" সহজভাবে শিখুন | সম্পূর্ণ গাইড","নতুনদের জন্য "+topic+" — শুরু থেকে শেষ"]
-      :["🔥 Everything You Need to Know About "+topic,"Amazing "+topic+" Tips You Shouldn't Miss!","Learn "+topic+" Easily | Complete Guide",topic+" for Beginners — Step-by-Step"];
-  }else if(type==="hashtag"){
-    const clean=topic.replace(/[^\p{L}\p{N}_ ]/gu,"").trim().split(/\s+/).filter(Boolean).join("");
-    const tag=clean||topic.replace(/\s+/g,"");
-    items=["#"+tag,"#"+tag+"Tips","#"+tag+"Lovers","#Trending","#Explore","#ContentCreator","#Viral","#Bangladesh"];
-    items=[...new Set(items)].join(" ");
-  }else if(type==="ideas"){
-    items=currentLanguage==="bn"
-      ?["১. "+topic+" নিয়ে ৩টি ভুল ধারণা ভেঙে দিন।","২. "+topic+" শেখার ৫টি সহজ টিপস দিন।","৩. "+topic+" নিয়ে আগে ও পরে তুলনা দেখান।","৪. "+topic+" সম্পর্কে দ্রুত প্রশ্নোত্তর ভিডিও বানান।","৫. "+topic+" নিয়ে আপনার ব্যক্তিগত অভিজ্ঞতা শেয়ার করুন।"]
-      :["1. Bust 3 common myths about "+topic+".","2. Share 5 easy tips for learning "+topic+".","3. Show a before-and-after related to "+topic+".","4. Make a quick Q&A video about "+topic+".","5. Share your personal experience with "+topic+"."];
-  }
-  const output=document.getElementById(type+"Output");
-  output.textContent=Array.isArray(items)?items.join("\n\n"):items;
-  document.getElementById(type+"Result").style.display="block";
+function choose(list){return list[Math.floor(Math.random()*list.length)]}
+function generate(action){
+ const t=translations[language];
+ let topic="",text="";
+ if(action==="caption"){
+  topic=$("captionTopic").value.trim();
+  if(!topic){alert(t.empty);return}
+  const style=$("captionType").value;
+  text=t.captions[style].map(s=>"• "+s.replaceAll("{t}",topic)).join("\n\n");
+  showResult("captionResult",text);
+ }
+ if(action==="youtube"){
+  topic=$("youtubeTopic").value.trim();
+  if(!topic){alert(t.empty);return}
+  text=t.titleTemplates.map((s,i)=>(i+1)+". "+s.replaceAll("{t}",topic)).join("\n");
+  showResult("youtubeResult",text);
+ }
+ if(action==="hashtags"){
+  topic=$("hashtagTopic").value.trim();
+  if(!topic){alert(t.empty);return}
+  const topicTag=topic.replace(/[^\p{L}\p{N}]+/gu,"");
+  text="#"+topicTag+" "+t.hashtags.map(s=>"#"+s).join(" ");
+  showResult("hashtagsResult",text);
+ }
+ if(action==="ideas"){
+  topic=$("ideaTopic").value.trim();
+  if(!topic){alert(t.empty);return}
+  text=t.ideaTemplates.map((s,i)=>(i+1)+". "+s.replaceAll("{t}",topic)).join("\n");
+  showResult("ideasResult",text);
+ }
 }
-
-async function copyOutput(outputId){
-  const text=document.getElementById(outputId).textContent;
-  const t=translations[currentLanguage];
+function showResult(id,text){
+ const box=$(id);
+ box.querySelector(".output").textContent=text;
+ box.style.display="block";
+}
+document.querySelectorAll("[data-action]").forEach(btn=>{
+ btn.addEventListener("click",()=>generate(btn.dataset.action));
+});
+document.querySelectorAll(".copy").forEach(btn=>{
+ btn.addEventListener("click",async()=>{
+  const text=btn.parentElement.querySelector(".output").textContent;
   try{
-    if(navigator.clipboard&&window.isSecureContext){
-      await navigator.clipboard.writeText(text);
-    }else{
-      const area=document.createElement("textarea");
-      area.value=text;area.style.position="fixed";area.style.opacity="0";
-      document.body.appendChild(area);area.select();
-      const ok=document.execCommand("copy");area.remove();
-      if(!ok)throw new Error("Copy failed");
-    }
-    alert(t.copySuccess);
-  }catch(error){alert(t.copyFail);}
-}
-
-document.getElementById("languageButton").addEventListener("click",toggleLanguage);
-document.querySelectorAll("[data-generate]").forEach(button=>{
-  button.addEventListener("click",()=>generate(button.dataset.generate));
+   if(navigator.clipboard && window.isSecureContext){
+    await navigator.clipboard.writeText(text);
+   }else{
+    const area=document.createElement("textarea");
+    area.value=text;document.body.appendChild(area);
+    area.select();
+    const ok=document.execCommand("copy");
+    area.remove();
+    if(!ok) throw new Error("copy failed");
+   }
+   const old=btn.textContent;
+   btn.textContent=translations[language].copied;
+   setTimeout(()=>btn.textContent=translations[language].copy,1400);
+  }catch(e){
+   alert(translations[language].copyFail);
+  }
+ });
 });
-document.querySelectorAll("[data-copy]").forEach(button=>{
-  button.addEventListener("click",()=>copyOutput(button.dataset.copy));
-});
+translatePage();
 </script>
 </body>
-</html>                                                                                      </html>
+                                                                   </html>
+  
