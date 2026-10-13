@@ -1,514 +1,158 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6750e8">
-<meta name="description" content="ContentBondhu AI — বাংলা ও ইংরেজিতে ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ এবং ভিডিও আইডিয়া তৈরি করুন।">
-<title>ContentBondhu AI — কনটেন্ট তৈরির সঙ্গী</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToonBondhu Studio Pro — All-in-One Cartoon Creator</title>
+    <style>
+        :root {
+            --bg-color: #0f1020;
+            --panel-bg: #1a1c38;
+            --accent: #7057f5;
+            --accent-glow: rgba(112, 87, 245, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #9492b8;
+            --border: #2c2f5a;
+            --gold: #f39c12;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: var(--panel-bg); border-bottom: 1px solid var(--border); }
+        .logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+        .logo span { color: var(--accent); }
+        .badge-pro { background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
 
-<style>
-*{box-sizing:border-box}
-:root{
-  --primary:#6750e8;
-  --primary-dark:#4c36c9;
-  --bg:#f6f5ff;
-  --card:#fff;
-  --text:#24213b;
-  --muted:#706d83;
-  --border:#e7e3f5;
-  --green:#13865c;
-}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{
-  background:linear-gradient(135deg,#6750e8,#9275f4);
-  color:white;
-  padding:18px 16px 42px;
-}
-.topbar{
-  max-width:1050px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.brand{font-size:21px;font-weight:800}
-.lang{
-  background:white;
-  color:var(--primary-dark);
-  border:0;
-  border-radius:10px;
-  padding:9px 14px;
-  font-weight:700;
-}
-.hero{
-  max-width:850px;
-  margin:30px auto 0;
-  text-align:center;
-}
-.hero h1{font-size:clamp(27px,5vw,43px);line-height:1.3;margin:0 0 12px}
-.hero p{margin:0 auto;max-width:650px;color:#f0edff}
-main{max-width:1050px;margin:-18px auto 0;padding:0 15px 35px}
-.intro{text-align:center;margin:0 0 22px;font-weight:650}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
-}
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 5px 20px rgba(56,39,120,.05);
-  min-width:0;
-}
-.card h2{font-size:19px;margin:0 0 5px}
-.desc{color:var(--muted);font-size:14px;margin:0 0 16px}
-label{display:block;font-size:14px;font-weight:650;margin:12px 0 6px}
-input,select{
-  width:100%;
-  padding:11px 12px;
-  border:1px solid #dcd7ed;
-  border-radius:10px;
-  background:white;
-  color:var(--text);
-  outline:none;
-}
-input:focus,select:focus{
-  border-color:var(--primary);
-  box-shadow:0 0 0 3px rgba(103,80,232,.12);
-}
-.actions{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap}
-.primary,.secondary,.copy{
-  border:0;
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:700;
-}
-.primary{background:var(--primary);color:white;flex:1}
-.primary:hover{background:var(--primary-dark)}
-.secondary{background:#efedfa;color:#5141a0}
-.copy{background:#e5f6ee;color:#126744;padding:7px 12px}
-.result{
-  margin-top:15px;
-  padding:13px;
-  border-radius:11px;
-  background:#f8f7ff;
-  border:1px solid var(--border);
-  overflow-wrap:anywhere;
-}
-.result[hidden]{display:none}
-.result-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:8px;
-}
-.result-title{font-weight:750;font-size:14px}
-.result-text{white-space:pre-wrap;font-size:14px}
-.notice{font-size:13px;color:var(--muted);text-align:center;margin:22px 0 0}
-footer{text-align:center;color:var(--muted);padding:0 15px 25px;font-size:13px}
-.toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#24213b;
-  color:white;
-  padding:10px 16px;
-  border-radius:10px;
-  box-shadow:0 5px 20px #0002;
-  z-index:10;
-  max-width:90%;
-  text-align:center;
-}
-.toast[hidden]{display:none}
-@media(max-width:650px){
-  .grid{grid-template-columns:1fr}
-  .card{padding:17px}
-  header{padding-bottom:38px}
-  .hero{margin-top:25px}
-}
-</style>
+        .main-container { display: grid; grid-template-columns: 280px 1fr 320px; flex: 1; height: calc(100vh - 70px); overflow: hidden; }
+        
+        .sidebar-left { background: var(--panel-bg); border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+        .sidebar-right { background: var(--panel-bg); border-left: 1px solid var(--border); padding: 20px; overflow-y: auto; }
+        
+        h3 { font-size: 14px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px; }
+        
+        .control-group { margin-bottom: 20px; }
+        .control-group label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-main); }
+        select, input[type="range"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; outline: none; }
+        button { background: var(--accent); font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
+
+        .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); }
+        .canvas-box { width: 400px; height: 500px; background: rgba(255, 255, 255, 0.02); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        
+        .character-rig { position: relative; width: 150px; height: 300px; }
+        .part { position: absolute; transition: transform 0.3s ease; }
+        .head { width: 80px; height: 80px; background: #eab18e; border-radius: 50%; top: 0; left: 35px; }
+        .torso { width: 90px; height: 110px; background: var(--accent); border-radius: 15px; top: 80px; left: 30px; }
+        .arm-left { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 2px; transform-origin: top center; }
+        .arm-right { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 123px; transform-origin: top center; }
+        .leg-left { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 38px; transform-origin: top center; }
+        .leg-right { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 82px; transform-origin: top center; }
+
+        .timeline { position: absolute; bottom: 20px; width: 90%; background: var(--panel-bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        .timeline button { width: 100px; margin: 0; }
+        .timeline input { margin: 0; }
+
+        .locked-feature { position: relative; opacity: 0.5; pointer-events: none; }
+        .lock-tag { position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    </style>
 </head>
-
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">✨ ContentBondhu AI</div>
-    <button class="lang" id="langBtn" type="button">English</button>
-  </div>
-  <div class="hero">
-    <h1 data-i18n="heroTitle">তোমার প্রতিদিনের কনটেন্ট তৈরির সঙ্গী!</h1>
-    <p data-i18n="heroDesc">সহজেই তৈরি করো ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ এবং ভিডিওর আইডিয়া।</p>
-  </div>
-</header>
 
-<main>
-  <p class="intro" data-i18n="intro">তোমার পছন্দের টুলটি বেছে নাও 👇</p>
+    <header>
+        <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Pro)</div>
+        <div class="badge-pro">ফ্রিমিয়াম সংস্করণ</div>
+    </header>
 
-  <div class="grid">
-    <section class="card">
-      <h2 data-i18n="captionTitle">✍️ সোশ্যাল মিডিয়া ক্যাপশন</h2>
-      <p class="desc" data-i18n="captionDesc">Facebook ও Instagram পোস্টের ক্যাপশন তৈরি করো।</p>
-      <label for="captionInput" data-i18n="topicLabel">তোমার বিষয়</label>
-      <input id="captionInput" data-i18n-placeholder="captionPlaceholder" placeholder="যেমন: বন্ধুত্ব, প্রকৃতি, ভ্রমণ">
-      <label for="captionStyle" data-i18n="styleLabel">ক্যাপশনের ধরন</label>
-      <select id="captionStyle">
-        <option value="motivational" data-i18n="motivational">অনুপ্রেরণামূলক</option>
-        <option value="funny" data-i18n="funny">মজার</option>
-        <option value="emotional" data-i18n="emotional">আবেগপূর্ণ</option>
-        <option value="love" data-i18n="love">ভালোবাসা</option>
-        <option value="attitude" data-i18n="attitude">অ্যাটিটিউড</option>
-      </select>
-      <div class="actions">
-        <button class="primary" type="button" data-action="caption" data-i18n="generate">তৈরি করো</button>
-        <button class="secondary" type="button" data-clear="caption" data-i18n="clear">মুছুন</button>
-      </div>
-      <div class="result" id="captionResult" hidden aria-live="polite">
-        <div class="result-head">
-          <span class="result-title" data-i18n="resultTitle">তোমার ফলাফল</span>
-          <button class="copy" type="button" data-copy="caption" data-i18n="copy">কপি</button>
+    <main class="main-container">
+        <!-- বাম পাশের প্যানেল: ক্যারেক্টার রিগিং -->
+        <div class="sidebar-left">
+            <h3>১. ক্যারেক্টার পার্টস ও জোড়া</h3>
+            <div class="control-group">
+                <label>বডি স্টাইল (ফ্রি)</label>
+                <select id="bodyStyle">
+                    <option value="normal">স্ট্যান্ডার্ড হিরো</option>
+                    <option value="chibi">কিউট চিবি</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>হাত নাড়ানোর জয়েন্ট</label>
+                <input type="range" id="armPos" min="-45" max="45" value="0">
+            </div>
+            <div class="control-group">
+                <label>পা নাড়ানোর জয়েন্ট</label>
+                <input type="range" id="legPos" min="-30" max="30" value="0">
+            </div>
+
+            <h3>২. প্রো পার্টস (পেইড)</h3>
+            <div class="control-group locked-feature">
+                <span class="lock-tag">PRO</span>
+                <label>সুপারহিরো কেপ ও ডানা</label>
+                <select><option>প্রিমিয়াম উইংস</option></select>
+            </div>
         </div>
-        <div class="result-text" id="captionOutput"></div>
-      </div>
-    </section>
 
-    <section class="card">
-      <h2 data-i18n="youtubeTitle">▶️ YouTube টাইটেল</h2>
-      <p class="desc" data-i18n="youtubeDesc">ভিডিওর বিষয় থেকে টাইটেলের ধারণা পাও।</p>
-      <label for="youtubeInput" data-i18n="topicLabel">তোমার বিষয়</label>
-      <input id="youtubeInput" data-i18n-placeholder="youtubePlaceholder" placeholder="যেমন: মোবাইল ফটোগ্রাফি">
-      <div class="actions">
-        <button class="primary" type="button" data-action="youtube" data-i18n="generate">তৈরি করো</button>
-        <button class="secondary" type="button" data-clear="youtube" data-i18n="clear">মুছুন</button>
-      </div>
-      <div class="result" id="youtubeResult" hidden aria-live="polite">
-        <div class="result-head">
-          <span class="result-title" data-i18n="resultTitle">তোমার ফলাফল</span>
-          <button class="copy" type="button" data-copy="youtube" data-i18n="copy">কপি</button>
+        <!-- মাঝের প্যানেল: স্টেজ ও প্রিভিউ -->
+        <div class="stage-area">
+            <div class="canvas-box">
+                <div class="character-rig">
+                    <div class="part arm-left" id="leftArm"></div>
+                    <div class="part arm-right" id="rightArm"></div>
+                    <div class="part torso"></div>
+                    <div class="part head"></div>
+                    <div class="part leg-left" id="leftLeg"></div>
+                    <div class="part leg-right" id="rightLeg"></div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <button id="playBtn">▶ প্লে অ্যাকশন</button>
+                <input type="range" min="0" max="100" value="0" id="timeSlider">
+            </div>
         </div>
-        <div class="result-text" id="youtubeOutput"></div>
-      </div>
-    </section>
 
-    <section class="card">
-      <h2 data-i18n="hashtagTitle">#️⃣ হ্যাশট্যাগ জেনারেটর</h2>
-      <p class="desc" data-i18n="hashtagDesc">তোমার কনটেন্টের জন্য হ্যাশট্যাগের ধারণা নাও।</p>
-      <label for="hashtagInput" data-i18n="topicLabel">তোমার বিষয়</label>
-      <input id="hashtagInput" data-i18n-placeholder="hashtagPlaceholder" placeholder="যেমন: রান্না, ভ্রমণ, প্রযুক্তি">
-      <label for="platform" data-i18n="platformLabel">প্ল্যাটফর্ম</label>
-      <select id="platform">
-        <option value="Instagram">Instagram</option>
-        <option value="Facebook">Facebook</option>
-        <option value="YouTube">YouTube</option>
-        <option value="TikTok">TikTok</option>
-      </select>
-      <div class="actions">
-        <button class="primary" type="button" data-action="hashtag" data-i18n="generate">তৈরি করো</button>
-        <button class="secondary" type="button" data-clear="hashtag" data-i18n="clear">মুছুন</button>
-      </div>
-      <div class="result" id="hashtagResult" hidden aria-live="polite">
-        <div class="result-head">
-          <span class="result-title" data-i18n="resultTitle">তোমার ফলাফল</span>
-          <button class="copy" type="button" data-copy="hashtag" data-i18n="copy">কপি</button>
+        <!-- ডান পাশের প্যানেল: ভয়েস ও মোশন -->
+        <div class="sidebar-right">
+            <h3>৩. ভয়েস ও অ্যানিমেশন</h3>
+            <div class="control-group">
+                <label>লিপ-সিঙ্ক (কথা বলানো)</label>
+                <select>
+                    <option>অটো লিপ-সিঙ্ক (এআই)</option>
+                    <option>ম্যানুয়াল ব্লিংকিং</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>প্রিসেট অ্যানিমেশন</label>
+                <button onclick="alert('হাঁটার অ্যানিমেশন চালু হয়েছে!')">🚶‍♂️ হাঁটার স্টাইল</button>
+                <button onclick="alert('কথা বলার অ্যাকশন চালু হয়েছে!')">🗣️ কথা বলা ও অঙ্গভঙ্গি</button>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+            
+            <button style="background: linear-gradient(135deg, #27ae60, #2ecc71);">💾 প্রজেক্ট সেভ ও এক্সপোর্ট</button>
         </div>
-        <div class="result-text" id="hashtagOutput"></div>
-      </div>
-    </section>
+    </main>
 
-    <section class="card">
-      <h2 data-i18n="videoTitle">🎬 Reels ও Shorts আইডিয়া</h2>
-      <p class="desc" data-i18n="videoDesc">ছোট ভিডিওর জন্য নতুন ধারণা তৈরি করো।</p>
-      <label for="videoInput" data-i18n="topicLabel">তোমার বিষয়</label>
-      <input id="videoInput" data-i18n-placeholder="videoPlaceholder" placeholder="যেমন: দৈনন্দিন জীবন, পড়াশোনা">
-      <label for="duration" data-i18n="durationLabel">ভিডিওর দৈর্ঘ্য</label>
-      <select id="duration">
-        <option value="15">15 seconds</option>
-        <option value="30">30 seconds</option>
-        <option value="60">60 seconds</option>
-      </select>
-      <div class="actions">
-        <button class="primary" type="button" data-action="video" data-i18n="generate">তৈরি করো</button>
-        <button class="secondary" type="button" data-clear="video" data-i18n="clear">মুছুন</button>
-      </div>
-      <div class="result" id="videoResult" hidden aria-live="polite">
-        <div class="result-head">
-          <span class="result-title" data-i18n="resultTitle">তোমার ফলাফল</span>
-          <button class="copy" type="button" data-copy="video" data-i18n="copy">কপি</button>
-        </div>
-        <div class="result-text" id="videoOutput"></div>
-      </div>
-    </section>
-  </div>
+    <script>
+        const armPos = document.getElementById('armPos');
+        const leftArm = document.getElementById('leftArm');
+        const rightArm = document.getElementById('rightArm');
+        
+        armPos.addEventListener('input', (e) => {
+            let val = e.target.value;
+            leftArm.style.transform = `rotate(${val}deg)`;
+            rightArm.style.transform = `rotate(${-val}deg)`;
+        });
 
-  <p class="notice" data-i18n="notice">নোট: এই সংস্করণে নমুনা ও টেমপ্লেট ব্যবহার করে ফলাফল তৈরি হয়। এটি এখনো সত্যিকারের AI পরিষেবা নয়।</p>
-</main>
+        const legPos = document.getElementById('legPos');
+        const leftLeg = document.getElementById('leftLeg');
+        const rightLeg = document.getElementById('rightLeg');
 
-<footer>
-  <span>© 2026 ContentBondhu AI</span>
-  <span data-i18n="footer"> — কনটেন্ট তৈরির সঙ্গী</span>
-</footer>
-
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-
-<script>
-"use strict";
-
-const translations = {
-  bn: {
-    heroTitle:"তোমার প্রতিদিনের কনটেন্ট তৈরির সঙ্গী!",
-    heroDesc:"সহজেই তৈরি করো ক্যাপশন, YouTube টাইটেল, হ্যাশট্যাগ এবং ভিডিওর আইডিয়া।",
-    intro:"তোমার পছন্দের টুলটি বেছে নাও 👇",
-    captionTitle:"✍️ সোশ্যাল মিডিয়া ক্যাপশন",
-    captionDesc:"Facebook ও Instagram পোস্টের ক্যাপশন তৈরি করো।",
-    youtubeTitle:"▶️ YouTube টাইটেল",
-    youtubeDesc:"ভিডিওর বিষয় থেকে টাইটেলের ধারণা পাও।",
-    hashtagTitle:"#️⃣ হ্যাশট্যাগ জেনারেটর",
-    hashtagDesc:"তোমার কনটেন্টের জন্য হ্যাশট্যাগের ধারণা নাও।",
-    videoTitle:"🎬 Reels ও Shorts আইডিয়া",
-    videoDesc:"ছোট ভিডিওর জন্য নতুন ধারণা তৈরি করো।",
-    topicLabel:"তোমার বিষয়", styleLabel:"ক্যাপশনের ধরন",
-    platformLabel:"প্ল্যাটফর্ম", durationLabel:"ভিডিওর দৈর্ঘ্য",
-    captionPlaceholder:"যেমন: বন্ধুত্ব, প্রকৃতি, ভ্রমণ",
-    youtubePlaceholder:"যেমন: মোবাইল ফটোগ্রাফি",
-    hashtagPlaceholder:"যেমন: রান্না, ভ্রমণ, প্রযুক্তি",
-    videoPlaceholder:"যেমন: দৈনন্দিন জীবন, পড়াশোনা",
-    motivational:"অনুপ্রেরণামূলক", funny:"মজার",
-    emotional:"আবেগপূর্ণ", love:"ভালোবাসা", attitude:"অ্যাটিটিউড",
-    generate:"তৈরি করো", clear:"মুছুন", copy:"কপি",
-    copied:"কপি হয়েছে!", copyFail:"কপি করা যায়নি। ফলাফলটি নির্বাচন করে কপি করো।",
-    resultTitle:"তোমার ফলাফল",
-    empty:"আগে তোমার বিষয়টি লিখো।",
-    notice:"নোট: এই সংস্করণে নমুনা ও টেমপ্লেট ব্যবহার করে ফলাফল তৈরি হয়। এটি এখনো সত্যিকারের AI পরিষেবা নয়।",
-    footer:" — কনটেন্ট তৈরির সঙ্গী",
-    captionIntro:"তোমার বিষয়: ",
-    captionEnd:"✨ নিজের মতো করে সাজিয়ে পোস্ট করো!",
-    captionTemplates:{
-      motivational:["ছোট ছোট পদক্ষেপই একদিন বড় সাফল্য এনে দেয়। 💪","স্বপ্ন দেখো, চেষ্টা করো, নিজের পথে এগিয়ে চলো। ✨","আজকের পরিশ্রমই আগামী দিনের শক্তি। 🌱"],
-      funny:["জীবনটা সিরিয়াস, কিন্তু হাসিটা ফ্রি! 😂","প্ল্যান অনেক, কাজ শুরু হবে কাল থেকে! 😄","মুড ভালো থাকলে সবকিছুই একটু সুন্দর লাগে। 😎"],
-      emotional:["কিছু মুহূর্ত স্মৃতিতে থেকে যায় সারাজীবন। 💙","মনের কথা সব সময় শব্দে বলা যায় না। 🌸","ছোট ছোট অনুভূতিই জীবনের বড় সম্পদ। ❤️"],
-      love:["ভালোবাসা মানে ছোট ছোট যত্নের মধ্যে সুখ খুঁজে পাওয়া। ❤️","তোমার হাসিতেই দিনটা সুন্দর হয়ে যায়। 🌹","সত্যিকারের ভালোবাসা মনকে শান্তি দেয়। 💕"],
-      attitude:["নিজের গল্পের নায়ক নিজেই হও। 😎","নিজের লক্ষ্য ঠিক রাখো, বাকিটা সময় বলে দেবে। 🔥","কম কথা, বেশি কাজ—এটাই আমার স্টাইল। 💯"]
-    },
-    youtubeLines:["{topic} নিয়ে ৫টি গুরুত্বপূর্ণ বিষয়","{topic}: নতুনদের জন্য সহজ গাইড","{topic} সম্পর্কে যে বিষয়গুলো জানা দরকার","{topic} নিয়ে আমার অভিজ্ঞতা","{topic} শেখার সহজ উপায়"],
-    hashtagGeneral:["কনটেন্ট","বাংলা","ক্রিয়েটর","নতুনপোস্ট","ভিডিও","ট্রেন্ডিং","আইডিয়া"],
-    videoHook:"শুরুর Hook: “তুমি কি {topic} নিয়ে এই বিষয়টি জানো?”",
-    videoBody:"মূল অংশ: ১) বিষয়টি পরিচয় করাও। ২) একটি উপকারী টিপ দাও। ৩) ছোট উদাহরণ দেখাও।",
-    videoEnd:"শেষ: “আরও এমন কনটেন্ট পেতে ফলো করো!”"
-  },
-  en: {
-    heroTitle:"Your everyday content creation companion!",
-    heroDesc:"Create captions, YouTube titles, hashtags, and video ideas with ease.",
-    intro:"Choose a tool to get started 👇",
-    captionTitle:"✍️ Social Media Captions",
-    captionDesc:"Create captions for Facebook and Instagram posts.",
-    youtubeTitle:"▶️ YouTube Title Helper",
-    youtubeDesc:"Get title ideas based on your video topic.",
-    hashtagTitle:"#️⃣ Hashtag Generator",
-    hashtagDesc:"Get hashtag ideas for your content.",
-    videoTitle:"🎬 Reels & Shorts Ideas",
-    videoDesc:"Create ideas for short-form videos.",
-    topicLabel:"Your topic", styleLabel:"Caption style",
-    platformLabel:"Platform", durationLabel:"Video duration",
-    captionPlaceholder:"e.g. friendship, nature, travel",
-    youtubePlaceholder:"e.g. mobile photography",
-    hashtagPlaceholder:"e.g. cooking, travel, technology",
-    videoPlaceholder:"e.g. daily life, studying",
-    motivational:"Motivational", funny:"Funny",
-    emotional:"Emotional", love:"Love", attitude:"Attitude",
-    generate:"Generate", clear:"Clear", copy:"Copy",
-    copied:"Copied!", copyFail:"Could not copy. Please select and copy the result.",
-    resultTitle:"Your result",
-    empty:"Please enter a topic first.",
-    notice:"Note: This version uses examples and templates. It does not use real AI yet.",
-    footer:" — Your content creation companion",
-    captionIntro:"Your topic: ",
-    captionEnd:"✨ Personalize it before posting!",
-    captionTemplates:{
-      motivational:["Small steps today can lead to big achievements tomorrow. 💪","Dream, try, and keep moving forward. ✨","Today's effort builds tomorrow's strength. 🌱"],
-      funny:["Life is serious, but laughter is free! 😂","So many plans... starting tomorrow! 😄","Everything feels better when the mood is right. 😎"],
-      emotional:["Some moments stay in our memories forever. 💙","Not every feeling can be expressed in words. 🌸","Small feelings often become life's biggest treasures. ❤️"],
-      love:["Love is finding happiness in the little acts of care. ❤️","Your smile makes the whole day brighter. 🌹","True love brings peace to the heart. 💕"],
-      attitude:["Be the hero of your own story. 😎","Stay focused on your goals; let time do the rest. 🔥","Less talk, more action—that's my style. 💯"]
-    },
-    youtubeLines:["5 Things You Should Know About {topic}","{topic}: A Simple Beginner's Guide","What You Need to Know About {topic}","My Experience With {topic}","An Easy Way to Learn {topic}"],
-    hashtagGeneral:["Content","Creator","NewPost","Video","Trending","Ideas","SocialMedia"],
-    videoHook:"Opening hook: “Did you know this about {topic}?”",
-    videoBody:"Main part: 1) Introduce the topic. 2) Share one useful tip. 3) Show a quick example.",
-    videoEnd:"Ending: “Follow for more content like this!”"
-  }
-};
-
-let language = "bn";
-let toastTimer;
-
-function translatePage() {
-  const t = translations[language];
-  document.documentElement.lang = language;
-
-  document.querySelectorAll("[data-i18n]").forEach(function(el) {
-    const key = el.dataset.i18n;
-    if (t[key] !== undefined) el.textContent = t[key];
-  });
-
-  document.querySelectorAll("[data-i18n-placeholder]").forEach(function(el) {
-    const key = el.dataset.i18nPlaceholder;
-    if (t[key] !== undefined) el.placeholder = t[key];
-  });
-
-  document.getElementById("langBtn").textContent =
-    language === "bn" ? "English" : "বাংলা";
-
-  document.title = language === "bn"
-    ? "ContentBondhu AI — কনটেন্ট তৈরির সঙ্গী"
-    : "ContentBondhu AI — Content Creation Companion";
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function() {
-    toast.hidden = true;
-  }, 2200);
-}
-
-function getTopic(id) {
-  const value = document.getElementById(id + "Input").value.trim();
-  if (!value) {
-    showToast(translations[language].empty);
-    document.getElementById(id + "Input").focus();
-    return null;
-  }
-  return value;
-}
-
-function makeHashtag(topic, platform) {
-  const t = translations[language];
-  const clean = topic.replace(/[^\p{L}\p{N}]+/gu, "");
-  const safeTopic = clean || "Content";
-  const platformTag = platform.replace(/[^a-zA-Z0-9]/g, "");
-  const tags = [
-    "#" + safeTopic,
-    "#" + platformTag,
-    ...t.hashtagGeneral.map(function(tag) {
-      return "#" + tag.replace(/\s+/g, "");
-    })
-  ];
-  return [...new Set(tags)].join(" ");
-}
-
-function generate(action) {
-  const t = translations[language];
-  const inputIds = {
-    caption:"caption",
-    youtube:"youtube",
-    hashtag:"hashtag",
-    video:"video"
-  };
-  const topic = getTopic(inputIds[action]);
-  if (topic === null) return;
-
-  let output = "";
-
-  if (action === "caption") {
-    const style = document.getElementById("captionStyle").value;
-    const templates = t.captionTemplates[style];
-    const chosen = templates[Math.floor(Math.random() * templates.length)];
-    output = t.captionIntro + topic + "\n\n" + chosen + "\n\n" + t.captionEnd;
-  }
-
-  if (action === "youtube") {
-    output = t.youtubeLines.map(function(line, index) {
-      return (index + 1) + ". " + line.replaceAll("{topic}", topic);
-    }).join("\n");
-  }
-
-  if (action === "hashtag") {
-    const platform = document.getElementById("platform").value;
-    output = makeHashtag(topic, platform);
-  }
-
-  if (action === "video") {
-    const seconds = document.getElementById("duration").value;
-    output = (language === "bn" ? "ভিডিওর বিষয়: " : "Video topic: ") + topic +
-      "\n" + (language === "bn" ? "দৈর্ঘ্য: " : "Duration: ") + seconds + " seconds\n\n" +
-      t.videoHook.replaceAll("{topic}", topic) + "\n\n" +
-      t.videoBody + "\n\n" + t.videoEnd;
-  }
-
-  document.getElementById(action + "Output").textContent = output;
-  document.getElementById(action + "Result").hidden = false;
-}
-
-function clearTool(action) {
-  document.getElementById(action + "Input").value = "";
-  document.getElementById(action + "Output").textContent = "";
-  document.getElementById(action + "Result").hidden = true;
-}
-
-async function copyResult(action) {
-  const output = document.getElementById(action + "Output").textContent;
-  if (!output) return;
-
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(output);
-    } else {
-      const textarea = document.createElement("textarea");
-      textarea.value = output;
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-      document.body.appendChild(textarea);
-      textarea.select();
-      const success = document.execCommand("copy");
-      textarea.remove();
-      if (!success) throw new Error("Copy failed");
-    }
-    showToast(translations[language].copied);
-  } catch (error) {
-    showToast(translations[language].copyFail);
-  }
-}
-
-document.getElementById("langBtn").addEventListener("click", function() {
-  language = language === "bn" ? "en" : "bn";
-  translatePage();
-});
-
-document.querySelectorAll("[data-action]").forEach(function(button) {
-  button.addEventListener("click", function() {
-    generate(button.dataset.action);
-  });
-});
-
-document.querySelectorAll("[data-clear]").forEach(function(button) {
-  button.addEventListener("click", function() {
-    clearTool(button.dataset.clear);
-  });
-});
-
-document.querySelectorAll("[data-copy]").forEach(function(button) {
-  button.addEventListener("click", function() {
-    copyResult(button.dataset.copy);
-  });
-});
-
-/* The script is at the end of the page, so the elements already exist. */
-translatePage();
-</script>
+        legPos.addEventListener('input', (e) => {
+            let val = e.target.value;
+            leftLeg.style.transform = `rotate(${val}deg)`;
+            rightLeg.style.transform = `rotate(${-val}deg)`;
+        });
+    </script>
 </body>
-                                                                               
+  </html>
+  
