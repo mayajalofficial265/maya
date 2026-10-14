@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Full-Body Character Scene Builder</title>
+  <title>CartoonStudio - 3D Character Studio</title>
   <style>
     * {
       margin: 0;
@@ -190,68 +190,6 @@
       font-size: 15px;
     }
 
-    .robot {
-      font-size: 60px;
-    }
-
-    /* Quick Create Cards */
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-
-    .create-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-
-    .create-card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s;
-      border: 1px solid #f3f4f6;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .create-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    }
-
-    .create-card .icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
-      font-size: 22px;
-      color: white;
-    }
-
-    .create-card h3 {
-      font-size: 15px;
-      margin-bottom: 4px;
-    }
-
-    .create-card p {
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    .c1 .icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-    .c2 .icon { background: linear-gradient(135deg, #ec4899, #f472b6); }
-    .c3 .icon { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
-    .c4 .icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-    .c5 .icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-
     /* Scene Builder Styling */
     .builder-workspace {
       display: grid;
@@ -262,7 +200,7 @@
     .scene-preview-box {
       background: linear-gradient(135deg, #1e1b4b, #312e81);
       border-radius: 20px;
-      height: 400px;
+      height: 420px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -274,10 +212,10 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* Full Body Character Styling */
+    /* 3D Character Stage Styling */
     .stage-characters {
       display: flex;
-      gap: 50px;
+      gap: 40px;
       align-items: flex-end;
       margin-bottom: 20px;
       transition: transform 0.3s ease;
@@ -291,22 +229,22 @@
     }
 
     .char-head {
-      font-size: 45px;
-      margin-bottom: -8px;
+      font-size: 50px;
+      margin-bottom: -10px;
       z-index: 2;
     }
 
     .char-body {
-      width: 65px;
-      height: 110px;
-      border-radius: 25px 25px 10px 10px;
+      width: 70px;
+      height: 120px;
+      border-radius: 25px 25px 12px 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       position: relative;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 13px;
       color: white;
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
@@ -367,6 +305,38 @@
       color: white;
     }
 
+    /* Character Library Grid Style */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .char-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .char-card .avatar-box {
+      font-size: 45px;
+      margin-bottom: 8px;
+    }
+
+    .char-card h4 {
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .char-card p {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
     /* ========== MOBILE BOTTOM NAV ========== */
     .bottom-nav {
       display: none;
@@ -404,62 +374,6 @@
       font-size: 22px;
     }
 
-    /* ========== MODAL ========== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal {
-      background: white;
-      border-radius: 20px;
-      padding: 28px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .modal h2 {
-      margin-bottom: 10px;
-      color: #6d28d9;
-    }
-
-    .modal p {
-      color: #6b7280;
-      margin-bottom: 24px;
-    }
-
-    .modal-btns {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .btn {
-      padding: 10px 22px;
-      border-radius: 30px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .btn-primary {
-      background: #7c3aed;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #f3f4f6;
-      color: #374151;
-    }
-
     /* ========== RESPONSIVE ========== */
     @media (max-width: 900px) {
       .sidebar {
@@ -469,18 +383,14 @@
         margin-left: 0;
         padding: 16px 16px 90px;
       }
-      .create-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
       .bottom-nav {
         display: block;
       }
-      .search-box {
-        width: 100%;
-        max-width: 280px;
-      }
       .builder-workspace {
         grid-template-columns: 1fr;
+      }
+      .char-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -516,7 +426,7 @@
     <div class="topbar">
       <div class="search-box">
         <span>🔍</span>
-        <input type="text" placeholder="Search projects, characters...">
+        <input type="text" placeholder="Search characters, families...">
       </div>
       <div class="top-right">
         <div class="notification">🔔<span class="badge">3</span></div>
@@ -532,39 +442,9 @@
       <div class="welcome">
         <div>
           <h1>👋 স্বাগতম, ক্রিয়েটর!</h1>
-          <p>আপনার পরবর্তী গল্প তৈরি করতে প্রস্তুত?</p>
+          <p>আপনার থ্রিডি কার্টুন পরিবার নিয়ে গল্প সাজান।</p>
         </div>
-        <div class="robot">🤖🚀</div>
-      </div>
-
-      <div class="section-title"><span>দ্রুত তৈরি করুন</span></div>
-
-      <div class="create-grid">
-        <div class="create-card c1" onclick="openCreateModal('Cartoon')">
-          <div class="icon">✨</div>
-          <h3>Cartoon</h3>
-          <p>Animated characters</p>
-        </div>
-        <div class="create-card c2" onclick="openCreateModal('Drama')">
-          <div class="icon">🎬</div>
-          <h3>Drama</h3>
-          <p>Drama series</p>
-        </div>
-        <div class="create-card c3" onclick="openCreateModal('Short Video')">
-          <div class="icon">▶️</div>
-          <h3>Short Video</h3>
-          <p>Viral shorts</p>
-        </div>
-        <div class="create-card c4" onclick="openCreateModal('Movie')">
-          <div class="icon">🎥</div>
-          <h3>Movie</h3>
-          <p>Cinematic stories</p>
-        </div>
-        <div class="create-card c5" onclick="openCreateModal('Story')">
-          <div class="icon">📖</div>
-          <h3>Story</h3>
-          <p>Illustrated stories</p>
-        </div>
+        <div style="font-size: 50px;">👨‍👩‍👦‍👦✨</div>
       </div>
     </div>
 
@@ -575,7 +455,6 @@
           <h1 style="color:#6d28d9; font-size:24px;">📁 আমার প্রজেক্টস</h1>
           <p>আপনার তৈরি করা সকল প্রজেক্ট এখানে দেখতে পাবেন।</p>
         </div>
-        <button class="btn btn-primary" onclick="openCreateModal()">+ নতুন প্রজেক্ট</button>
       </div>
     </div>
 
@@ -583,15 +462,14 @@
     <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">🎬 Full-Body Character Scene Builder</h1>
-          <p>সম্পূর্ণ বডি স্ট্রাকচার এবং অ্যানিমেশনসহ দৃশ্য সাজান।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">🎬 3D Family Scene Builder</h1>
+          <p>পরিবারের সদস্য ও অন্যান্য চরিত্র দিয়ে দৃশ্য সাজান[span_2](start_span)[span_2](end_span)।</p>
         </div>
       </div>
 
       <div class="scene-tabs">
-        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Scene 1)</button>
-        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Scene 2)</button>
-        <button class="scene-tab" onclick="addNewScene()">+ নতুন দৃশ্য</button>
+        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Family Scene)</button>
+        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Hero Scene)</button>
       </div>
 
       <div class="builder-workspace">
@@ -601,66 +479,71 @@
           <div class="stage-characters" id="stageCharacters">
             <!-- Character 1 -->
             <div class="full-body-char">
-              <div class="char-head" id="c1Head">👨</div>
-              <div class="char-body" id="c1Body" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">রহিম</div>
+              <div class="char-head" id="c1Head">👨‍💼</div>
+              <div class="char-body" id="c1Body" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">বাবা</div>
             </div>
             <!-- Character 2 -->
             <div class="full-body-char">
-              <div class="char-head" id="c2Head">👩</div>
-              <div class="char-body" id="c2Body" style="background: linear-gradient(135deg, #ec4899, #be185d);">রোকেয়া</div>
+              <div class="char-head" id="c2Head">👩‍🦰</div>
+              <div class="char-body" id="c2Body" style="background: linear-gradient(135deg, #ec4899, #be185d);">মা</div>
+            </div>
+            <!-- Character 3 -->
+            <div class="full-body-char">
+              <div class="char-head" id="c3Head">👦</div>
+              <div class="char-body" id="c3Body" style="background: linear-gradient(135deg, #10b981, #047857);">ছেলে</div>
             </div>
           </div>
 
           <p id="dialogueDisplay" style="font-size: 15px; font-style: italic; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 20px; margin-bottom: 5px;">
-            "চল আজ ঘুরতে যাই!"
+            "আজ আমরা সবাই মিলে ঘুরতে যাব!"
           </p>
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ ফুল-বডি ও সিন কন্ট্রোল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ থ্রিডি ক্যারেক্টার কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
             <select id="bgSelect" onchange="updateSceneBackground()">
               <option value="linear-gradient(135deg, #1e1b4b, #312e81)">বসার ঘর (Living Room)</option>
               <option value="linear-gradient(135deg, #065f46, #047857)">স্কুলের মাঠ (School Field)</option>
-              <option value="linear-gradient(135deg, #9a3412, #c2410c)">প্রকৃতি / বন (Forest)</option>
+              <option value="linear-gradient(135deg, #7c2d12, #9a3412)">প্রকৃতি / বন (Forest)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ১ (স্টাইল ও অবতার):</label>
+            <label>চরিত্র ১ (পরিবার সদস্য):</label>
             <select id="char1Select" onchange="updateCharacters()">
-              <option value="👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)">রহিম (বাবা - নীল পোশাক)</option>
-              <option value="🦸‍♂️|হিরো|linear-gradient(135deg, #8b5cf6, #6d28d9)">সুপারহিরো (পারپل পোশাক)</option>
-              <option value="👦|রাহুল|linear-gradient(135deg, #10b981, #047857)">রাহুল (ছেলে - সবুজ পোশাক)</option>
+              <option value="👨‍💼|বাবা|linear-gradient(135deg, #3b82f6, #1d4ed8)">বাবা (Father)</option>
+              <option value="🦸‍♂️|নায়ক|linear-gradient(135deg, #8b5cf6, #6d28d9)">নায়ক (Hero)</option>
+              <option value="👴|দাদা|linear-gradient(135deg, #64748b, #475569)">দাদা (Grandfather)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ২ (স্টাইল ও অবতার):</label>
+            <label>চরিত্র ২ (পরিবার সদস্য):</label>
             <select id="char2Select" onchange="updateCharacters()">
-              <option value="👩|রোকেয়া|linear-gradient(135deg, #ec4899, #be185d)">রোকেয়া (মা - গোলাপি পোশাক)</option>
-              <option value="👧|মিতু|linear-gradient(135deg, #f59e0b, #b45309)">মিতু (মেয়ে - হলুদ পোশাক)</option>
-              <option value="🐶|ডগি|linear-gradient(135deg, #6b7280, #374151)">বন্ধু কুকুর</option>
+              <option value="👩‍🦰|মা|linear-gradient(135deg, #ec4899, #be185d)">মা (Mother)</option>
+              <option value="🧕|নানি|linear-gradient(135deg, #14b8a6, #0d9488)">নানি (Grandmother)</option>
+              <option value="👸|রানী|linear-gradient(135deg, #f59e0b, #d97706)">রানী (Queen)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>অ্যানিমেশন পোজ:</label>
-            <select id="poseSelect" onchange="updatePoseStyle()">
-              <option value="normal">স্বাভাবিক ফ্লোটিং (Normal)</option>
-              <option value="bounce">উত্তেজিত বাউন্স (Bounce)</option>
-              <option value="zoom">কাছাকাছি জুম (Zoom In)</option>
+            <label>চরিত্র ৩ (বাচ্চা / পোষ্য):</label>
+            <select id="char3Select" onchange="updateCharacters()">
+              <option value="👦|ছেলে|linear-gradient(135deg, #10b981, #047857)">ছেলে (Son)</option>
+              <option value="👧|মেয়ে|linear-gradient(135deg, #f43f5e, #e11d48)">মেয়ে (Daughter)</option>
+              <option value="🐶|ডগি|linear-gradient(135deg, #d97706, #b45309)">পোষা কুকুর (Dog)</option>
             </select>
           </div>
 
           <div class="form-group">
             <label>সংলাপ (Dialogue):</label>
-            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="চল আজ ঘুরতে যাই!">
+            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="আজ আমরা সবাই মিলে ঘুরতে যাব!">
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; margin-top: 6px;" onclick="applyDialogue()">দৃশ্য আপডেট করুন</button>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 6px; background: #7c3aed; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;" onclick="applyDialogue()">দৃশ্য আপডেট করুন</button>
         </div>
       </div>
     </div>
@@ -669,8 +552,31 @@
     <div id="characters-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">👤 Character Library</h1>
-          <p>আপনার তৈরি করা ফুল-বডি ক্যারেক্টারগুলো এখানে থাকবে।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">👤 3D Character Library</h1>
+          <p>পরিবারের সদস্য ও অন্যান্য চরিত্র সমাহার[span_3](start_span)[span_3](end_span)。</p>
+        </div>
+      </div>
+
+      <div class="char-grid">
+        <div class="char-card">
+          <div class="avatar-box">👨‍💼</div>
+          <h4>বাবা / নায়ক</h4>
+          <p>পরিবারের প্রধান চরিত্র</p>
+        </div>
+        <div class="char-card">
+          <div class="avatar-box">👩‍🦰</div>
+          <h4>মা / নায়িকা</h4>
+          <p>প্রধান নারী চরিত্র</p>
+        </div>
+        <div class="char-card">
+          <div class="avatar-box">👴</div>
+          <h4>দাদা / দাদী</h4>
+          <p>অভিভাবক চরিত্র</p>
+        </div>
+        <div class="char-card">
+          <div class="avatar-box">🦸‍♂️</div>
+          <h4>সুপারহিরো</h4>
+          <p>অ্যাকশন ক্যারেক্টার</p>
         </div>
       </div>
     </div>
@@ -693,37 +599,27 @@
       </div>
       <div class="bn-item" onclick="showSection('characters')">
         <div class="icon">👤</div>
-        <span>Characters</span>
+        <span>Library</span>
       </div>
     </div>
   </nav>
-
-  <!-- CREATE PROJECT MODAL -->
-  <div class="modal-overlay" id="createModal">
-    <div class="modal">
-      <h2>নতুন প্রজেক্ট তৈরি করুন</h2>
-      <p id="modalDesc">কী ধরনের কন্টেন্ট তৈরি করতে চান?</p>
-      <div class="modal-btns">
-        <button class="btn btn-secondary" onclick="closeModal()">বাতিল</button>
-        <button class="btn btn-primary" onclick="startCreate()">শুরু করুন →</button>
-      </div>
-    </div>
-  </div>
 
   <script>
     let currentScene = 1;
     const scenesData = {
       1: { 
         bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', 
-        c1Val: '👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
-        c2Val: '👩|রোকেয়া|linear-gradient(135deg, #ec4899, #be185d)', 
-        text: 'চল আজ ঘুরতে যাই!' 
+        c1: '👨‍💼|বাবা|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
+        c2: '👩‍🦰|মা|linear-gradient(135deg, #ec4899, #be185d)', 
+        c3: '👦|ছেলে|linear-gradient(135deg, #10b981, #047857)',
+        text: 'আজ আমরা সবাই মিলে ঘুরতে যাব!' 
       },
       2: { 
         bg: 'linear-gradient(135deg, #065f46, #047857)', 
-        c1Val: '🦸‍♂️|হিরো|linear-gradient(135deg, #8b5cf6, #6d28d9)', 
-        c2Val: '👧|মিতু|linear-gradient(135deg, #f59e0b, #b45309)', 
-        text: 'আমরা এখন মাঠে খেলব!' 
+        c1: '🦸‍♂️|নায়ক|linear-gradient(135deg, #8b5cf6, #6d28d9)', 
+        c2: '👸|রানী|linear-gradient(135deg, #f59e0b, #d97706)', 
+        c3: '🐶|ডগি|linear-gradient(135deg, #d97706, #b45309)',
+        text: 'kingdom রক্ষা করতে হবে!' 
       }
     };
 
@@ -734,19 +630,8 @@
       });
       const target = document.getElementById(section + '-section');
       if (target) target.style.display = 'block';
-    }
 
-    function openCreateModal(type = '') {
-      document.getElementById('createModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('createModal').style.display = 'none';
-    }
-
-    function startCreate() {
-      closeModal();
-      showSection('scene-builder');
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     }
 
     function switchScene(sceneNum) {
@@ -759,23 +644,13 @@
       if (data) {
         document.getElementById('previewBox').style.background = data.bg;
         document.getElementById('bgSelect').value = data.bg;
-        document.getElementById('char1Select').value = data.c1Val;
-        document.getElementById('char2Select').value = data.c2Val;
+        document.getElementById('char1Select').value = data.c1;
+        document.getElementById('char2Select').value = data.c2;
+        document.getElementById('char3Select').value = data.c3;
         document.getElementById('dialogueInput').value = data.text;
         document.getElementById('dialogueDisplay').textContent = `"${data.text}"`;
-        renderCharactersFromValues(data.c1Val, data.c2Val);
+        renderCharacters(data.c1, data.c2, data.c3);
       }
-    }
-
-    function addNewScene() {
-      const nextNum = Object.keys(scenesData).length + 1;
-      scenesData[nextNum] = { 
-        bg: 'linear-gradient(135deg, #9a3412, #c2410c)', 
-        c1Val: '👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
-        c2Val: '🐶|ডগি|linear-gradient(135deg, #6b7280, #374151)', 
-        text: `নতুন দৃশ্য ${nextNum} এর গল্প...` 
-      };
-      alert(`দৃশ্য ${nextNum} তৈরি হয়েছে!`);
     }
 
     function updateSceneBackground() {
@@ -785,36 +660,31 @@
     }
 
     function updateCharacters() {
-      const c1Val = document.getElementById('char1Select').value;
-      const c2Val = document.getElementById('char2Select').value;
-      renderCharactersFromValues(c1Val, c2Val);
-      scenesData[currentScene].c1Val = c1Val;
-      scenesData[currentScene].c2Val = c2Val;
+      const c1 = document.getElementById('char1Select').value;
+      const c2 = document.getElementById('char2Select').value;
+      const c3 = document.getElementById('char3Select').value;
+      renderCharacters(c1, c2, c3);
+      scenesData[currentScene].c1 = c1;
+      scenesData[currentScene].c2 = c2;
+      scenesData[currentScene].c3 = c3;
     }
 
-    function renderCharactersFromValues(val1, val2) {
-      const [emoji1, name1, bg1] = val1.split('|');
-      const [emoji2, name2, bg2] = val2.split('|');
+    function renderCharacters(val1, val2, val3) {
+      const [e1, n1, b1] = val1.split('|');
+      const [e2, n2, b2] = val2.split('|');
+      const [e3, n3, b3] = val3.split('|');
 
-      document.getElementById('c1Head').textContent = emoji1;
-      document.getElementById('c1Body').textContent = name1;
-      document.getElementById('c1Body').style.background = bg1;
+      document.getElementById('c1Head').textContent = e1;
+      document.getElementById('c1Body').textContent = n1;
+      document.getElementById('c1Body').style.background = b1;
 
-      document.getElementById('c2Head').textContent = emoji2;
-      document.getElementById('c2Body').textContent = name2;
-      document.getElementById('c2Body').style.background = bg2;
-    }
+      document.getElementById('c2Head').textContent = e2;
+      document.getElementById('c2Body').textContent = n2;
+      document.getElementById('c2Body').style.background = b2;
 
-    function updatePoseStyle() {
-      const pose = document.getElementById('poseSelect').value;
-      const stage = document.getElementById('stageCharacters');
-      if (pose === 'bounce') {
-        stage.style.transform = 'scale(1.05) translateY(-8px)';
-      } else if (pose === 'zoom') {
-        stage.style.transform = 'scale(1.15)';
-      } else {
-        stage.style.transform = 'scale(1)';
-      }
+      document.getElementById('c3Head').textContent = e3;
+      document.getElementById('c3Body').textContent = n3;
+      document.getElementById('c3Body').style.background = b3;
     }
 
     function applyDialogue() {
