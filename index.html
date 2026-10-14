@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Scene Builder</title>
+  <title>CartoonStudio - Dashboard & Scene Builder</title>
   <style>
     * {
       margin: 0;
@@ -302,11 +302,6 @@
       cursor: pointer;
     }
 
-    .project-card:hover, .character-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
     .project-thumb, .char-thumb {
       height: 140px;
       background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
@@ -329,18 +324,6 @@
       font-size: 12px;
       color: #6b7280;
       margin-bottom: 10px;
-    }
-
-    .progress-bar {
-      height: 6px;
-      background: #e5e7eb;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 10px;
     }
 
     /* Scene Builder Styling */
@@ -398,16 +381,6 @@
       font-size: 13px;
       outline: none;
       background: #f9fafb;
-    }
-
-    /* Form Styling for Character Maker */
-    .maker-container {
-      background: white;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      max-width: 700px;
-      margin: 0 auto;
     }
 
     /* ========== MOBILE BOTTOM NAV ========== */
@@ -536,25 +509,8 @@
         width: 100%;
         max-width: 280px;
       }
-      .welcome h1 {
-        font-size: 22px;
-      }
       .builder-workspace {
         grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .create-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .topbar {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-      }
-      .search-box {
-        max-width: 100%;
       }
     }
   </style>
@@ -586,20 +542,14 @@
     <div class="nav-item" onclick="showSection('characters')">
       <i>👤</i> Character Library
     </div>
-    <div class="nav-item" onclick="showSection('ai')">
-      <i>✨</i> AI Tools
-    </div>
-    <div class="nav-item" onclick="showSection('analytics')">
-      <i>📊</i> Analytics
-    </div>
     <div class="nav-item" onclick="showSection('settings')">
       <i>⚙️</i> Settings
     </div>
 
     <div class="upgrade-box">
       <h4>⭐ Unlock Your Creativity</h4>
-      <p>Go premium for unlimited projects, AI credits & more!</p>
-      <button class="btn-upgrade" onclick="alert('Premium feature coming soon!')">Upgrade Now →</button>
+      <p>Go premium for unlimited projects & more!</p>
+      <button class="btn-upgrade" onclick="alert('Coming soon!')">Upgrade Now →</button>
     </div>
   </aside>
 
@@ -608,13 +558,10 @@
     <div class="topbar">
       <div class="search-box">
         <span>🔍</span>
-        <input type="text" placeholder="Search projects, characters, templates...">
+        <input type="text" placeholder="Search projects, characters...">
       </div>
       <div class="top-right">
-        <div class="notification">
-          🔔
-          <span class="badge">3</span>
-        </div>
+        <div class="notification">🔔<span class="badge">3</span></div>
         <div class="user">
           <div class="avatar">A</div>
           <span>Aarav Creator</span>
@@ -632,35 +579,33 @@
         <div class="robot">🤖🚀</div>
       </div>
 
-      <div class="section-title">
-        <span>দ্রুত তৈরি করুন</span>
-      </div>
+      <div class="section-title"><span>দ্রুত তৈরি করুন</span></div>
 
       <div class="create-grid">
         <div class="create-card c1" onclick="openCreateModal('Cartoon')">
           <div class="icon">✨</div>
           <h3>Cartoon</h3>
-          <p>Create animated characters & scenes</p>
+          <p>Animated characters</p>
         </div>
         <div class="create-card c2" onclick="openCreateModal('Drama')">
           <div class="icon">🎬</div>
           <h3>Drama</h3>
-          <p>Build engaging drama series</p>
+          <p>Drama series</p>
         </div>
         <div class="create-card c3" onclick="openCreateModal('Short Video')">
           <div class="icon">▶️</div>
           <h3>Short Video</h3>
-          <p>Make quick & viral shorts</p>
+          <p>Viral shorts</p>
         </div>
         <div class="create-card c4" onclick="openCreateModal('Movie')">
           <div class="icon">🎥</div>
           <h3>Movie</h3>
-          <p>Craft cinematic stories</p>
+          <p>Cinematic stories</p>
         </div>
         <div class="create-card c5" onclick="openCreateModal('Story')">
           <div class="icon">📖</div>
           <h3>Story</h3>
-          <p>Write & illustrate beautiful stories</p>
+          <p>Illustrated stories</p>
         </div>
       </div>
     </div>
@@ -676,7 +621,7 @@
       </div>
     </div>
 
-    <!-- MULTI-CHARACTER SCENE BUILDER SECTION (New Feature) -->
+    <!-- SCENE BUILDER SECTION -->
     <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
@@ -687,13 +632,13 @@
 
       <div class="builder-workspace">
         <div class="scene-preview-box">
-          <h3 style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য প্রিভিউ (Scene Preview)</h3>
+          <h3 style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য প্রিভিউ</h3>
           <div class="stage-characters" id="stageCharacters">
             <span>👨</span>
             <span>👩</span>
           </div>
           <p id="dialogueDisplay" style="font-size: 16px; font-style: italic; background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 20px;">
-            "রহিম ও রোকেয়া ঘরে কথা বলছেন..."
+            "চল আজ ঘুরতে যাই!"
           </p>
         </div>
 
@@ -737,53 +682,24 @@
       </div>
     </div>
 
-    <!-- CHARACTER LIBRARY & MAKER SECTION -->
+    <!-- CHARACTER LIBRARY SECTION -->
     <div id="characters-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">👤 Character Library & Maker</h1>
-          <p>আপনার পরিবারের সদস্য ও বিভিন্ন কার্টুন চরিত্র তৈরি এবং সংরক্ষণ করুন।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">👤 Character Library</h1>
+          <p>আপনার তৈরি করা ক্যারেক্টারগুলো এখানে থাকবে।</p>
         </div>
-        <button class="btn btn-primary" onclick="openCharacterMaker()">+ নতুন চরিত্র তৈরি করুন</button>
       </div>
-
-      <div class="characters-grid" id="characterGrid">
+      <div class="characters-grid">
         <div class="character-card">
           <div class="char-thumb">👨</div>
-          <div class="char-info">
-            <h4>রহিম (বাবা)</h4>
-            <div class="meta">প্রাপ্তবয়স্ক</div>
-          </div>
+          <div class="char-info"><h4>রহিম (বাবা)</h4><div class="meta">প্রাপ্তবয়স্ক</div></div>
         </div>
         <div class="character-card">
           <div class="char-thumb">👩</div>
-          <div class="char-info">
-            <h4>রোকেয়া (মা)</h4>
-            <div class="meta">প্রাপ্তবয়স্ক</div>
-          </div>
+          <div class="char-info"><h4>রোকেয়া (মা)</h4><div class="meta">প্রাপ্তবয়স্ক</div></div>
         </div>
       </div>
-    </div>
-
-    <!-- OTHER SECTIONS -->
-    <div id="templates-section" style="display:none;">
-      <h2 style="margin-bottom:20px; color:#6d28d9;">🧩 টেমপ্লেটস</h2>
-      <p>রেডিমেড টেমপ্লেট থেকে শুরু করুন।</p>
-    </div>
-
-    <div id="ai-section" style="display:none;">
-      <h2 style="margin-bottom:20px; color:#6d28d9;">✨ AI Tools</h2>
-      <p>স্ক্রিপ্ট জেনারেটর, ক্যারেক্টার ডিজাইনার...</p>
-    </div>
-
-    <div id="analytics-section" style="display:none;">
-      <h2 style="margin-bottom:20px; color:#6d28d9;">📊 Analytics</h2>
-      <p>পরিসংখ্যান ও ডেটা।</p>
-    </div>
-
-    <div id="settings-section" style="display:none;">
-      <h2 style="margin-bottom:20px; color:#6d28d9;">⚙️ Settings</h2>
-      <p>অ্যাকাউন্ট ও প্রেফারেন্স সেট করুন।</p>
     </div>
   </main>
 
@@ -798,16 +714,10 @@
         <div class="icon">📁</div>
         <span>Projects</span>
       </div>
-      <div class="bn-create" onclick="showSection('scene-builder')">
-        +
-      </div>
+      <div class="bn-create" onclick="showSection('scene-builder')">+</div>
       <div class="bn-item" onclick="showSection('characters')">
         <div class="icon">👤</div>
         <span>Characters</span>
-      </div>
-      <div class="bn-item" onclick="showSection('settings')">
-        <div class="icon">⚙️</div>
-        <span>Settings</span>
       </div>
     </div>
   </nav>
@@ -815,7 +725,7 @@
   <!-- CREATE PROJECT MODAL -->
   <div class="modal-overlay" id="createModal">
     <div class="modal">
-      <h2 id="modalTitle">নতুন প্রজেক্ট তৈরি করুন</h2>
+      <h2>নতুন প্রজেক্ট তৈরি করুন</h2>
       <p id="modalDesc">কী ধরনের কন্টেন্ট তৈরি করতে চান?</p>
       <div class="modal-btns">
         <button class="btn btn-secondary" onclick="closeModal()">বাতিল</button>
@@ -828,7 +738,7 @@
     let currentType = '';
 
     function showSection(section) {
-      const sections = ['home', 'projects', 'scene-builder', 'templates', 'characters', 'ai', 'analytics', 'settings'];
+      const sections = ['home', 'projects', 'scene-builder', 'templates', 'characters', 'settings'];
       sections.forEach(s => {
         const el = document.getElementById(s + '-section');
         if (el) el.style.display = 'none';
@@ -837,26 +747,15 @@
       const target = document.getElementById(section + '-section');
       if (target) target.style.display = 'block';
 
-      // Update active nav (desktop)
       document.querySelectorAll('.sidebar .nav-item').forEach((item, index) => {
         item.classList.remove('active');
-        if ((section === 'home' && index === 0) ||
-            (section === 'projects' && index === 1) ||
-            (section === 'scene-builder' && index === 2) ||
-            (section === 'templates' && index === 3) ||
-            (section === 'characters' && index === 4) ||
-            (section === 'ai' && index === 5) ||
-            (section === 'analytics' && index === 6) ||
-            (section === 'settings' && index === 7)) {
-          item.classList.add('active');
-        }
       });
     }
 
     function openCreateModal(type = '') {
       currentType = type;
       const modal = document.getElementById('createModal');
-      const title = document.getElementById('modalTitle');
+      const title = modal.querySelector('h2');
       const desc = document.getElementById('modalDesc');
 
       if (type) {
@@ -875,11 +774,12 @@
     }
 
     function startCreate() {
-      alert((currentType || 'নতুন') + ' প্রজেক্ট তৈরির পেজে যাচ্ছে...');
       closeModal();
+      // সরাসরি সিন বিল্ডারে নিয়ে যাবে যাতে চরিত্র নিয়ে কাজ করতে পারো
+      showSection('scene-builder');
     }
 
-    // Scene Builder Interactive Functions
+    // Scene Builder Functions
     function updateSceneBackground() {
       const bg = document.getElementById('bgSelect').value;
       document.querySelector('.scene-preview-box').style.background = bg;
@@ -894,7 +794,7 @@
     function applyDialogue() {
       const text = document.getElementById('dialogueInput').value;
       document.getElementById('dialogueDisplay').textContent = `"${text}"`;
-      alert('সংলাপ সফলভাবে দৃশ্যে আপডেট করা হয়েছে!');
+      alert('সংলাপ সফলভাবে আপডেট হয়েছে!');
     }
   </script>
 </body>
