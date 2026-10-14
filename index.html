@@ -92,37 +92,6 @@
       text-align: center;
     }
 
-    .upgrade-box {
-      margin-top: auto;
-      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .upgrade-box h4 {
-      font-size: 14px;
-      margin-bottom: 6px;
-      color: #6d28d9;
-    }
-
-    .upgrade-box p {
-      font-size: 12px;
-      color: #7c3aed;
-      margin-bottom: 12px;
-    }
-
-    .btn-upgrade {
-      background: #7c3aed;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-      cursor: pointer;
-      width: 100%;
-    }
-
     /* ========== MAIN CONTENT ========== */
     .main {
       margin-left: 240px;
@@ -230,9 +199,6 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .create-grid {
@@ -296,7 +262,7 @@
     .scene-preview-box {
       background: linear-gradient(135deg, #1e1b4b, #312e81);
       border-radius: 20px;
-      height: 350px;
+      height: 380px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -309,9 +275,10 @@
 
     .stage-characters {
       display: flex;
-      gap: 20px;
-      font-size: 60px;
+      gap: 30px;
+      font-size: 65px;
       margin-bottom: 20px;
+      transition: transform 0.3s ease;
     }
 
     .scene-controls {
@@ -322,15 +289,15 @@
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .form-group label {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: #4b5563;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .form-group select, .form-group input {
@@ -485,9 +452,6 @@
     <div class="nav-item" onclick="showSection('characters')">
       <i>👤</i> Character Library
     </div>
-    <div class="nav-item" onclick="showSection('settings')">
-      <i>⚙️</i> Settings
-    </div>
   </aside>
 
   <!-- MAIN CONTENT -->
@@ -562,17 +526,17 @@
     <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">🎬 Multi-Character Scene Builder</h1>
-          <p>একই দৃশ্যে একাধিক চরিত্র যুক্ত করুন এবং গল্প সাজান।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">🎬 Scene & Expression Builder</h1>
+          <p>চরিত্রের পোজ এবং এক্সপ্রেশন নিয়ন্ত্রণ করুন।</p>
         </div>
       </div>
 
       <div class="builder-workspace">
-        <div class="scene-preview-box">
+        <div class="scene-preview-box" id="previewBox">
           <h3 style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য প্রিভিউ</h3>
           <div class="stage-characters" id="stageCharacters">
-            <span>👨</span>
-            <span>👩</span>
+            <span id="char1Display">👨</span>
+            <span id="char2Display">👩</span>
           </div>
           <p id="dialogueDisplay" style="font-size: 16px; font-style: italic; background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 20px;">
             "চল আজ ঘুরতে যাই!"
@@ -580,7 +544,7 @@
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 16px; color:#6d28d9; margin-bottom: 14px;">🛠️ সিন কন্ট্রোল প্যানেল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ পোজ ও এক্সপ্রেশন কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
@@ -592,29 +556,38 @@
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ১ নির্বাচন:</label>
+            <label>চরিত্র ১ (এক্সপ্রেশনসহ):</label>
             <select id="char1Select" onchange="updateCharacters()">
-              <option value="👨">রহিম (বাবা)</option>
+              <option value="👨">রহিম (সাধারণ)</option>
+              <option value="🙋‍♂️">রহিম (হাত তুলেছে)</option>
               <option value="🦸‍♂️">সুপারহিরো</option>
-              <option value="👦">রাহুল (ছেলে)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ২ নির্বাচন:</label>
+            <label>চরিত্র ২ (এক্সপ্রেশনসহ):</label>
             <select id="char2Select" onchange="updateCharacters()">
-              <option value="👩">রোকেয়া (মা)</option>
+              <option value="👩">রোকেয়া (সাধারণ)</option>
+              <option value="🙋‍♀️">রোকেয়া (খুশি/হাত তোলা)</option>
               <option value="👧">মিতু (মেয়ে)</option>
-              <option value="🐶">কুত্তা (বন্ধু)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>সংলাপ লিখুন (Dialogue):</label>
+            <label>চরিত্রের পোজ / অ্যানিমেশন স্টাইল:</label>
+            <select id="poseSelect" onchange="updatePoseStyle()">
+              <option value="normal">স্বাভাবিক অবস্থা (Normal)</option>
+              <option value="bounce">উত্তেজিত / লাফালাফি (Bounce)</option>
+              <option value="zoom">কাছাকাছি আসা (Zoom In)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>সংলাপ (Dialogue):</label>
             <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="চল আজ ঘুরতে যাই!">
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="applyDialogue()">সংলাপ আপডেট করুন</button>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 6px;" onclick="applyDialogue()">আপডেট করুন</button>
         </div>
       </div>
     </div>
@@ -665,34 +638,17 @@
   </div>
 
   <script>
-    let currentType = '';
-
     function showSection(section) {
-      const sections = ['home', 'projects', 'scene-builder', 'characters'];
-      sections.forEach(s => {
+      ['home', 'projects', 'scene-builder', 'characters'].forEach(s => {
         const el = document.getElementById(s + '-section');
         if (el) el.style.display = 'none';
       });
-
       const target = document.getElementById(section + '-section');
       if (target) target.style.display = 'block';
     }
 
     function openCreateModal(type = '') {
-      currentType = type;
-      const modal = document.getElementById('createModal');
-      const title = modal.querySelector('h2');
-      const desc = document.getElementById('modalDesc');
-
-      if (type) {
-        title.textContent = type + ' তৈরি করুন';
-        desc.textContent = `আপনি একটি নতুন ${type} প্রজেক্ট শুরু করতে যাচ্ছেন।`;
-      } else {
-        title.textContent = 'নতুন প্রজেক্ট তৈরি করুন';
-        desc.textContent = 'কী ধরনের কন্টেন্ট তৈরি করতে চান?';
-      }
-
-      modal.style.display = 'flex';
+      document.getElementById('createModal').style.display = 'flex';
     }
 
     function closeModal() {
@@ -701,26 +657,37 @@
 
     function startCreate() {
       closeModal();
-      // সরাসরি সিন বিল্ডারে নিয়ে যাবে
       showSection('scene-builder');
     }
 
-    // Scene Builder Functions
     function updateSceneBackground() {
       const bg = document.getElementById('bgSelect').value;
-      document.querySelector('.scene-preview-box').style.background = bg;
+      document.getElementById('previewBox').style.background = bg;
     }
 
     function updateCharacters() {
       const c1 = document.getElementById('char1Select').value;
       const c2 = document.getElementById('char2Select').value;
-      document.getElementById('stageCharacters').innerHTML = `<span>${c1}</span><span>${c2}</span>`;
+      document.getElementById('char1Display').textContent = c1;
+      document.getElementById('char2Display').textContent = c2;
+    }
+
+    function updatePoseStyle() {
+      const pose = document.getElementById('poseSelect').value;
+      const stage = document.getElementById('stageCharacters');
+      if (pose === 'bounce') {
+        stage.style.transform = 'scale(1.1) translateY(-10px)';
+      } else if (pose === 'zoom') {
+        stage.style.transform = 'scale(1.2)';
+      } else {
+        stage.style.transform = 'scale(1)';
+      }
     }
 
     function applyDialogue() {
       const text = document.getElementById('dialogueInput').value;
       document.getElementById('dialogueDisplay').textContent = `"${text}"`;
-      alert('সংলাপ সফলভাবে আপডেট হয়েছে!');
+      alert('পোজ ও সংলাপ সফলভাবে আপডেট হয়েছে!');
     }
   </script>
 </body>
