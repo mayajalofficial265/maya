@@ -35,19 +35,19 @@
         select, input[type="range"], input[type="color"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; outline: none; }
         button { background: var(--accent); font-weight: bold; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
+        button.active-anim { background: #27ae60; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
 
         .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); }
         .canvas-box { width: 400px; height: 500px; background: rgba(255, 255, 255, 0.02); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         
-        .character-rig { position: relative; width: 150px; height: 300px; }
-        .part { position: absolute; transition: transform 0.3s ease; }
+        .character-rig { position: relative; width: 150px; height: 300px; transition: 0.3s; }
+        .part { position: absolute; transition: transform 0.2s ease; }
         .head { width: 80px; height: 80px; background: #eab18e; border-radius: 50%; top: 0; left: 35px; display: flex; align-items: center; justify-content: center; }
         
-        /* ফেসিয়াল এক্সপ্রেশনের জন্য চোখের স্টাইল */
         .face { position: relative; width: 100%; height: 100%; }
         .eyes { position: absolute; top: 30px; left: 20px; width: 40px; display: flex; justify-content: space-between; }
         .eye { width: 8px; height: 8px; background: #333; border-radius: 50%; }
-        .mouth { position: absolute; bottom: 20px; left: 32px; width: 16px; height: 8px; background: #333; border-radius: 0 0 10px 10px; transition: 0.2s; }
+        .mouth { position: absolute; bottom: 20px; left: 32px; width: 16px; height: 8px; background: #333; border-radius: 0 0 10px 10px; transition: 0.15s; }
 
         .torso { width: 90px; height: 110px; background: var(--accent); border-radius: 15px; top: 80px; left: 30px; }
         .arm-left { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 2px; transform-origin: top center; }
@@ -55,12 +55,20 @@
         .leg-left { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 38px; transform-origin: top center; }
         .leg-right { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 82px; transform-origin: top center; }
 
-        .timeline { position: absolute; bottom: 20px; width: 90%; background: var(--panel-bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
-        .timeline button { width: 100px; margin: 0; }
-        .timeline input { margin: 0; }
+        /* হাঁটার অ্যানিমেশন ক্লাস */
+        @keyframes walkLeftArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
+        @keyframes walkRightArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(0deg); } }
+        @keyframes walkLeftLeg { 0% { transform: rotate(0deg); } 50% { transform: rotate(25deg); } 100% { transform: rotate(0deg); } }
+        @keyframes walkRightLeg { 0% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } 100% { transform: rotate(0deg); } }
 
-        .locked-feature { position: relative; opacity: 0.5; pointer-events: none; }
-        .lock-tag { position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .walking .arm-left { animation: walkLeftArm 0.8s infinite ease-in-out; }
+        .walking .arm-right { animation: walkRightArm 0.8s infinite ease-in-out; }
+        .walking .leg-left { animation: walkLeftLeg 0.8s infinite ease-in-out; }
+        .walking .leg-right { animation: walkRightLeg 0.8s infinite ease-in-out; }
+
+        .timeline { position: absolute; bottom: 20px; width: 90%; background: var(--panel-bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        .timeline button { width: 120px; margin: 0; }
+        .timeline input { margin: 0; }
     </style>
 </head>
 <body>
@@ -109,7 +117,7 @@
         <!-- মাঝের প্যানেল: স্টেজ ও প্রিভিউ -->
         <div class="stage-area">
             <div class="canvas-box">
-                <div class="character-rig">
+                <div class="character-rig" id="characterRig">
                     <div class="part arm-left" id="leftArm"></div>
                     <div class="part arm-right" id="rightArm"></div>
                     <div class="part torso" id="torsoPart"></div>
@@ -128,30 +136,30 @@
             </div>
 
             <div class="timeline">
-                <button id="playBtn">▶ প্লে অ্যাকশন</button>
+                <button id="playBtn">▶ প্লে ওয়াক</button>
                 <input type="range" min="0" max="100" value="0" id="timeSlider">
             </div>
         </div>
 
-        <!-- ডান পাশের প্যানেল: ভয়েস ও মোশন -->
+        <!-- ডান পাশের প্যানেল: ভয়েস ও অ্যানিমেশন -->
         <div class="sidebar-right">
             <h3>২. ভয়েস ও অ্যানিমেশন</h3>
             <div class="control-group">
                 <label>লিপ-সিঙ্ক (কথা বলানো)</label>
-                <select>
-                    <option>অটো লিপ-সিঙ্ক (এআই)</option>
-                    <option>ম্যানুয়াল ব্লিংকিং</option>
+                <select id="lipSyncSelect">
+                    <option value="auto">অটো লিপ-সিঙ্ক (এআই)</option>
+                    <option value="manual">ম্যানুয়াল ব্লিংকিং</option>
                 </select>
             </div>
             <div class="control-group">
                 <label>প্রিসেট অ্যানিমেশন</label>
-                <button onclick="alert('হাঁটার অ্যানিমেশন চালু হয়েছে!')">🚶‍♂️ হাঁটার স্টাইল</button>
-                <button onclick="alert('কথা বলার অ্যাকশন চালু হয়েছে!')">🗣️ কথা বলা ও অঙ্গভঙ্গি</button>
+                <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
+                <button id="talkPresetBtn">🗣️ কথা বলা অ্যাকশন</button>
             </div>
             
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
             
-            <button style="background: linear-gradient(135deg, #27ae60, #2ecc71);">💾 প্রজেক্ট সেভ ও এক্সপোর্ট</button>
+            <button style="background: linear-gradient(135deg, #27ae60, #2ecc71);" onclick="alert('প্রজেক্ট সফলভাবে সেভ হয়েছে!')">💾 প্রজেক্ট সেভ ও এক্সপোর্ট</button>
         </div>
     </main>
 
@@ -201,6 +209,54 @@
                 mouthPart.style.width = '10px';
                 mouthPart.style.height = '12px';
                 mouthPart.style.borderRadius = '50%';
+            }
+        });
+
+        // অ্যানিমেশন প্লে এবং ওয়াকিং টগল লজিক
+        const characterRig = document.getElementById('characterRig');
+        const playBtn = document.getElementById('playBtn');
+        const walkPresetBtn = document.getElementById('walkPresetBtn');
+        const talkPresetBtn = document.getElementById('talkPresetBtn');
+
+        let isWalking = false;
+        function toggleWalking() {
+            isWalking = !isWalking;
+            if(isWalking) {
+                characterRig.classList.add('walking');
+                playBtn.classList.add('active-anim');
+                playBtn.innerText = '⏸ থামুন';
+                walkPresetBtn.classList.add('active-anim');
+            } else {
+                characterRig.classList.remove('walking');
+                playBtn.classList.remove('active-anim');
+                playBtn.innerText = '▶ প্লে ওয়াক';
+                walkPresetBtn.classList.remove('active-anim');
+            }
+        }
+
+        playBtn.addEventListener('click', toggleWalking);
+        walkPresetBtn.addEventListener('click', toggleWalking);
+
+        // কথা বলার অ্যাকশন সিমুলেশন
+        let isTalking = false;
+        talkPresetBtn.addEventListener('click', () => {
+            isTalking = !isTalking;
+            if(isTalking) {
+                talkPresetBtn.classList.add('active-anim');
+                talkPresetBtn.innerText = '🗣️ কথা বলা বন্ধ করুন';
+                // মুখের আকৃতি দ্রুত পরিবর্তনের লুপ
+                window.talkInterval = setInterval(() => {
+                    let w = Math.random() > 0.5 ? '14px' : '8px';
+                    let h = Math.random() > 0.5 ? '10px' : '4px';
+                    mouthPart.style.width = w;
+                    mouthPart.style.height = h;
+                }, 200);
+            } else {
+                talkPresetBtn.classList.remove('active-anim');
+                talkPresetBtn.innerText = '🗣️ কথা বলা অ্যাকশন';
+                clearInterval(window.talkInterval);
+                mouthPart.style.width = '16px';
+                mouthPart.style.height = '8px';
             }
         });
     </script>
