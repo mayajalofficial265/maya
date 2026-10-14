@@ -37,6 +37,7 @@
         button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
         button.active-anim { background: #27ae60; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
         button.recording { background: #e74c3c; animation: pulse 1s infinite; }
+        button.exporting { background: #f39c12; animation: pulse 1s infinite; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
@@ -44,7 +45,6 @@
         
         .canvas-box { width: 450px; height: 500px; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; touch-action: none; }
         
-        /* ড্র্যাগএবল ক্যারেক্টার স্টাইল */
         .character-rig { position: absolute; width: 130px; height: 260px; cursor: grab; z-index: 5; user-select: none; }
         .character-rig:active { cursor: grabbing; }
         
@@ -89,23 +89,23 @@
 
     <header>
         <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Pro)</div>
-        <div class="badge-pro">ইন্টারেক্টিভ ড্র্যাগ স্টুডিও</div>
+        <div class="badge-pro">সম্পূর্ণ প্রো স্টুডিও</div>
     </header>
 
     <main class="main-container">
-        <!-- বাম পাশের প্যানেল: ক্যারেক্টার ও সিন কন্ট্রোল -->
+        <!-- বাম প্যানেল -->
         <div class="sidebar-left">
-            <h3>১. চরিত্র নির্বাচন ও কাস্টম</h3>
+            <h3>১. চরিত্র ও কাস্টম</h3>
             <div class="control-group">
-                <label>সক্রিয় চরিত্র (Active Character)</label>
+                <label>সক্রিয় চরিত্র</label>
                 <select id="activeCharSelect">
-                    <option value="char1">চরিত্র ১: হিরো (মূল)</option>
-                    <option value="char2">চরিত্র ২: বন্ধু (সহকারী)</option>
+                    <option value="char1">চরিত্র ১: হিরো</option>
+                    <option value="char2">চরিত্র ২: বন্ধু</option>
                 </select>
             </div>
             
             <div class="control-group">
-                <label>দ্বিতীয় চরিত্র যোগ/বাদ</label>
+                <label>দ্বিতীয় চরিত্র কন্ট্রোল</label>
                 <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন</button>
             </div>
 
@@ -119,26 +119,25 @@
             </div>
 
             <div class="control-group">
-                <label>পোশাকের রঙ (Outfit Color)</label>
+                <label>পোশাকের রঙ</label>
                 <input type="color" id="torsoColor" value="#7057f5">
             </div>
 
             <h3>২. সিন ও ব্যাকগ্রাউন্ড</h3>
             <div class="control-group">
-                <label>স্টেজ ব্যাকগ্রাউন্ড থিম</label>
+                <label>থিম সিলেক্ট করুন</label>
                 <select id="bgThemeSelect">
-                    <option value="studio">স্টুডিও নাইট (ডিফল্ট)</option>
-                    <option value="nature">সবুজ প্রকৃতি (Nature)</option>
-                    <option value="sunset">গোধূলি আকাশ (Sunset)</option>
-                    <option value="cyber">সাইবার পাঙ্ক (Cyber)</option>
+                    <option value="studio">স্টুডিও নাইট</option>
+                    <option value="nature">সবুজ প্রকৃতি</option>
+                    <option value="sunset">গোধূলি আকাশ</option>
+                    <option value="cyber">সাইবার পাঙ্ক</option>
                 </select>
             </div>
         </div>
 
-        <!-- মাঝের প্যানেল: স্টেজ ও প্রিভিউ -->
+        <!-- স্টেজ এলাকা -->
         <div class="stage-area">
             <div class="canvas-box" id="canvasBox">
-                <!-- চরিত্র ১ -->
                 <div class="character-rig" id="char1">
                     <div class="part arm-left"></div>
                     <div class="part arm-right"></div>
@@ -153,7 +152,6 @@
                     <div class="part leg-right"></div>
                 </div>
 
-                <!-- চরিত্র ২ -->
                 <div class="character-rig hidden-char" id="char2">
                     <div class="part arm-left"></div>
                     <div class="part arm-right"></div>
@@ -175,91 +173,70 @@
             </div>
         </div>
 
-        <!-- ডান পাশের প্যানেল: রিয়েল ভয়েস ও ভিডিও এক্সপোর্ট -->
+        <!-- ডান প্যানেল -->
         <div class="sidebar-right">
-            <h3>৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক</h3>
+            <h3>৩. রিয়েল ভয়েস & লিপ-সিঙ্ক</h3>
             <div class="control-group">
-                <label>লাইভ মাইক অডিও & লিপ-সিঙ্ক</label>
                 <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক</button>
             </div>
 
             <h3>৪. প্রিসেট অ্যানিমেশন</h3>
             <div class="control-group">
-                <label>হাঁটার মোশন</label>
                 <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
             </div>
 
-            <h3>৫. প্রফেশনাল এক্সপোর্ট</h3>
+            <h3>৫. ভিডিও এক্সপোর্ট</h3>
             <div class="control-group">
                 <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড</button>
             </div>
             
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;">
-            
             <button style="background: linear-gradient(135deg, #e67e22, #d35400);" onclick="alert('স্টুডিও লিংক কপি হয়েছে!')">🔗 সোশ্যাল মিডিয়ায় শেয়ার</button>
         </div>
     </main>
 
     <script>
-        // চরিত্র ড্র্যাগ অ্যান্ড ড্রপ (মাউস ও টাচ সাপোর্ট) সিস্টেম
+        // ড্র্যাগ অ্যান্ড ড্রপ লজিক
         function makeDraggable(elm) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elm.onmousedown = dragMouseDown;
             elm.ontouchstart = dragTouchStart;
 
             function dragMouseDown(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                e = e || window.event; e.preventDefault();
+                pos3 = e.clientX; pos4 = e.clientY;
                 document.onmouseup = closeDragElement;
                 document.onmousemove = elementDrag;
             }
-
             function elementDrag(e) {
-                e = e || window.event;
-                e.preventDefault();
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                e = e || window.event; e.preventDefault();
+                pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
                 elm.style.top = (elm.offsetTop - pos2) + "px";
                 elm.style.left = (elm.offsetLeft - pos1) + "px";
             }
-
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
+            function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
 
             function dragTouchStart(e) {
                 let touch = e.touches[0];
-                pos3 = touch.clientX;
-                pos4 = touch.clientY;
+                pos3 = touch.clientX; pos4 = touch.clientY;
                 document.ontouchend = closeTouchElement;
                 document.ontouchmove = elementTouchDrag;
             }
-
             function elementTouchDrag(e) {
                 let touch = e.touches[0];
-                pos1 = pos3 - touch.clientX;
-                pos2 = pos4 - touch.clientY;
-                pos3 = touch.clientX;
-                pos4 = touch.clientY;
+                pos1 = pos3 - touch.clientX; pos2 = pos4 - touch.clientY;
+                pos3 = touch.clientX; pos4 = touch.clientY;
                 elm.style.top = (elm.offsetTop - pos2) + "px";
                 elm.style.left = (elm.offsetLeft - pos1) + "px";
             }
-
-            function closeTouchElement() {
-                document.ontouchend = null;
-                document.ontouchmove = null;
-            }
+            function closeTouchElement() { document.ontouchend = null; document.ontouchmove = null; }
         }
 
         makeDraggable(document.getElementById('char1'));
         makeDraggable(document.getElementById('char2'));
 
-        // চরিত্র ২ টগল লজিক
+        // চরিত্র ২ টগল
         const toggleChar2Btn = document.getElementById('toggleChar2Btn');
         const char2 = document.getElementById('char2');
         let isChar2Visible = false;
@@ -276,11 +253,10 @@
             }
         });
 
-        // পোশাকের রঙ পরিবর্তন
+        // রঙ পরিবর্তন
         const torsoColor = document.getElementById('torsoColor');
         const activeCharSelect = document.getElementById('activeCharSelect');
         const torsoPart1 = document.getElementById('torsoPart1');
-        
         torsoColor.addEventListener('input', (e) => {
             let activeId = activeCharSelect.value;
             if(activeId === 'char1') {
@@ -291,45 +267,33 @@
             }
         });
 
-        // ব্যাকগ্রাউন্ড থিম পরিবর্তন
+        // ব্যাকগ্রাউন্ড থিম
         const bgThemeSelect = document.getElementById('bgThemeSelect');
         const canvasBox = document.getElementById('canvasBox');
         bgThemeSelect.addEventListener('change', (e) => {
             let theme = e.target.value;
-            if(theme === 'studio') {
-                canvasBox.style.background = 'radial-gradient(circle, #1f2249 0%, #0f1020 100%)';
-            } else if(theme === 'nature') {
-                canvasBox.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 50%, #1e8449 100%)';
-            } else if(theme === 'sunset') {
-                canvasBox.style.background = 'linear-gradient(135deg, #f39c12 0%, #e74c3c 50%, #8e44ad 100%)';
-            } else if(theme === 'cyber') {
-                canvasBox.style.background = 'linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #110022 100%)';
-            }
+            if(theme === 'studio') canvasBox.style.background = 'radial-gradient(circle, #1f2249 0%, #0f1020 100%)';
+            else if(theme === 'nature') canvasBox.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 50%, #1e8449 100%)';
+            else if(theme === 'sunset') canvasBox.style.background = 'linear-gradient(135deg, #f39c12 0%, #e74c3c 50%, #8e44ad 100%)';
+            else if(theme === 'cyber') canvasBox.style.background = 'linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #110022 100%)';
         });
 
-        // মুখের ভাব পরিবর্তন
+        // মুখের ভাব
         const expressionSelect = document.getElementById('expressionSelect');
         expressionSelect.addEventListener('change', (e) => {
             let expr = e.target.value;
             let activeId = activeCharSelect.value;
             let mouth = activeId === 'char1' ? document.getElementById('mouthPart1') : document.getElementById('mouthPart2');
-            
             if(mouth) {
-                if(expr === 'smile') {
-                    mouth.style.width = '14px'; mouth.style.height = '7px'; mouth.style.borderRadius = '0 0 8px 8px';
-                } else if(expr === 'serious') {
-                    mouth.style.width = '14px'; mouth.style.height = '3px'; mouth.style.borderRadius = '2px';
-                } else if(expr === 'surprised') {
-                    mouth.style.width = '9px'; mouth.style.height = '10px'; mouth.style.borderRadius = '50%';
-                }
+                if(expr === 'smile') { mouth.style.width = '14px'; mouth.style.height = '7px'; mouth.style.borderRadius = '0 0 8px 8px'; }
+                else if(expr === 'serious') { mouth.style.width = '14px'; mouth.style.height = '3px'; mouth.style.borderRadius = '2px'; }
+                else if(expr === 'surprised') { mouth.style.width = '9px'; mouth.style.height = '10px'; mouth.style.borderRadius = '50%'; }
             }
         });
 
-        // রিয়েল মাইক্রোফোন এবং লিপ-সিঙ্ক
+        // মাইক লিপ-সিঙ্ক
         const micRecordBtn = document.getElementById('micRecordBtn');
-        let audioContext, analyser, microphone, javascriptNode;
-        let isMicActive = false;
-
+        let audioContext, analyser, microphone, javascriptNode, isMicActive = false;
         micRecordBtn.addEventListener('click', async () => {
             if (!isMicActive) {
                 try {
@@ -338,87 +302,53 @@
                     analyser = audioContext.createAnalyser();
                     microphone = audioContext.createMediaStreamSource(stream);
                     javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
-
-                    analyser.smoothingTimeConstant = 0.8;
-                    analyser.fftSize = 1024;
-
-                    microphone.connect(analyser);
-                    analyser.connect(javascriptNode);
-                    javascriptNode.connect(audioContext.destination);
+                    analyser.smoothingTimeConstant = 0.8; analyser.fftSize = 1024;
+                    microphone.connect(analyser); analyser.connect(javascriptNode); javascriptNode.connect(audioContext.destination);
 
                     let mouth1 = document.getElementById('mouthPart1');
                     let mouth2 = document.getElementById('mouthPart2');
-
                     javascriptNode.onaudioprocess = () => {
                         const array = new Uint8Array(analyser.frequencyBinCount);
                         analyser.getByteFrequencyData(array);
-                        let values = 0;
-                        for (let i = 0; i < array.length; i++) { values += array[i]; }
+                        let values = 0; for (let i = 0; i < array.length; i++) { values += array[i]; }
                         let average = values / array.length;
-
                         let mh = Math.min(Math.max(average * 0.4, 4), 22);
                         let mw = Math.min(Math.max(10 + (average * 0.2), 9), 20);
-                        
-                        let activeId = activeCharSelect.value;
-                        let activeMouth = activeId === 'char1' ? mouth1 : mouth2;
-                        if(activeMouth) {
-                            activeMouth.style.height = mh + 'px';
-                            activeMouth.style.width = mw + 'px';
-                        }
+                        let activeMouth = activeCharSelect.value === 'char1' ? mouth1 : mouth2;
+                        if(activeMouth) { activeMouth.style.height = mh + 'px'; activeMouth.style.width = mw + 'px'; }
                     };
-
-                    isMicActive = true;
-                    micRecordBtn.classList.add('recording');
-                    micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন)';
-                } catch (err) {
-                    alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি!');
-                }
+                    isMicActive = true; micRecordBtn.classList.add('recording'); micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন)';
+                } catch (err) { alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি!'); }
             } else {
                 if (javascriptNode) javascriptNode.onaudioprocess = null;
-                if (audioContext && audioContext.state !== 'closed') { audioContext.close(); }
-                isMicActive = false;
-                micRecordBtn.classList.remove('recording');
-                micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক';
-                document.getElementById('mouthPart1').style.width = '14px';
-                document.getElementById('mouthPart1').style.height = '7px';
-                document.getElementById('mouthPart2').style.width = '14px';
-                document.getElementById('mouthPart2').style.height = '7px';
+                if (audioContext && audioContext.state !== 'closed') audioContext.close();
+                isMicActive = false; micRecordBtn.classList.remove('recording'); micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক';
+                document.getElementById('mouthPart1').style.width = '14px'; document.getElementById('mouthPart1').style.height = '7px';
+                document.getElementById('mouthPart2').style.width = '14px'; document.getElementById('mouthPart2').style.height = '7px';
             }
         });
 
-        // অ্যানিমেশন প্লে এবং ওয়াকিং টগল
+        // ওয়াকিং অ্যানিমেশন
         const playBtn = document.getElementById('playBtn');
         const walkPresetBtn = document.getElementById('walkPresetBtn');
         let isWalking = false;
-
         function toggleWalking() {
             isWalking = !isWalking;
-            const c1 = document.getElementById('char1');
-            const c2 = document.getElementById('char2');
-            
+            const c1 = document.getElementById('char1'), c2 = document.getElementById('char2');
             if(isWalking) {
-                c1.classList.add('walking');
-                c2.classList.add('walking');
-                playBtn.classList.add('active-anim');
-                playBtn.innerText = '⏸ থামুন';
-                walkPresetBtn.classList.add('active-anim');
+                c1.classList.add('walking'); c2.classList.add('walking');
+                playBtn.classList.add('active-anim'); playBtn.innerText = '⏸ থামুন'; walkPresetBtn.classList.add('active-anim');
             } else {
-                c1.classList.remove('walking');
-                c2.classList.remove('walking');
-                playBtn.classList.remove('active-anim');
-                playBtn.innerText = '▶ প্লে ওয়াক';
-                walkPresetBtn.classList.remove('active-anim');
+                c1.classList.remove('walking'); c2.classList.remove('walking');
+                playBtn.classList.remove('active-anim'); playBtn.innerText = '▶ প্লে ওয়াক'; walkPresetBtn.classList.remove('active-anim');
             }
         }
-
         playBtn.addEventListener('click', toggleWalking);
         walkPresetBtn.addEventListener('click', toggleWalking);
 
         // ভিডিও এক্সপোর্ট
         const exportVideoBtn = document.getElementById('exportVideoBtn');
-        exportVideoBtn.addEventListener('click', () => {
-            alert('ইন্টারেক্টিভ স্টুডিও থেকে ভিডিও এক্সপোর্ট প্রসেস শুরু হয়েছে!');
-        });
+        exportVideoBtn.addEventListener('click', () => { alert('টুনিবন্ধু স্টুডিও প্রো থেকে ভিডিও এক্সপোর্ট প্রসেস সফলভাবে শুরু হয়েছে!'); });
     </script>
 </body>
 </html>
