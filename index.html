@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - 3D Character Studio</title>
+  <title>CartoonStudio - Detailed 3D Characters</title>
   <style>
     * {
       margin: 0;
@@ -200,60 +200,94 @@
     .scene-preview-box {
       background: linear-gradient(135deg, #1e1b4b, #312e81);
       border-radius: 20px;
-      height: 420px;
+      height: 440px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 30px;
+      padding-bottom: 25px;
       color: white;
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* 3D Character Stage Styling */
+    /* Detailed Character Structure with Limbs & Outfit */
     .stage-characters {
       display: flex;
-      gap: 40px;
+      gap: 45px;
       align-items: flex-end;
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
+      margin-bottom: 15px;
     }
 
-    .full-body-char {
+    .detailed-char {
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: floatChar 3s ease-in-out infinite;
-    }
-
-    .char-head {
-      font-size: 50px;
-      margin-bottom: -10px;
-      z-index: 2;
-    }
-
-    .char-body {
-      width: 70px;
-      height: 120px;
-      border-radius: 25px 25px 12px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       position: relative;
-      font-weight: bold;
-      font-size: 13px;
-      color: white;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+      animation: floatChar 3s ease-in-out infinite;
     }
 
     @keyframes floatChar {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-5px); }
     }
 
+    .char-head-box {
+      font-size: 48px;
+      margin-bottom: -6px;
+      z-index: 3;
+    }
+
+    .char-torso {
+      width: 65px;
+      height: 90px;
+      border-radius: 20px 20px 8px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    .outfit-label {
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      text-align: center;
+      padding: 0 4px;
+    }
+
+    /* Hands */
+    .hand-left, .hand-right {
+      position: absolute;
+      width: 14px;
+      height: 55px;
+      border-radius: 10px;
+      top: 5px;
+      z-index: 1;
+    }
+    .hand-left { left: -14px; transform: rotate(15deg); }
+    .hand-right { right: -14px; transform: rotate(-15deg); }
+
+    /* Legs */
+    .char-legs {
+      display: flex;
+      gap: 12px;
+      margin-top: -4px;
+      z-index: 1;
+    }
+
+    .leg {
+      width: 16px;
+      height: 45px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    /* Scene Controls */
     .scene-controls {
       background: white;
       border-radius: 20px;
@@ -303,38 +337,6 @@
     .scene-tab.active {
       background: #7c3aed;
       color: white;
-    }
-
-    /* Character Library Grid Style */
-    .char-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .char-card {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      text-align: center;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-
-    .char-card .avatar-box {
-      font-size: 45px;
-      margin-bottom: 8px;
-    }
-
-    .char-card h4 {
-      font-size: 14px;
-      color: #374151;
-      margin-bottom: 4px;
-    }
-
-    .char-card p {
-      font-size: 11px;
-      color: #6b7280;
     }
 
     /* ========== MOBILE BOTTOM NAV ========== */
@@ -389,9 +391,6 @@
       .builder-workspace {
         grid-template-columns: 1fr;
       }
-      .char-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   </style>
 </head>
@@ -407,17 +406,8 @@
       </div>
     </div>
 
-    <div class="nav-item active" onclick="showSection('home')">
-      <i>🏠</i> Home
-    </div>
-    <div class="nav-item" onclick="showSection('projects')">
-      <i>📁</i> My Projects
-    </div>
-    <div class="nav-item" onclick="showSection('scene-builder')">
+    <div class="nav-item active" onclick="showSection('scene-builder')">
       <i>🎬</i> Scene Builder
-    </div>
-    <div class="nav-item" onclick="showSection('characters')">
-      <i>👤</i> Character Library
     </div>
   </aside>
 
@@ -426,7 +416,7 @@
     <div class="topbar">
       <div class="search-box">
         <span>🔍</span>
-        <input type="text" placeholder="Search characters, families...">
+        <input type="text" placeholder="Search characters, outfits...">
       </div>
       <div class="top-right">
         <div class="notification">🔔<span class="badge">3</span></div>
@@ -437,39 +427,18 @@
       </div>
     </div>
 
-    <!-- HOME SECTION -->
-    <div id="home-section">
-      <div class="welcome">
-        <div>
-          <h1>👋 স্বাগতম, ক্রিয়েটর!</h1>
-          <p>আপনার থ্রিডি কার্টুন পরিবার নিয়ে গল্প সাজান।</p>
-        </div>
-        <div style="font-size: 50px;">👨‍👩‍👦‍👦✨</div>
-      </div>
-    </div>
-
-    <!-- MY PROJECTS SECTION -->
-    <div id="projects-section" style="display:none;">
-      <div class="welcome" style="margin-bottom: 20px;">
-        <div>
-          <h1 style="color:#6d28d9; font-size:24px;">📁 আমার প্রজেক্টস</h1>
-          <p>আপনার তৈরি করা সকল প্রজেক্ট এখানে দেখতে পাবেন।</p>
-        </div>
-      </div>
-    </div>
-
     <!-- SCENE BUILDER SECTION -->
-    <div id="scene-builder-section" style="display:none;">
+    <div id="scene-builder-section">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">🎬 3D Family Scene Builder</h1>
-          <p>পরিবারের সদস্য ও অন্যান্য চরিত্র দিয়ে দৃশ্য সাজান[span_2](start_span)[span_2](end_span)।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">👕 Detailed Outfit & Limb Scene Builder</h1>
+          <p>হাত, পা এবং জামাকাপড় সহ নিখুঁত থ্রিডি কার্টুন ক্যারেক্টার দৃশ্য।</p>
         </div>
       </div>
 
       <div class="scene-tabs">
-        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Family Scene)</button>
-        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Hero Scene)</button>
+        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Family)</button>
+        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Hero & Kids)</button>
       </div>
 
       <div class="builder-workspace">
@@ -477,30 +446,58 @@
           <h3 id="sceneTitleDisplay" style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য ১ প্রিভিউ</h3>
           
           <div class="stage-characters" id="stageCharacters">
+            
             <!-- Character 1 -->
-            <div class="full-body-char">
-              <div class="char-head" id="c1Head">👨‍💼</div>
-              <div class="char-body" id="c1Body" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">বাবা</div>
+            <div class="detailed-char">
+              <div class="char-head-box" id="c1Head">👨‍💼</div>
+              <div class="hand-left" id="c1HandL" style="background: #3b82f6;"></div>
+              <div class="hand-right" id="c1HandR" style="background: #3b82f6;"></div>
+              <div class="char-torso" id="c1Torso" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                <span class="outfit-label" id="c1Name">বাবা (শার্ট)</span>
+              </div>
+              <div class="char-legs">
+                <div class="leg" id="c1LegL" style="background: #1e3a8a;"></div>
+                <div class="leg" id="c1LegR" style="background: #1e3a8a;"></div>
+              </div>
             </div>
+
             <!-- Character 2 -->
-            <div class="full-body-char">
-              <div class="char-head" id="c2Head">👩‍🦰</div>
-              <div class="char-body" id="c2Body" style="background: linear-gradient(135deg, #ec4899, #be185d);">মা</div>
+            <div class="detailed-char">
+              <div class="char-head-box" id="c2Head">👩‍🦰</div>
+              <div class="hand-left" id="c2HandL" style="background: #ec4899;"></div>
+              <div class="hand-right" id="c2HandR" style="background: #ec4899;"></div>
+              <div class="char-torso" id="c2Torso" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+                <span class="outfit-label" id="c2Name">মা (থ্রিপিস)</span>
+              </div>
+              <div class="char-legs">
+                <div class="leg" id="c2LegL" style="background: #831843;"></div>
+                <div class="leg" id="c2LegR" style="background: #831843;"></div>
+              </div>
             </div>
+
             <!-- Character 3 -->
-            <div class="full-body-char">
-              <div class="char-head" id="c3Head">👦</div>
-              <div class="char-body" id="c3Body" style="background: linear-gradient(135deg, #10b981, #047857);">ছেলে</div>
+            <div class="detailed-char">
+              <div class="char-head-box" id="c3Head">👦</div>
+              <div class="hand-left" id="c3HandL" style="background: #10b981;"></div>
+              <div class="hand-right" id="c3HandR" style="background: #10b981;"></div>
+              <div class="char-torso" id="c3Torso" style="background: linear-gradient(135deg, #10b981, #047857);">
+                <span class="outfit-label" id="c3Name">ছেলে (টি-শার্ট)</span>
+              </div>
+              <div class="char-legs">
+                <div class="leg" id="c3LegL" style="background: #064e3b;"></div>
+                <div class="leg" id="c3LegR" style="background: #064e3b;"></div>
+              </div>
             </div>
+
           </div>
 
-          <p id="dialogueDisplay" style="font-size: 15px; font-style: italic; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 20px; margin-bottom: 5px;">
-            "আজ আমরা সবাই মিলে ঘুরতে যাব!"
+          <p id="dialogueDisplay" style="font-size: 15px; font-style: italic; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 20px; margin-top: 10px;">
+            "আজ আমরা সবাই নতুন জামা পরে ঘুরব!"
           </p>
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ থ্রিডি ক্যারেক্টার কন্ট্রোল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ পোশাক ও ক্যারেক্টার কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
@@ -512,127 +509,61 @@
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ১ (পরিবার সদস্য):</label>
+            <label>চরিত্র ১ (পোশাকসহ):</label>
             <select id="char1Select" onchange="updateCharacters()">
-              <option value="👨‍💼|বাবা|linear-gradient(135deg, #3b82f6, #1d4ed8)">বাবা (Father)</option>
-              <option value="🦸‍♂️|নায়ক|linear-gradient(135deg, #8b5cf6, #6d28d9)">নায়ক (Hero)</option>
-              <option value="👴|দাদা|linear-gradient(135deg, #64748b, #475569)">দাদা (Grandfather)</option>
+              <option value="👨‍💼|বাবা (শার্ট)|#3b82f6|#1e3a8a">বাবা (ব্লু ফরমাল শার্ট)</option>
+              <option value="🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95">সুপারহিরো (অ্যাকশন సూট)</option>
+              <option value="👴|দাদা (পাঞ্জাবি)|#64748b|#334155">দাদা (সাদা পাঞ্জাবি)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ২ (পরিবার সদস্য):</label>
+            <label>চরিত্র ২ (পোশাকসহ):</label>
             <select id="char2Select" onchange="updateCharacters()">
-              <option value="👩‍🦰|মা|linear-gradient(135deg, #ec4899, #be185d)">মা (Mother)</option>
-              <option value="🧕|নানি|linear-gradient(135deg, #14b8a6, #0d9488)">নানি (Grandmother)</option>
-              <option value="👸|রানী|linear-gradient(135deg, #f59e0b, #d97706)">রানী (Queen)</option>
+              <option value="👩‍🦰|মা (থ্রিপিস)|#ec4899|#831843">মা (গোলাপি থ্রিপিস)</option>
+              <option value="🧕|নানি (শাড়ি)|#14b8a6|#0f766e">নানি (সবুজ শাড়ি)</option>
+              <option value="👸|রানী (গাউন)|#f59e0b|#b45309">রানী (রাজকীয় গাউন)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ৩ (বাচ্চা / পোষ্য):</label>
+            <label>চরিত্র ৩ (পোশাকসহ):</label>
             <select id="char3Select" onchange="updateCharacters()">
-              <option value="👦|ছেলে|linear-gradient(135deg, #10b981, #047857)">ছেলে (Son)</option>
-              <option value="👧|মেয়ে|linear-gradient(135deg, #f43f5e, #e11d48)">মেয়ে (Daughter)</option>
-              <option value="🐶|ডগি|linear-gradient(135deg, #d97706, #b45309)">পোষা কুকুর (Dog)</option>
+              <option value="👦|ছেলে (টি-শার্ট)|#10b981|#064e3b">ছেলে (সবুজ টি-শার্ট)</option>
+              <option value="👧|মেয়ে (ফ্রক)|#f43f5e|#9f1239">মেয়ে (লাল ফ্রক)</option>
+              <option value="🐶|পোষা কুকুর|#d97706|#78350f">পোষা কুকুর (Dog)</option>
             </select>
           </div>
 
           <div class="form-group">
             <label>সংলাপ (Dialogue):</label>
-            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="আজ আমরা সবাই মিলে ঘুরতে যাব!">
+            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="আজ আমরা সবাই নতুন জামা পরে ঘুরব!">
           </div>
 
           <button class="btn btn-primary" style="width: 100%; margin-top: 6px; background: #7c3aed; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;" onclick="applyDialogue()">দৃশ্য আপডেট করুন</button>
         </div>
       </div>
     </div>
-
-    <!-- CHARACTER LIBRARY SECTION -->
-    <div id="characters-section" style="display:none;">
-      <div class="welcome" style="margin-bottom: 20px;">
-        <div>
-          <h1 style="color:#6d28d9; font-size:24px;">👤 3D Character Library</h1>
-          <p>পরিবারের সদস্য ও অন্যান্য চরিত্র সমাহার[span_3](start_span)[span_3](end_span)。</p>
-        </div>
-      </div>
-
-      <div class="char-grid">
-        <div class="char-card">
-          <div class="avatar-box">👨‍💼</div>
-          <h4>বাবা / নায়ক</h4>
-          <p>পরিবারের প্রধান চরিত্র</p>
-        </div>
-        <div class="char-card">
-          <div class="avatar-box">👩‍🦰</div>
-          <h4>মা / নায়িকা</h4>
-          <p>প্রধান নারী চরিত্র</p>
-        </div>
-        <div class="char-card">
-          <div class="avatar-box">👴</div>
-          <h4>দাদা / দাদী</h4>
-          <p>অভিভাবক চরিত্র</p>
-        </div>
-        <div class="char-card">
-          <div class="avatar-box">🦸‍♂️</div>
-          <h4>সুপারহিরো</h4>
-          <p>অ্যাকশন ক্যারেক্টার</p>
-        </div>
-      </div>
-    </div>
   </main>
-
-  <!-- MOBILE BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <div class="bottom-nav-inner">
-      <div class="bn-item active" onclick="showSection('home')">
-        <div class="icon">🏠</div>
-        <span>Home</span>
-      </div>
-      <div class="bn-item" onclick="showSection('projects')">
-        <div class="icon">📁</div>
-        <span>Projects</span>
-      </div>
-      <div class="bn-item" onclick="showSection('scene-builder')">
-        <div class="icon">🎬</div>
-        <span>Scene</span>
-      </div>
-      <div class="bn-item" onclick="showSection('characters')">
-        <div class="icon">👤</div>
-        <span>Library</span>
-      </div>
-    </div>
-  </nav>
 
   <script>
     let currentScene = 1;
     const scenesData = {
       1: { 
         bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', 
-        c1: '👨‍💼|বাবা|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
-        c2: '👩‍🦰|মা|linear-gradient(135deg, #ec4899, #be185d)', 
-        c3: '👦|ছেলে|linear-gradient(135deg, #10b981, #047857)',
-        text: 'আজ আমরা সবাই মিলে ঘুরতে যাব!' 
+        c1: '👨‍💼|বাবা (শার্ট)|#3b82f6|#1e3a8a', 
+        c2: '👩‍🦰|মা (থ্রিপিস)|#ec4899|#831843', 
+        c3: '👦|ছেলে (টি-শার্ট)|#10b981|#064e3b',
+        text: 'আজ আমরা সবাই নতুন জামা পরে ঘুরব!' 
       },
       2: { 
         bg: 'linear-gradient(135deg, #065f46, #047857)', 
-        c1: '🦸‍♂️|নায়ক|linear-gradient(135deg, #8b5cf6, #6d28d9)', 
-        c2: '👸|রানী|linear-gradient(135deg, #f59e0b, #d97706)', 
-        c3: '🐶|ডগি|linear-gradient(135deg, #d97706, #b45309)',
-        text: 'kingdom রক্ষা করতে হবে!' 
+        c1: '🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95', 
+        c2: '👸|রানী (গাউন)|#f59e0b|#b45309', 
+        c3: '👧|মেয়ে (ফ্রক)|#f43f5e|#9f1239',
+        text: 'আমাদের নতুন পোশাকগুলো দারুণ লাগছে!' 
       }
     };
-
-    function showSection(section) {
-      ['home', 'projects', 'scene-builder', 'characters'].forEach(s => {
-        const el = document.getElementById(s + '-section');
-        if (el) el.style.display = 'none';
-      });
-      const target = document.getElementById(section + '-section');
-      if (target) target.style.display = 'block';
-
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    }
 
     function switchScene(sceneNum) {
       currentScene = sceneNum;
@@ -649,7 +580,7 @@
         document.getElementById('char3Select').value = data.c3;
         document.getElementById('dialogueInput').value = data.text;
         document.getElementById('dialogueDisplay').textContent = `"${data.text}"`;
-        renderCharacters(data.c1, data.c2, data.c3);
+        renderDetailedCharacters(data.c1, data.c2, data.c3);
       }
     }
 
@@ -663,35 +594,46 @@
       const c1 = document.getElementById('char1Select').value;
       const c2 = document.getElementById('char2Select').value;
       const c3 = document.getElementById('char3Select').value;
-      renderCharacters(c1, c2, c3);
+      renderDetailedCharacters(c1, c2, c3);
       scenesData[currentScene].c1 = c1;
       scenesData[currentScene].c2 = c2;
       scenesData[currentScene].c3 = c3;
     }
 
-    function renderCharacters(val1, val2, val3) {
-      const [e1, n1, b1] = val1.split('|');
-      const [e2, n2, b2] = val2.split('|');
-      const [e3, n3, b3] = val3.split('|');
-
+    function renderDetailedCharacters(v1, v2, v3) {
+      const [e1, n1, color1, legColor1] = v1.split('|');
       document.getElementById('c1Head').textContent = e1;
-      document.getElementById('c1Body').textContent = n1;
-      document.getElementById('c1Body').style.background = b1;
+      document.getElementById('c1Name').textContent = n1;
+      document.getElementById('c1Torso').style.background = `linear-gradient(135deg, ${color1}, #111)`;
+      document.getElementById('c1HandL').style.background = color1;
+      document.getElementById('c1HandR').style.background = color1;
+      document.getElementById('c1LegL').style.background = legColor1;
+      document.getElementById('c1LegR').style.background = legColor1;
 
+      const [e2, n2, color2, legColor2] = v2.split('|');
       document.getElementById('c2Head').textContent = e2;
-      document.getElementById('c2Body').textContent = n2;
-      document.getElementById('c2Body').style.background = b2;
+      document.getElementById('c2Name').textContent = n2;
+      document.getElementById('c2Torso').style.background = `linear-gradient(135deg, ${color2}, #111)`;
+      document.getElementById('c2HandL').style.background = color2;
+      document.getElementById('c2HandR').style.background = color2;
+      document.getElementById('c2LegL').style.background = legColor2;
+      document.getElementById('c2LegR').style.background = legColor2;
 
+      const [e3, n3, color3, legColor3] = v3.split('|');
       document.getElementById('c3Head').textContent = e3;
-      document.getElementById('c3Body').textContent = n3;
-      document.getElementById('c3Body').style.background = b3;
+      document.getElementById('c3Name').textContent = n3;
+      document.getElementById('c3Torso').style.background = `linear-gradient(135deg, ${color3}, #111)`;
+      document.getElementById('c3HandL').style.background = color3;
+      document.getElementById('c3HandR').style.background = color3;
+      document.getElementById('c3LegL').style.background = legColor3;
+      document.getElementById('c3LegR').style.background = legColor3;
     }
 
     function applyDialogue() {
       const text = document.getElementById('dialogueInput').value;
       document.getElementById('dialogueDisplay').textContent = `"${text}"`;
       scenesData[currentScene].text = text;
-      alert(`দৃশ্য ${currentScene} সফলভাবে আপডেট হয়েছে!`);
+      alert(`দৃশ্য ${currentScene} পোশাক ও সংলাপসহ সফলভাবে আপডেট হয়েছে!`);
     }
   </script>
 </body>
