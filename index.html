@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Scene & Sequence Builder</title>
+  <title>CartoonStudio - Full-Body Character Scene Builder</title>
   <style>
     * {
       margin: 0;
@@ -262,23 +262,58 @@
     .scene-preview-box {
       background: linear-gradient(135deg, #1e1b4b, #312e81);
       border-radius: 20px;
-      height: 380px;
+      height: 400px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
+      padding-bottom: 30px;
       color: white;
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
+    /* Full Body Character Styling */
     .stage-characters {
       display: flex;
-      gap: 30px;
-      font-size: 65px;
+      gap: 50px;
+      align-items: flex-end;
       margin-bottom: 20px;
       transition: transform 0.3s ease;
+    }
+
+    .full-body-char {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: floatChar 3s ease-in-out infinite;
+    }
+
+    .char-head {
+      font-size: 45px;
+      margin-bottom: -8px;
+      z-index: 2;
+    }
+
+    .char-body {
+      width: 65px;
+      height: 110px;
+      border-radius: 25px 25px 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      position: relative;
+      font-weight: bold;
+      font-size: 12px;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    @keyframes floatChar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     .scene-controls {
@@ -548,8 +583,8 @@
     <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">🎬 Multi-Scene & Sequence Builder</h1>
-          <p>একাধিক দৃশ্য এবং সিকোয়েন্স তৈরি করে গল্প সাজান।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">🎬 Full-Body Character Scene Builder</h1>
+          <p>সম্পূর্ণ বডি স্ট্রাকচার এবং অ্যানিমেশনসহ দৃশ্য সাজান।</p>
         </div>
       </div>
 
@@ -562,17 +597,27 @@
       <div class="builder-workspace">
         <div class="scene-preview-box" id="previewBox">
           <h3 id="sceneTitleDisplay" style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য ১ প্রিভিউ</h3>
+          
           <div class="stage-characters" id="stageCharacters">
-            <span id="char1Display">👨</span>
-            <span id="char2Display">👩</span>
+            <!-- Character 1 -->
+            <div class="full-body-char">
+              <div class="char-head" id="c1Head">👨</div>
+              <div class="char-body" id="c1Body" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">রহিম</div>
+            </div>
+            <!-- Character 2 -->
+            <div class="full-body-char">
+              <div class="char-head" id="c2Head">👩</div>
+              <div class="char-body" id="c2Body" style="background: linear-gradient(135deg, #ec4899, #be185d);">রোকেয়া</div>
+            </div>
           </div>
-          <p id="dialogueDisplay" style="font-size: 16px; font-style: italic; background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 20px;">
+
+          <p id="dialogueDisplay" style="font-size: 15px; font-style: italic; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 20px; margin-bottom: 5px;">
             "চল আজ ঘুরতে যাই!"
           </p>
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ সিন ও পোজ কন্ট্রোল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ ফুল-বডি ও সিন কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
@@ -584,29 +629,29 @@
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ১ (এক্সপ্রেশনসহ):</label>
+            <label>চরিত্র ১ (স্টাইল ও অবতার):</label>
             <select id="char1Select" onchange="updateCharacters()">
-              <option value="👨">রহিম (সাধারণ)</option>
-              <option value="🙋‍♂️">রহিম (হাত তুলেছে)</option>
-              <option value="🦸‍♂️">সুপারহিরো</option>
+              <option value="👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)">রহিম (বাবা - নীল পোশাক)</option>
+              <option value="🦸‍♂️|হিরো|linear-gradient(135deg, #8b5cf6, #6d28d9)">সুপারহিরো (পারپل পোশাক)</option>
+              <option value="👦|রাহুল|linear-gradient(135deg, #10b981, #047857)">রাহুল (ছেলে - সবুজ পোশাক)</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্র ২ (এক্সপ্রেশনসহ):</label>
+            <label>চরিত্র ২ (স্টাইল ও অবতার):</label>
             <select id="char2Select" onchange="updateCharacters()">
-              <option value="👩">রোকেয়া (সাধারণ)</option>
-              <option value="🙋‍♀️">রোকেয়া (খুশি/হাত তোলা)</option>
-              <option value="👧">মিতু (মেয়ে)</option>
+              <option value="👩|রোকেয়া|linear-gradient(135deg, #ec4899, #be185d)">রোকেয়া (মা - গোলাপি পোশাক)</option>
+              <option value="👧|মিতু|linear-gradient(135deg, #f59e0b, #b45309)">মিতু (মেয়ে - হলুদ পোশাক)</option>
+              <option value="🐶|ডগি|linear-gradient(135deg, #6b7280, #374151)">বন্ধু কুকুর</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>চরিত্রের পোজ / অ্যানিমেশন স্টাইল:</label>
+            <label>অ্যানিমেশন পোজ:</label>
             <select id="poseSelect" onchange="updatePoseStyle()">
-              <option value="normal">স্বাভাবিক অবস্থা (Normal)</option>
-              <option value="bounce">উত্তেজিত / লাফালাফি (Bounce)</option>
-              <option value="zoom">কাছাকাছি আসা (Zoom In)</option>
+              <option value="normal">স্বাভাবিক ফ্লোটিং (Normal)</option>
+              <option value="bounce">উত্তেজিত বাউন্স (Bounce)</option>
+              <option value="zoom">কাছাকাছি জুম (Zoom In)</option>
             </select>
           </div>
 
@@ -625,7 +670,7 @@
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
           <h1 style="color:#6d28d9; font-size:24px;">👤 Character Library</h1>
-          <p>আপনার তৈরি করা ক্যারেক্টারগুলো এখানে থাকবে।</p>
+          <p>আপনার তৈরি করা ফুল-বডি ক্যারেক্টারগুলো এখানে থাকবে।</p>
         </div>
       </div>
     </div>
@@ -668,8 +713,18 @@
   <script>
     let currentScene = 1;
     const scenesData = {
-      1: { bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', c1: '👨', c2: '👩', text: 'চল আজ ঘুরতে যাই!' },
-      2: { bg: 'linear-gradient(135deg, #065f46, #047857)', c1: '🦸‍♂️', c2: '👧', text: 'আমরা এখন মাঠে খেলব!' }
+      1: { 
+        bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', 
+        c1Val: '👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
+        c2Val: '👩|রোকেয়া|linear-gradient(135deg, #ec4899, #be185d)', 
+        text: 'চল আজ ঘুরতে যাই!' 
+      },
+      2: { 
+        bg: 'linear-gradient(135deg, #065f46, #047857)', 
+        c1Val: '🦸‍♂️|হিরো|linear-gradient(135deg, #8b5cf6, #6d28d9)', 
+        c2Val: '👧|মিতু|linear-gradient(135deg, #f59e0b, #b45309)', 
+        text: 'আমরা এখন মাঠে খেলব!' 
+      }
     };
 
     function showSection(section) {
@@ -700,24 +755,27 @@
       document.getElementById('tab2').classList.toggle('active', sceneNum === 2);
       document.getElementById('sceneTitleDisplay').textContent = `দৃশ্য ${sceneNum} প্রিভিউ`;
 
-      // Load scene data
       const data = scenesData[sceneNum];
       if (data) {
         document.getElementById('previewBox').style.background = data.bg;
         document.getElementById('bgSelect').value = data.bg;
-        document.getElementById('char1Select').value = data.c1;
-        document.getElementById('char2Select').value = data.c2;
-        document.getElementById('char1Display').textContent = data.c1;
-        document.getElementById('char2Display').textContent = data.c2;
+        document.getElementById('char1Select').value = data.c1Val;
+        document.getElementById('char2Select').value = data.c2Val;
         document.getElementById('dialogueInput').value = data.text;
         document.getElementById('dialogueDisplay').textContent = `"${data.text}"`;
+        renderCharactersFromValues(data.c1Val, data.c2Val);
       }
     }
 
     function addNewScene() {
       const nextNum = Object.keys(scenesData).length + 1;
-      scenesData[nextNum] = { bg: 'linear-gradient(135deg, #9a3412, #c2410c)', c1: '👨', c2: '🐶', text: `নতুন দৃশ্য ${nextNum} এর গল্প...` };
-      alert(`দৃশ্য ${nextNum} সফলভাবে যোগ করা হয়েছে! (শীঘ্রই ট্যাবে যুক্ত হবে)`);
+      scenesData[nextNum] = { 
+        bg: 'linear-gradient(135deg, #9a3412, #c2410c)', 
+        c1Val: '👨|রহিম|linear-gradient(135deg, #3b82f6, #1d4ed8)', 
+        c2Val: '🐶|ডগি|linear-gradient(135deg, #6b7280, #374151)', 
+        text: `নতুন দৃশ্য ${nextNum} এর গল্প...` 
+      };
+      alert(`দৃশ্য ${nextNum} তৈরি হয়েছে!`);
     }
 
     function updateSceneBackground() {
@@ -727,21 +785,33 @@
     }
 
     function updateCharacters() {
-      const c1 = document.getElementById('char1Select').value;
-      const c2 = document.getElementById('char2Select').value;
-      document.getElementById('char1Display').textContent = c1;
-      document.getElementById('char2Display').textContent = c2;
-      scenesData[currentScene].c1 = c1;
-      scenesData[currentScene].c2 = c2;
+      const c1Val = document.getElementById('char1Select').value;
+      const c2Val = document.getElementById('char2Select').value;
+      renderCharactersFromValues(c1Val, c2Val);
+      scenesData[currentScene].c1Val = c1Val;
+      scenesData[currentScene].c2Val = c2Val;
+    }
+
+    function renderCharactersFromValues(val1, val2) {
+      const [emoji1, name1, bg1] = val1.split('|');
+      const [emoji2, name2, bg2] = val2.split('|');
+
+      document.getElementById('c1Head').textContent = emoji1;
+      document.getElementById('c1Body').textContent = name1;
+      document.getElementById('c1Body').style.background = bg1;
+
+      document.getElementById('c2Head').textContent = emoji2;
+      document.getElementById('c2Body').textContent = name2;
+      document.getElementById('c2Body').style.background = bg2;
     }
 
     function updatePoseStyle() {
       const pose = document.getElementById('poseSelect').value;
       const stage = document.getElementById('stageCharacters');
       if (pose === 'bounce') {
-        stage.style.transform = 'scale(1.1) translateY(-10px)';
+        stage.style.transform = 'scale(1.05) translateY(-8px)';
       } else if (pose === 'zoom') {
-        stage.style.transform = 'scale(1.2)';
+        stage.style.transform = 'scale(1.15)';
       } else {
         stage.style.transform = 'scale(1)';
       }
