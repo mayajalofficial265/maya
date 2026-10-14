@@ -38,9 +38,11 @@
         button.active-anim { background: #27ae60; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
 
         .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); }
-        .canvas-box { width: 400px; height: 500px; background: rgba(255, 255, 255, 0.02); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         
-        .character-rig { position: relative; width: 150px; height: 300px; transition: 0.3s; }
+        /* ক্যানভাস বা স্টেজ ব্যাকগ্রাউন্ড স্টাইল */
+        .canvas-box { width: 400px; height: 500px; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; }
+        
+        .character-rig { position: relative; width: 150px; height: 300px; transition: 0.3s; z-index: 2; }
         .part { position: absolute; transition: transform 0.2s ease; }
         .head { width: 80px; height: 80px; background: #eab18e; border-radius: 50%; top: 0; left: 35px; display: flex; align-items: center; justify-content: center; }
         
@@ -66,7 +68,7 @@
         .walking .leg-left { animation: walkLeftLeg 0.8s infinite ease-in-out; }
         .walking .leg-right { animation: walkRightLeg 0.8s infinite ease-in-out; }
 
-        .timeline { position: absolute; bottom: 20px; width: 90%; background: var(--panel-bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        .timeline { position: absolute; bottom: 20px; width: 90%; background: var(--panel-bg); border: 1px solid var(--border); padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; z-index: 10; }
         .timeline button { width: 120px; margin: 0; }
         .timeline input { margin: 0; }
     </style>
@@ -79,9 +81,9 @@
     </header>
 
     <main class="main-container">
-        <!-- বাম পাশের প্যানেল: ক্যারেক্টার রিগিং ও কাস্টমাইজেশন -->
+        <!-- বাম পাশের প্যানেল: ক্যারেক্টার ও ব্যাকগ্রাউন্ড কন্ট্রোল -->
         <div class="sidebar-left">
-            <h3>১. ক্যারেক্টার পার্টস ও জোড়া</h3>
+            <h3>১. ক্যারেক্টার পার্টস</h3>
             <div class="control-group">
                 <label>বডি স্টাইল</label>
                 <select id="bodyStyle">
@@ -104,6 +106,17 @@
                 <input type="color" id="torsoColor" value="#7057f5">
             </div>
 
+            <h3>২. সিন ও ব্যাকগ্রাউন্ড</h3>
+            <div class="control-group">
+                <label>স্টেজ ব্যাকগ্রাউন্ড থিম</label>
+                <select id="bgThemeSelect">
+                    <option value="studio">স্টুডিও নাইট (ডিফল্ট)</option>
+                    <option value="nature">সবুজ প্রকৃতি (Nature)</option>
+                    <option value="sunset">গোধূলি আকাশ (Sunset)</option>
+                    <option value="cyber">সাইবার পাঙ্ক (Cyber)</option>
+                </select>
+            </div>
+
             <div class="control-group">
                 <label>হাত নাড়ানোর জয়েন্ট</label>
                 <input type="range" id="armPos" min="-45" max="45" value="0">
@@ -116,7 +129,7 @@
 
         <!-- মাঝের প্যানেল: স্টেজ ও প্রিভিউ -->
         <div class="stage-area">
-            <div class="canvas-box">
+            <div class="canvas-box" id="canvasBox">
                 <div class="character-rig" id="characterRig">
                     <div class="part arm-left" id="leftArm"></div>
                     <div class="part arm-right" id="rightArm"></div>
@@ -143,7 +156,7 @@
 
         <!-- ডান পাশের প্যানেল: ভয়েস ও অ্যানিমেশন -->
         <div class="sidebar-right">
-            <h3>২. ভয়েস ও অ্যানিমেশন</h3>
+            <h3>৩. ভয়েস ও অ্যানিমেশন</h3>
             <div class="control-group">
                 <label>লিপ-সিঙ্ক (কথা বলানো)</label>
                 <select id="lipSyncSelect">
@@ -190,6 +203,22 @@
         const torsoPart = document.getElementById('torsoPart');
         torsoColor.addEventListener('input', (e) => {
             torsoPart.style.backgroundColor = e.target.value;
+        });
+
+        // ব্যাকগ্রাউন্ড থিম পরিবর্তন
+        const bgThemeSelect = document.getElementById('bgThemeSelect');
+        const canvasBox = document.getElementById('canvasBox');
+        bgThemeSelect.addEventListener('change', (e) => {
+            let theme = e.target.value;
+            if(theme === 'studio') {
+                canvasBox.style.background = 'radial-gradient(circle, #1f2249 0%, #0f1020 100%)';
+            } else if(theme === 'nature') {
+                canvasBox.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 50%, #1e8449 100%)';
+            } else if(theme === 'sunset') {
+                canvasBox.style.background = 'linear-gradient(135deg, #f39c12 0%, #e74c3c 50%, #8e44ad 100%)';
+            } else if(theme === 'cyber') {
+                canvasBox.style.background = 'linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #110022 100%)';
+            }
         });
 
         // মুখের ভাব পরিবর্তন
@@ -244,7 +273,6 @@
             if(isTalking) {
                 talkPresetBtn.classList.add('active-anim');
                 talkPresetBtn.innerText = '🗣️ কথা বলা বন্ধ করুন';
-                // মুখের আকৃতি দ্রুত পরিবর্তনের লুপ
                 window.talkInterval = setInterval(() => {
                     let w = Math.random() > 0.5 ? '14px' : '8px';
                     let h = Math.random() > 0.5 ? '10px' : '4px';
