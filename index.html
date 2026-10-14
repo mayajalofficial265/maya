@@ -21,6 +21,9 @@
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: var(--panel-bg); border-bottom: 1px solid var(--border); }
         .logo { font-size: 20px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
         .logo span { color: var(--accent); }
+        
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .lang-btn { background: #25284d; border: 1px solid var(--border); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
         .badge-pro { background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
 
         .main-container { display: grid; grid-template-columns: 290px 1fr 320px; flex: 1; height: calc(100vh - 70px); overflow: hidden; }
@@ -87,49 +90,52 @@
 <body>
 
     <header>
-        <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Studio Pro)</div>
-        <div class="badge-pro">বাংলা / English Pro Studio</div>
+        <div class="logo"><span>✦</span> <span id="t-logo">টুনিবন্ধু স্টুডিও প্রো</span></div>
+        <div class="header-right">
+            <button class="lang-btn" id="langToggleBtn">English</button>
+            <div class="badge-pro" id="t-badge">প্রো স্টুডিও</div>
+        </div>
     </header>
 
     <main class="main-container">
         <!-- বাম প্যানেল -->
         <div class="sidebar-left">
-            <h3>১. চরিত্র ও কাস্টম / Character & Custom</h3>
+            <h3 id="t-sec1">১. চরিত্র ও কাস্টম</h3>
             <div class="control-group">
-                <label>সক্রিয় চরিত্র / Active Character</label>
+                <label id="t-lbl-char">সক্রিয় চরিত্র</label>
                 <select id="activeCharSelect">
-                    <option value="char1">চরিত্র ১: হিরো / Character 1: Hero</option>
-                    <option value="char2">চরিত্র ২: বন্ধু / Character 2: Friend</option>
+                    <option value="char1" id="t-opt-c1">চরিত্র ১: হিরো (মূল)</option>
+                    <option value="char2" id="t-opt-c2">চরিত্র ২: বন্ধু (সহকারী)</option>
                 </select>
             </div>
             
             <div class="control-group">
-                <label>চরিত্র কন্ট্রোল / Character Control</label>
-                <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন / Add 2nd Char</button>
+                <label id="t-lbl-ctrl">চরিত্র কন্ট্রোল</label>
+                <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন</button>
             </div>
 
             <div class="control-group">
-                <label>মুখের ভাব / Facial Expression</label>
+                <label id="t-lbl-expr">মুখের ভাব (Expression)</label>
                 <select id="expressionSelect">
-                    <option value="smile">খুশি / Smile</option>
-                    <option value="serious">গম্ভীর / Serious</option>
-                    <option value="surprised">অবাক / Surprised</option>
+                    <option value="smile" id="t-opt-smile">খুশি (Smile)</option>
+                    <option value="serious" id="t-opt-serious">গম্ভীর (Serious)</option>
+                    <option value="surprised" id="t-opt-surprised">অবাক (Surprised)</option>
                 </select>
             </div>
 
             <div class="control-group">
-                <label>পোশাকের রঙ / Outfit Color</label>
+                <label id="t-lbl-color">পোশাকের রঙ (Outfit Color)</label>
                 <input type="color" id="torsoColor" value="#7057f5">
             </div>
 
-            <h3>২. সিন ও ব্যাকগ্রাউন্ড / Scene & Background</h3>
+            <h3 id="t-sec2">২. সিন ও ব্যাকগ্রাউন্ড</h3>
             <div class="control-group">
-                <label>থিম সিলেক্ট করুন / Select Theme</label>
+                <label id="t-lbl-bg">থিম সিলেক্ট করুন</label>
                 <select id="bgThemeSelect">
-                    <option value="studio">স্টুডিও নাইট / Studio Night</option>
-                    <option value="nature">সবুজ প্রকৃতি / Green Nature</option>
-                    <option value="sunset">গোধূলি আকাশ / Sunset Sky</option>
-                    <option value="cyber">সাইবার পাঙ্ক / Cyberpunk</option>
+                    <option value="studio" id="t-opt-t1">স্টুডিও নাইট (ডিফল্ট)</option>
+                    <option value="nature" id="t-opt-t2">সবুজ প্রকৃতি (Nature)</option>
+                    <option value="sunset" id="t-opt-t3">গোধূলি আকাশ (Sunset)</option>
+                    <option value="cyber" id="t-opt-t4">সাইবার পাঙ্ক (Cyber)</option>
                 </select>
             </div>
         </div>
@@ -167,34 +173,152 @@
             </div>
 
             <div class="timeline">
-                <button id="playBtn">▶ প্লে ওয়াক / Play Walk</button>
+                <button id="playBtn">▶ প্লে ওয়াক</button>
                 <input type="range" min="0" max="100" value="0" id="timeSlider">
             </div>
         </div>
 
         <!-- ডান প্যানেল -->
         <div class="sidebar-right">
-            <h3>৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক / Real Voice</h3>
+            <h3 id="t-sec3">৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক</h3>
             <div class="control-group">
-                <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক / Mic Live</button>
+                <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক</button>
             </div>
 
-            <h3>৪. প্রিসেট অ্যানিমেশন / Animation</h3>
+            <h3 id="t-sec4">৪. প্রিসেট অ্যানিমেশন</h3>
             <div class="control-group">
-                <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল / Walk Toggle</button>
+                <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
             </div>
 
-            <h3>৫. ভিডিও এক্সপোর্ট / Export</h3>
+            <h3 id="t-sec5">৫. ভিডিও এক্সপোর্ট</h3>
             <div class="control-group">
-                <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড / Export</button>
+                <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড</button>
             </div>
             
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;">
-            <button style="background: linear-gradient(135deg, #e67e22, #d35400);" onclick="alert('স্টুডিও লিংক কপি হয়েছে! / Studio link copied!')">🔗 সোশ্যাল শেয়ার / Share</button>
+            <button id="shareBtn" style="background: linear-gradient(135deg, #e67e22, #d35400);">🔗 সোশ্যাল মিডিয়ায় শেয়ার</button>
         </div>
     </main>
 
     <script>
+        // ভাষা পরিবর্তন (Language Toggle Logic)
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        let currentLang = 'bn';
+
+        const translations = {
+            bn: {
+                logo: "টুনিবন্ধু স্টুডিও প্রো",
+                badge: "প্রো স্টুডিও",
+                sec1: "১. চরিত্র ও কাস্টম",
+                lblChar: "সক্রিয় চরিত্র",
+                optC1: "চরিত্র ১: হিরো (মূল)",
+                optC2: "চরিত্র ২: বন্ধু (সহকারী)",
+                lblCtrl: "চরিত্র কন্ট্রোল",
+                btnChar2Add: "👥 দ্বিতীয় চরিত্র আনুন",
+                btnChar2Rem: "❌ দ্বিতীয় চরিত্র সরান",
+                lblExpr: "মুখের ভাব (Expression)",
+                optSmile: "খুশি (Smile)",
+                optSerious: "গম্ভীর (Serious)",
+                optSurprised: "অবাক (Surprised)",
+                lblColor: "পোশাকের রঙ (Outfit Color)",
+                sec2: "২. সিন ও ব্যাকগ্রাউন্ড",
+                lblBg: "থিম সিলেক্ট করুন",
+                optT1: "স্টুডিও নাইট (ডিফল্ট)",
+                optT2: "সবুজ প্রকৃতি (Nature)",
+                optT3: "গোধূলি আকাশ (Sunset)",
+                optT4: "সাইবার পাঙ্ক (Cyber)",
+                playWalk: "▶ প্লে ওয়াক",
+                pauseWalk: "⏸ থামুন",
+                sec3: "৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক",
+                micLive: "🎙️ মাইক অন ও লিপ-সিঙ্ক",
+                micOff: "🔴 মাইক লাইভ (বন্ধ করুন)",
+                sec4: "৪. প্রিসেট অ্যানিমেশন",
+                walkToggle: "🚶‍♂️ হাঁটার স্টাইল টগল",
+                sec5: "৫. ভিডিও এক্সপোর্ট",
+                exportBtn: "🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড",
+                shareBtn: "🔗 সোশ্যাল মিডিয়ায় শেয়ার",
+                alertShare: "স্টুডিও লিংক কপি হয়েছে!",
+                alertExport: "টুনিবন্ধু স্টুডিও প্রো থেকে ভিডিও এক্সপোর্ট প্রসেস সফলভাবে শুরু হয়েছে!",
+                alertMicErr: "মাইক্রোফোন পার্মিশন দেওয়া হয়নি!"
+            },
+            en: {
+                logo: "ToonBondhu Studio Pro",
+                badge: "Pro Studio",
+                sec1: "1. Character & Custom",
+                lblChar: "Active Character",
+                optC1: "Character 1: Hero (Main)",
+                optC2: "Character 2: Friend (Helper)",
+                lblCtrl: "Character Control",
+                btnChar2Add: "👥 Add 2nd Character",
+                btnChar2Rem: "❌ Remove 2nd Character",
+                lblExpr: "Facial Expression",
+                optSmile: "Smile",
+                optSerious: "Serious",
+                optSurprised: "Surprised",
+                lblColor: "Outfit Color",
+                sec2: "2. Scene & Background",
+                lblBg: "Select Theme",
+                optT1: "Studio Night (Default)",
+                optT2: "Green Nature",
+                optT3: "Sunset Sky",
+                optT4: "Cyberpunk",
+                playWalk: "▶ Play Walk",
+                pauseWalk: "⏸ Pause",
+                sec3: "3. Real Voice & Lip-Sync",
+                micLive: "🎙️ Mic On & Lip-Sync",
+                micOff: "🔴 Mic Live (Stop)",
+                sec4: "4. Preset Animation",
+                walkToggle: "🚶‍♂️ Toggle Walking",
+                sec5: "5. Video Export",
+                exportBtn: "🎬 Export & Download Video",
+                shareBtn: "🔗 Share on Social Media",
+                alertShare: "Studio link copied!",
+                alertExport: "Video export process successfully started from ToonBondhu Studio Pro!",
+                alertMicErr: "Microphone permission denied!"
+            }
+        };
+
+        let isChar2Visible = false;
+        let isMicActive = false;
+        let isWalking = false;
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'bn' ? 'en' : 'bn';
+            langToggleBtn.innerText = currentLang === 'bn' ? 'English' : 'বাংলা';
+            updateTexts();
+        });
+
+        function updateTexts() {
+            let t = translations[currentLang];
+            document.getElementById('t-logo').innerText = t.logo;
+            document.getElementById('t-badge').innerText = t.badge;
+            document.getElementById('t-sec1').innerText = t.sec1;
+            document.getElementById('t-lbl-char').innerText = t.lblChar;
+            document.getElementById('t-opt-c1').innerText = t.optC1;
+            document.getElementById('t-opt-c2').innerText = t.optC2;
+            document.getElementById('t-lbl-ctrl').innerText = t.lblCtrl;
+            document.getElementById('toggleChar2Btn').innerText = isChar2Visible ? t.btnChar2Rem : t.btnChar2Add;
+            document.getElementById('t-lbl-expr').innerText = t.lblExpr;
+            document.getElementById('t-opt-smile').innerText = t.optSmile;
+            document.getElementById('t-opt-serious').innerText = t.optSerious;
+            document.getElementById('t-opt-surprised').innerText = t.optSurprised;
+            document.getElementById('t-lbl-color').innerText = t.lblColor;
+            document.getElementById('t-sec2').innerText = t.sec2;
+            document.getElementById('t-lbl-bg').innerText = t.lblBg;
+            document.getElementById('t-opt-t1').innerText = t.optT1;
+            document.getElementById('t-opt-t2').innerText = t.optT2;
+            document.getElementById('t-opt-t3').innerText = t.optT3;
+            document.getElementById('t-opt-t4').innerText = t.optT4;
+            document.getElementById('playBtn').innerText = isWalking ? t.pauseWalk : t.playWalk;
+            document.getElementById('t-sec3').innerText = t.sec3;
+            document.getElementById('micRecordBtn').innerText = isMicActive ? t.micOff : t.micLive;
+            document.getElementById('t-sec4').innerText = t.sec4;
+            document.getElementById('walkPresetBtn').innerText = t.walkToggle;
+            document.getElementById('t-sec5').innerText = t.sec5;
+            document.getElementById('exportVideoBtn').innerText = t.exportBtn;
+            document.getElementById('shareBtn').innerText = t.shareBtn;
+        }
+
         // ড্র্যাগ অ্যান্ড ড্রপ লজিক
         function makeDraggable(elm) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -238,21 +362,21 @@
         // চরিত্র ২ টগল
         const toggleChar2Btn = document.getElementById('toggleChar2Btn');
         const char2 = document.getElementById('char2');
-        let isChar2Visible = false;
         toggleChar2Btn.addEventListener('click', () => {
             isChar2Visible = !isChar2Visible;
+            let t = translations[currentLang];
             if(isChar2Visible) {
                 char2.classList.remove('hidden-char');
                 toggleChar2Btn.style.background = '#c0392b';
-                toggleChar2Btn.innerText = '❌ দ্বিতীয় চরিত্র সরান / Remove 2nd Char';
+                toggleChar2Btn.innerText = t.btnChar2Rem;
             } else {
                 char2.classList.add('hidden-char');
                 toggleChar2Btn.style.background = '#e67e22';
-                toggleChar2Btn.innerText = '👥 দ্বিতীয় চরিত্র আনুন / Add 2nd Char';
+                toggleChar2Btn.innerText = t.btnChar2Add;
             }
         });
 
-        // পোশাকের রঙ পরিবর্তন (Outfit Color Change)
+        // পোশাকের রঙ পরিবর্তন (Outfit Color Fix)
         const torsoColor = document.getElementById('torsoColor');
         const activeCharSelect = document.getElementById('activeCharSelect');
         const torsoPart1 = document.getElementById('torsoPart1');
@@ -292,8 +416,9 @@
 
         // মাইক লিপ-সিঙ্ক
         const micRecordBtn = document.getElementById('micRecordBtn');
-        let audioContext, analyser, microphone, javascriptNode, isMicActive = false;
+        let audioContext, analyser, microphone, javascriptNode;
         micRecordBtn.addEventListener('click', async () => {
+            let t = translations[currentLang];
             if (!isMicActive) {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -316,12 +441,12 @@
                         let activeMouth = activeCharSelect.value === 'char1' ? mouth1 : mouth2;
                         if(activeMouth) { activeMouth.style.height = mh + 'px'; activeMouth.style.width = mw + 'px'; }
                     };
-                    isMicActive = true; micRecordBtn.classList.add('recording'); micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন) / Mic Live';
-                } catch (err) { alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি! / Mic permission denied!'); }
+                    isMicActive = true; micRecordBtn.classList.add('recording'); micRecordBtn.innerText = t.micOff;
+                } catch (err) { alert(t.alertMicErr); }
             } else {
                 if (javascriptNode) javascriptNode.onaudioprocess = null;
                 if (audioContext && audioContext.state !== 'closed') audioContext.close();
-                isMicActive = false; micRecordBtn.classList.remove('recording'); micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক / Mic Live';
+                isMicActive = false; micRecordBtn.classList.remove('recording'); micRecordBtn.innerText = t.micLive;
                 document.getElementById('mouthPart1').style.width = '14px'; document.getElementById('mouthPart1').style.height = '7px';
                 document.getElementById('mouthPart2').style.width = '14px'; document.getElementById('mouthPart2').style.height = '7px';
             }
@@ -330,24 +455,24 @@
         // ওয়াকিং অ্যানিমেশন
         const playBtn = document.getElementById('playBtn');
         const walkPresetBtn = document.getElementById('walkPresetBtn');
-        let isWalking = false;
         function toggleWalking() {
             isWalking = !isWalking;
+            let t = translations[currentLang];
             const c1 = document.getElementById('char1'), c2 = document.getElementById('char2');
             if(isWalking) {
                 c1.classList.add('walking'); c2.classList.add('walking');
-                playBtn.classList.add('active-anim'); playBtn.innerText = '⏸ থামুন / Pause'; walkPresetBtn.classList.add('active-anim');
+                playBtn.classList.add('active-anim'); playBtn.innerText = t.pauseWalk; walkPresetBtn.classList.add('active-anim');
             } else {
                 c1.classList.remove('walking'); c2.classList.remove('walking');
-                playBtn.classList.remove('active-anim'); playBtn.innerText = '▶ প্লে ওয়াক / Play Walk'; walkPresetBtn.classList.remove('active-anim');
+                playBtn.classList.remove('active-anim'); playBtn.innerText = t.playWalk; walkPresetBtn.classList.remove('active-anim');
             }
         }
         playBtn.addEventListener('click', toggleWalking);
         walkPresetBtn.addEventListener('click', toggleWalking);
 
-        // ভিডিও এক্সপোর্ট
-        const exportVideoBtn = document.getElementById('exportVideoBtn');
-        exportVideoBtn.addEventListener('click', () => { alert('টুনিবন্ধু স্টুডিও প্রো থেকে ভিডিও এক্সপোর্ট প্রসেস সফলভাবে শুরু হয়েছে! / Video export started!'); });
+        // ভিডিও এক্সপোর্ট ও শেয়ার
+        document.getElementById('exportVideoBtn').addEventListener('click', () => { alert(translations[currentLang].alertExport); });
+        document.getElementById('shareBtn').addEventListener('click', () => { alert(translations[currentLang].alertShare); });
     </script>
 </body>
 </html>
