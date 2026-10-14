@@ -36,10 +36,12 @@
         button { background: var(--accent); font-weight: bold; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
         button.active-anim { background: #27ae60; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
+        button.recording { background: #e74c3c; animation: pulse 1s infinite; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
         .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); }
         
-        /* ক্যানভাস বা স্টেজ ব্যাকগ্রাউন্ড স্টাইল */
         .canvas-box { width: 400px; height: 500px; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; }
         
         .character-rig { position: relative; width: 150px; height: 300px; transition: 0.3s; z-index: 2; }
@@ -57,7 +59,6 @@
         .leg-left { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 38px; transform-origin: top center; }
         .leg-right { width: 30px; height: 100px; background: #39415d; border-radius: 12px; top: 185px; left: 82px; transform-origin: top center; }
 
-        /* হাঁটার অ্যানিমেশন ক্লাস */
         @keyframes walkLeftArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         @keyframes walkRightArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(0deg); } }
         @keyframes walkLeftLeg { 0% { transform: rotate(0deg); } 50% { transform: rotate(25deg); } 100% { transform: rotate(0deg); } }
@@ -154,25 +155,28 @@
             </div>
         </div>
 
-        <!-- ডান পাশের প্যানেল: ভয়েস ও অ্যানিমেশন -->
+        <!-- ডান পাশের প্যানেল: ভয়েস, অডিও ও অ্যানিমেশন -->
         <div class="sidebar-right">
-            <h3>৩. ভয়েস ও অ্যানিমেশন</h3>
+            <h3>৩. ভয়েস ও সাউন্ড স্টুডিও</h3>
             <div class="control-group">
-                <label>লিপ-সিঙ্ক (কথা বলানো)</label>
-                <select id="lipSyncSelect">
-                    <option value="auto">অটো লিপ-সিঙ্ক (এআই)</option>
-                    <option value="manual">ম্যানুয়াল ব্লিংকিং</option>
-                </select>
+                <label>ডায়লগ ভয়েস রেকর্ডিং</label>
+                <button id="micRecordBtn">🎙️ ভয়েস রেকর্ড শুরু করুন</button>
             </div>
             <div class="control-group">
-                <label>প্রিসেট অ্যানিমেশন</label>
+                <label>সাউন্ড এফেক্টস (SFX)</label>
+                <button onclick="alert('পপ সাউন্ড বাজানো হয়েছে!')">💥 পপ ইফেক্ট</button>
+                <button onclick="alert('হাসির সাউন্ড বাজানো হয়েছে!')">😂 ফানি লাফটার</button>
+            </div>
+
+            <h3>৪. প্রিসেট অ্যানিমেশন</h3>
+            <div class="control-group">
                 <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
                 <button id="talkPresetBtn">🗣️ কথা বলা অ্যাকশন</button>
             </div>
             
-            <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
             
-            <button style="background: linear-gradient(135deg, #27ae60, #2ecc71);" onclick="alert('প্রজেক্ট সফলভাবে সেভ হয়েছে!')">💾 প্রজেক্ট সেভ ও এক্সপোর্ট</button>
+            <button style="background: linear-gradient(135deg, #27ae60, #2ecc71);" onclick="alert('প্রজেক্ট সফলভাবে সেভ ও এক্সপোর্ট হয়েছে!')">💾 প্রজেক্ট সেভ ও এক্সপোর্ট</button>
         </div>
     </main>
 
@@ -238,6 +242,21 @@
                 mouthPart.style.width = '10px';
                 mouthPart.style.height = '12px';
                 mouthPart.style.borderRadius = '50%';
+            }
+        });
+
+        // ভয়েস রেকর্ডিং সিমুলেশন লজিক
+        const micRecordBtn = document.getElementById('micRecordBtn');
+        let isRecording = false;
+        micRecordBtn.addEventListener('click', () => {
+            isRecording = !isRecording;
+            if(isRecording) {
+                micRecordBtn.classList.add('recording');
+                micRecordBtn.innerText = '🔴 রেকর্ডিং চলছে... (বন্ধ করুন)';
+            } else {
+                micRecordBtn.classList.remove('recording');
+                micRecordBtn.innerText = '🎙️ ভয়েস রেকর্ড শুরু করুন';
+                alert('ভয়েস সফলভাবে রেকর্ড ও লিপ-সিঙ্কের সাথে যুক্ত হয়েছে!');
             }
         });
 
