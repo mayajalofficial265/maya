@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Dashboard & Character Maker</title>
+  <title>CartoonStudio - Scene Builder</title>
   <style>
     * {
       margin: 0;
@@ -235,12 +235,6 @@
       align-items: center;
     }
 
-    .section-title a {
-      font-size: 14px;
-      color: #7c3aed;
-      text-decoration: none;
-    }
-
     .create-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -349,7 +343,64 @@
       border-radius: 10px;
     }
 
-    /* Character Maker Form Styling */
+    /* Scene Builder Styling */
+    .builder-workspace {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .scene-preview-box {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border-radius: 20px;
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stage-characters {
+      display: flex;
+      gap: 20px;
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .scene-controls {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 5px;
+    }
+
+    .form-group select, .form-group input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      background: #f9fafb;
+    }
+
+    /* Form Styling for Character Maker */
     .maker-container {
       background: white;
       border-radius: 20px;
@@ -357,33 +408,6 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       max-width: 700px;
       margin: 0 auto;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #4b5563;
-      margin-bottom: 6px;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      background: #f9fafb;
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      border-color: #8b5cf6;
-      background: white;
     }
 
     /* ========== MOBILE BOTTOM NAV ========== */
@@ -515,6 +539,9 @@
       .welcome h1 {
         font-size: 22px;
       }
+      .builder-workspace {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 600px) {
@@ -550,8 +577,8 @@
     <div class="nav-item" onclick="showSection('projects')">
       <i>📁</i> My Projects
     </div>
-    <div class="nav-item" onclick="openCreateModal()">
-      <i>➕</i> Create New
+    <div class="nav-item" onclick="showSection('scene-builder')">
+      <i>🎬</i> Scene Builder
     </div>
     <div class="nav-item" onclick="showSection('templates')">
       <i>🧩</i> Templates
@@ -636,35 +663,6 @@
           <p>Write & illustrate beautiful stories</p>
         </div>
       </div>
-
-      <div class="section-title">
-        <span>সাম্প্রতিক প্রজেক্ট</span>
-        <a href="#" onclick="showSection('projects')">সব দেখুন →</a>
-      </div>
-
-      <div class="projects-grid">
-        <div class="project-card" onclick="alert('Opening: The Little Explorer')">
-          <div class="project-thumb">👦🐕</div>
-          <div class="project-info">
-            <h4>The Little Explorer</h4>
-            <div class="meta">Cartoon • Episode 4</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:75%; background:#8b5cf6;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card" onclick="alert('Opening: The Secret Kingdom')">
-          <div class="project-thumb">🏰🌲</div>
-          <div class="project-info">
-            <h4>The Secret Kingdom</h4>
-            <div class="meta">Story • Chapter 7</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:60%; background:#14b8a6;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- MY PROJECTS SECTION -->
@@ -676,32 +674,70 @@
         </div>
         <button class="btn btn-primary" onclick="openCreateModal()">+ নতুন প্রজেক্ট</button>
       </div>
+    </div>
 
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-thumb">👦🐕</div>
-          <div class="project-info">
-            <h4>The Little Explorer</h4>
-            <div class="meta">Cartoon • Episode 4</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:75%; background:#8b5cf6;"></div>
-            </div>
-          </div>
+    <!-- MULTI-CHARACTER SCENE BUILDER SECTION (New Feature) -->
+    <div id="scene-builder-section" style="display:none;">
+      <div class="welcome" style="margin-bottom: 20px;">
+        <div>
+          <h1 style="color:#6d28d9; font-size:24px;">🎬 Multi-Character Scene Builder</h1>
+          <p>একই দৃশ্যে একাধিক চরিত্র যুক্ত করুন এবং গল্প সাজান।</p>
         </div>
-        <div class="project-card">
-          <div class="project-thumb">🏰🌲</div>
-          <div class="project-info">
-            <h4>The Secret Kingdom</h4>
-            <div class="meta">Story • Chapter 7</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:60%; background:#14b8a6;"></div>
-            </div>
+      </div>
+
+      <div class="builder-workspace">
+        <div class="scene-preview-box">
+          <h3 style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য প্রিভিউ (Scene Preview)</h3>
+          <div class="stage-characters" id="stageCharacters">
+            <span>👨</span>
+            <span>👩</span>
           </div>
+          <p id="dialogueDisplay" style="font-size: 16px; font-style: italic; background: rgba(0,0,0,0.4); padding: 8px 16px; border-radius: 20px;">
+            "রহিম ও রোকেয়া ঘরে কথা বলছেন..."
+          </p>
+        </div>
+
+        <div class="scene-controls">
+          <h3 style="font-size: 16px; color:#6d28d9; margin-bottom: 14px;">🛠️ সিন কন্ট্রোল প্যানেল</h3>
+          
+          <div class="form-group">
+            <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
+            <select id="bgSelect" onchange="updateSceneBackground()">
+              <option value="linear-gradient(135deg, #1e1b4b, #312e81)">বসার ঘর (Living Room)</option>
+              <option value="linear-gradient(135deg, #065f46, #047857)">স্কুলের মাঠ (School Field)</option>
+              <option value="linear-gradient(135deg, #9a3412, #c2410c)">প্রকৃতি / বন (Forest)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>চরিত্র ১ নির্বাচন:</label>
+            <select id="char1Select" onchange="updateCharacters()">
+              <option value="👨">রহিম (বাবা)</option>
+              <option value="🦸‍♂️">সুপারহিরো</option>
+              <option value="👦">রাহুল (ছেলে)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>চরিত্র ২ নির্বাচন:</label>
+            <select id="char2Select" onchange="updateCharacters()">
+              <option value="👩">রোকেয়া (মা)</option>
+              <option value="👧">মিতু (মেয়ে)</option>
+              <option value="🐶">কুত্তা (বন্ধু)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>সংলাপ লিখুন (Dialogue):</label>
+            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="চল আজ ঘুরতে যাই!">
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="applyDialogue()">সংলাপ আপডেট করুন</button>
         </div>
       </div>
     </div>
 
-    <!-- CHARACTER LIBRARY & MAKER SECTION (Active Feature) -->
+    <!-- CHARACTER LIBRARY & MAKER SECTION -->
     <div id="characters-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
@@ -711,37 +747,19 @@
         <button class="btn btn-primary" onclick="openCharacterMaker()">+ নতুন চরিত্র তৈরি করুন</button>
       </div>
 
-      <div class="section-title">
-        <span>সংরক্ষিত চরিত্রসমূহ</span>
-      </div>
-
       <div class="characters-grid" id="characterGrid">
         <div class="character-card">
           <div class="char-thumb">👨</div>
           <div class="char-info">
             <h4>রহিম (বাবা)</h4>
-            <div class="meta">বয়স্ক • প্রাপ্তবয়স্ক</div>
+            <div class="meta">প্রাপ্তবয়স্ক</div>
           </div>
         </div>
         <div class="character-card">
           <div class="char-thumb">👩</div>
           <div class="char-info">
             <h4>রোকেয়া (মা)</h4>
-            <div class="meta">বয়স্ক • প্রাপ্তবয়স্ক</div>
-          </div>
-        </div>
-        <div class="character-card">
-          <div class="char-thumb">👦</div>
-          <div class="char-info">
-            <h4>রাহুল (ছেলে)</h4>
-            <div class="meta">কিশোর • ছাত্র</div>
-          </div>
-        </div>
-        <div class="character-card">
-          <div class="char-thumb">👧</div>
-          <div class="char-info">
-            <h4>মিতু (মেয়ে)</h4>
-            <div class="meta">শিশু • ছাত্রছাত্রী</div>
+            <div class="meta">প্রাপ্তবয়স্ক</div>
           </div>
         </div>
       </div>
@@ -755,12 +773,12 @@
 
     <div id="ai-section" style="display:none;">
       <h2 style="margin-bottom:20px; color:#6d28d9;">✨ AI Tools</h2>
-      <p>স্ক্রিপ্ট জেনারেটর, ক্যারেক্টার ডিজাইনার, অ্যানিমেশন সাজেস্টার...</p>
+      <p>স্ক্রিপ্ট জেনারেটর, ক্যারেক্টার ডিজাইনার...</p>
     </div>
 
     <div id="analytics-section" style="display:none;">
       <h2 style="margin-bottom:20px; color:#6d28d9;">📊 Analytics</h2>
-      <p>ভিউ, লাইক, শেয়ারের পরিসংখ্যান।</p>
+      <p>পরিসংখ্যান ও ডেটা।</p>
     </div>
 
     <div id="settings-section" style="display:none;">
@@ -780,7 +798,7 @@
         <div class="icon">📁</div>
         <span>Projects</span>
       </div>
-      <div class="bn-create" onclick="openCreateModal()">
+      <div class="bn-create" onclick="showSection('scene-builder')">
         +
       </div>
       <div class="bn-item" onclick="showSection('characters')">
@@ -806,50 +824,11 @@
     </div>
   </div>
 
-  <!-- CHARACTER MAKER MODAL -->
-  <div class="modal-overlay" id="characterModal">
-    <div class="modal" style="max-width: 500px; text-align: left;">
-      <h2 style="color:#6d28d9; text-align: center; margin-bottom: 20px;">🎨 ক্যারেক্টার মেকার</h2>
-      <div class="form-group">
-        <label>চরিত্রের নাম (Character Name):</label>
-        <input type="text" id="charNameInput" placeholder="যেমন: সোহেল (বড় ভাই)">
-      </div>
-      <div class="form-group">
-        <label>চরিত্রের ধরন (Character Type):</label>
-        <select id="charTypeSelect">
-          <option value="👨">বাবা / Uncle / Hero</option>
-          <option value="👩">মা / Aunt / Heroine</option>
-          <option value="👦">বড় ভাই / ছেলে</option>
-          <option value="👧">বড় বোন / মেয়ে</option>
-          <option value="👶">শিশু / Baby</option>
-          <option value="👵">দাদি / নানি</option>
-          <option value="👴">দাদা / নানা</option>
-          <option value="🦸‍♂️">সুপারহিরো / ভিলেন</option>
-          <option value="🤖">রোবট</option>
-          <option value="🐶">প্রাণী (কুত্তা/বিড়াল)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>বয়স ও ক্যাটাগরি:</label>
-        <select id="charAgeSelect">
-          <option value="প্রাপ্তবয়স্ক • অভিভাবক">প্রাপ্তবয়স্ক</option>
-          <option value="কিশোর • ছাত্র">কিশোর</option>
-          <option value="শিশু • ছাত্রছাত্রী">শিশু</option>
-          <option value="বয়স্ক • দাদা/দাদি">বয়স্ক</option>
-        </select>
-      </div>
-      <div class="modal-btns" style="margin-top: 24px;">
-        <button class="btn btn-secondary" onclick="closeCharacterMaker()">বাতিল</button>
-        <button class="btn btn-primary" onclick="saveCharacter()">সংরক্ষণ করুন</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     let currentType = '';
 
     function showSection(section) {
-      const sections = ['home', 'projects', 'templates', 'characters', 'ai', 'analytics', 'settings'];
+      const sections = ['home', 'projects', 'scene-builder', 'templates', 'characters', 'ai', 'analytics', 'settings'];
       sections.forEach(s => {
         const el = document.getElementById(s + '-section');
         if (el) el.style.display = 'none';
@@ -863,22 +842,12 @@
         item.classList.remove('active');
         if ((section === 'home' && index === 0) ||
             (section === 'projects' && index === 1) ||
+            (section === 'scene-builder' && index === 2) ||
             (section === 'templates' && index === 3) ||
             (section === 'characters' && index === 4) ||
             (section === 'ai' && index === 5) ||
             (section === 'analytics' && index === 6) ||
             (section === 'settings' && index === 7)) {
-          item.classList.add('active');
-        }
-      });
-
-      // Update mobile bottom nav
-      document.querySelectorAll('.bottom-nav .bn-item').forEach((item, index) => {
-        item.classList.remove('active');
-        if ((section === 'home' && index === 0) ||
-            (section === 'projects' && index === 1) ||
-            (section === 'characters' && index === 2) ||
-            (section === 'settings' && index === 3)) {
           item.classList.add('active');
         }
       });
@@ -910,46 +879,22 @@
       closeModal();
     }
 
-    // Character Maker Functions
-    function openCharacterMaker() {
-      document.getElementById('characterModal').style.display = 'flex';
+    // Scene Builder Interactive Functions
+    function updateSceneBackground() {
+      const bg = document.getElementById('bgSelect').value;
+      document.querySelector('.scene-preview-box').style.background = bg;
     }
 
-    function closeCharacterMaker() {
-      document.getElementById('characterModal').style.display = 'none';
+    function updateCharacters() {
+      const c1 = document.getElementById('char1Select').value;
+      const c2 = document.getElementById('char2Select').value;
+      document.getElementById('stageCharacters').innerHTML = `<span>${c1}</span><span>${c2}</span>`;
     }
 
-    function saveCharacter() {
-      const name = document.getElementById('charNameInput').value;
-      const icon = document.getElementById('charTypeSelect').value;
-      const age = document.getElementById('charAgeSelect').value;
-
-      if (!name) {
-        alert('দয়া করে চরিত্রের নাম লিখুন!');
-        return;
-      }
-
-      const grid = document.getElementById('characterGrid');
-      const card = document.createElement('div');
-      card.className = 'character-card';
-      card.innerHTML = `
-        <div class="char-thumb">${icon}</div>
-        <div class="char-info">
-          <h4>${name}</h4>
-          <div class="meta">${age}</div>
-        </div>
-      `;
-      grid.appendChild(card);
-
-      document.getElementById('charNameInput').value = '';
-      closeCharacterMaker();
-      alert('চরিত্রটি সফলভাবে Character Library-তে সংরক্ষিত হয়েছে!');
-    }
-
-    // Close modals when clicking outside
-    window.onclick = function(e) {
-      if (e.target === document.getElementById('createModal')) closeModal();
-      if (e.target === document.getElementById('characterModal')) closeCharacterMaker();
+    function applyDialogue() {
+      const text = document.getElementById('dialogueInput').value;
+      document.getElementById('dialogueDisplay').textContent = `"${text}"`;
+      alert('সংলাপ সফলভাবে দৃশ্যে আপডেট করা হয়েছে!');
     }
   </script>
 </body>
