@@ -23,21 +23,20 @@
         .logo span { color: var(--accent); }
         .badge-pro { background: linear-gradient(135deg, #f39c12, #e67e22); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
 
-        .main-container { display: grid; grid-template-columns: 280px 1fr 320px; flex: 1; height: calc(100vh - 70px); overflow: hidden; }
+        .main-container { display: grid; grid-template-columns: 290px 1fr 320px; flex: 1; height: calc(100vh - 70px); overflow: hidden; }
         
         .sidebar-left { background: var(--panel-bg); border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; }
         .sidebar-right { background: var(--panel-bg); border-left: 1px solid var(--border); padding: 20px; overflow-y: auto; }
         
-        h3 { font-size: 14px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px; }
+        h3 { font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 15px; letter-spacing: 1px; }
         
-        .control-group { margin-bottom: 20px; }
-        .control-group label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-main); }
-        select, input[type="range"], input[type="color"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; outline: none; }
+        .control-group { margin-bottom: 18px; }
+        .control-group label { display: block; font-size: 13px; margin-bottom: 6px; color: var(--text-main); }
+        select, input[type="range"], input[type="color"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 8px; outline: none; }
         button { background: var(--accent); font-weight: bold; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
         button.active-anim { background: #27ae60; box-shadow: 0 0 10px rgba(39, 174, 96, 0.5); }
         button.recording { background: #e74c3c; animation: pulse 1s infinite; }
-        button.exporting { background: #f39c12; animation: pulse 1s infinite; }
 
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
@@ -88,49 +87,49 @@
 <body>
 
     <header>
-        <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Pro)</div>
-        <div class="badge-pro">সম্পূর্ণ প্রো স্টুডিও</div>
+        <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Studio Pro)</div>
+        <div class="badge-pro">বাংলা / English Pro Studio</div>
     </header>
 
     <main class="main-container">
         <!-- বাম প্যানেল -->
         <div class="sidebar-left">
-            <h3>১. চরিত্র ও কাস্টম</h3>
+            <h3>১. চরিত্র ও কাস্টম / Character & Custom</h3>
             <div class="control-group">
-                <label>সক্রিয় চরিত্র</label>
+                <label>সক্রিয় চরিত্র / Active Character</label>
                 <select id="activeCharSelect">
-                    <option value="char1">চরিত্র ১: হিরো</option>
-                    <option value="char2">চরিত্র ২: বন্ধু</option>
+                    <option value="char1">চরিত্র ১: হিরো / Character 1: Hero</option>
+                    <option value="char2">চরিত্র ২: বন্ধু / Character 2: Friend</option>
                 </select>
             </div>
             
             <div class="control-group">
-                <label>দ্বিতীয় চরিত্র কন্ট্রোল</label>
-                <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন</button>
+                <label>চরিত্র কন্ট্রোল / Character Control</label>
+                <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন / Add 2nd Char</button>
             </div>
 
             <div class="control-group">
-                <label>মুখের ভাব (Expression)</label>
+                <label>মুখের ভাব / Facial Expression</label>
                 <select id="expressionSelect">
-                    <option value="smile">খুশি (Smile)</option>
-                    <option value="serious">গম্ভীর (Serious)</option>
-                    <option value="surprised">অবাক (Surprised)</option>
+                    <option value="smile">খুশি / Smile</option>
+                    <option value="serious">গম্ভীর / Serious</option>
+                    <option value="surprised">অবাক / Surprised</option>
                 </select>
             </div>
 
             <div class="control-group">
-                <label>পোশাকের রঙ</label>
+                <label>পোশাকের রঙ / Outfit Color</label>
                 <input type="color" id="torsoColor" value="#7057f5">
             </div>
 
-            <h3>২. সিন ও ব্যাকগ্রাউন্ড</h3>
+            <h3>২. সিন ও ব্যাকগ্রাউন্ড / Scene & Background</h3>
             <div class="control-group">
-                <label>থিম সিলেক্ট করুন</label>
+                <label>থিম সিলেক্ট করুন / Select Theme</label>
                 <select id="bgThemeSelect">
-                    <option value="studio">স্টুডিও নাইট</option>
-                    <option value="nature">সবুজ প্রকৃতি</option>
-                    <option value="sunset">গোধূলি আকাশ</option>
-                    <option value="cyber">সাইবার পাঙ্ক</option>
+                    <option value="studio">স্টুডিও নাইট / Studio Night</option>
+                    <option value="nature">সবুজ প্রকৃতি / Green Nature</option>
+                    <option value="sunset">গোধূলি আকাশ / Sunset Sky</option>
+                    <option value="cyber">সাইবার পাঙ্ক / Cyberpunk</option>
                 </select>
             </div>
         </div>
@@ -168,30 +167,30 @@
             </div>
 
             <div class="timeline">
-                <button id="playBtn">▶ প্লে ওয়াক</button>
+                <button id="playBtn">▶ প্লে ওয়াক / Play Walk</button>
                 <input type="range" min="0" max="100" value="0" id="timeSlider">
             </div>
         </div>
 
         <!-- ডান প্যানেল -->
         <div class="sidebar-right">
-            <h3>৩. রিয়েল ভয়েস & লিপ-সিঙ্ক</h3>
+            <h3>৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক / Real Voice</h3>
             <div class="control-group">
-                <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক</button>
+                <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক / Mic Live</button>
             </div>
 
-            <h3>৪. প্রিসেট অ্যানিমেশন</h3>
+            <h3>৪. প্রিসেট অ্যানিমেশন / Animation</h3>
             <div class="control-group">
-                <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
+                <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল / Walk Toggle</button>
             </div>
 
-            <h3>৫. ভিডিও এক্সপোর্ট</h3>
+            <h3>৫. ভিডিও এক্সপোর্ট / Export</h3>
             <div class="control-group">
-                <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড</button>
+                <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড / Export</button>
             </div>
             
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;">
-            <button style="background: linear-gradient(135deg, #e67e22, #d35400);" onclick="alert('স্টুডিও লিংক কপি হয়েছে!')">🔗 সোশ্যাল মিডিয়ায় শেয়ার</button>
+            <button style="background: linear-gradient(135deg, #e67e22, #d35400);" onclick="alert('স্টুডিও লিংক কপি হয়েছে! / Studio link copied!')">🔗 সোশ্যাল শেয়ার / Share</button>
         </div>
     </main>
 
@@ -245,15 +244,15 @@
             if(isChar2Visible) {
                 char2.classList.remove('hidden-char');
                 toggleChar2Btn.style.background = '#c0392b';
-                toggleChar2Btn.innerText = '❌ দ্বিতীয় চরিত্র সরান';
+                toggleChar2Btn.innerText = '❌ দ্বিতীয় চরিত্র সরান / Remove 2nd Char';
             } else {
                 char2.classList.add('hidden-char');
                 toggleChar2Btn.style.background = '#e67e22';
-                toggleChar2Btn.innerText = '👥 দ্বিতীয় চরিত্র আনুন';
+                toggleChar2Btn.innerText = '👥 দ্বিতীয় চরিত্র আনুন / Add 2nd Char';
             }
         });
 
-        // রঙ পরিবর্তন
+        // পোশাকের রঙ পরিবর্তন (Outfit Color Change)
         const torsoColor = document.getElementById('torsoColor');
         const activeCharSelect = document.getElementById('activeCharSelect');
         const torsoPart1 = document.getElementById('torsoPart1');
@@ -317,12 +316,12 @@
                         let activeMouth = activeCharSelect.value === 'char1' ? mouth1 : mouth2;
                         if(activeMouth) { activeMouth.style.height = mh + 'px'; activeMouth.style.width = mw + 'px'; }
                     };
-                    isMicActive = true; micRecordBtn.classList.add('recording'); micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন)';
-                } catch (err) { alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি!'); }
+                    isMicActive = true; micRecordBtn.classList.add('recording'); micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন) / Mic Live';
+                } catch (err) { alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি! / Mic permission denied!'); }
             } else {
                 if (javascriptNode) javascriptNode.onaudioprocess = null;
                 if (audioContext && audioContext.state !== 'closed') audioContext.close();
-                isMicActive = false; micRecordBtn.classList.remove('recording'); micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক';
+                isMicActive = false; micRecordBtn.classList.remove('recording'); micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক / Mic Live';
                 document.getElementById('mouthPart1').style.width = '14px'; document.getElementById('mouthPart1').style.height = '7px';
                 document.getElementById('mouthPart2').style.width = '14px'; document.getElementById('mouthPart2').style.height = '7px';
             }
@@ -337,10 +336,10 @@
             const c1 = document.getElementById('char1'), c2 = document.getElementById('char2');
             if(isWalking) {
                 c1.classList.add('walking'); c2.classList.add('walking');
-                playBtn.classList.add('active-anim'); playBtn.innerText = '⏸ থামুন'; walkPresetBtn.classList.add('active-anim');
+                playBtn.classList.add('active-anim'); playBtn.innerText = '⏸ থামুন / Pause'; walkPresetBtn.classList.add('active-anim');
             } else {
                 c1.classList.remove('walking'); c2.classList.remove('walking');
-                playBtn.classList.remove('active-anim'); playBtn.innerText = '▶ প্লে ওয়াক'; walkPresetBtn.classList.remove('active-anim');
+                playBtn.classList.remove('active-anim'); playBtn.innerText = '▶ প্লে ওয়াক / Play Walk'; walkPresetBtn.classList.remove('active-anim');
             }
         }
         playBtn.addEventListener('click', toggleWalking);
@@ -348,7 +347,7 @@
 
         // ভিডিও এক্সপোর্ট
         const exportVideoBtn = document.getElementById('exportVideoBtn');
-        exportVideoBtn.addEventListener('click', () => { alert('টুনিবন্ধু স্টুডিও প্রো থেকে ভিডিও এক্সপোর্ট প্রসেস সফলভাবে শুরু হয়েছে!'); });
+        exportVideoBtn.addEventListener('click', () => { alert('টুনিবন্ধু স্টুডিও প্রো থেকে ভিডিও এক্সপোর্ট প্রসেস সফলভাবে শুরু হয়েছে! / Video export started!'); });
     </script>
 </body>
 </html>
