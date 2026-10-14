@@ -45,21 +45,27 @@
 
         .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); }
         
-        .canvas-box { width: 450px; height: 500px; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; touch-action: none; }
+        .canvas-box { width: 480px; height: 500px; background: radial-gradient(circle, #1f2249 0%, #0f1020 100%); border: 2px dashed var(--border); border-radius: 20px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; transition: 0.3s; touch-action: none; }
         
-        .character-rig { position: absolute; width: 130px; height: 260px; cursor: grab; z-index: 5; user-select: none; }
-        .character-rig:active { cursor: grabbing; }
-        
-        #char1 { left: 80px; top: 100px; }
-        #char2 { right: 80px; top: 100px; }
+        /* ক্যারেক্টার ও প্রপস ড্র্যাগএবল স্টাইল */
+        .draggable-item { position: absolute; cursor: grab; user-select: none; z-index: 5; }
+        .draggable-item:active { cursor: grabbing; }
+
+        .character-rig { width: 130px; height: 260px; }
+        #char1 { left: 50px; top: 120px; }
+        #char2 { right: 50px; top: 120px; }
 
         .part { position: absolute; transition: transform 0.2s ease; }
         .head { width: 70px; height: 70px; background: #eab18e; border-radius: 50%; top: 0; left: 30px; display: flex; align-items: center; justify-content: center; }
         
-        .face { position: relative; width: 100%; height: 100%; }
+        /* চুল এবং দাড়ি লেয়ার */
+        .hair { position: absolute; width: 76px; height: 35px; background: #333; top: -5px; left: -3px; border-radius: 35px 35px 10px 10px; z-index: 2; }
+        .beard { position: absolute; width: 45px; height: 30px; background: #333; bottom: 5px; left: 12px; border-radius: 0 0 20px 20px; z-index: 2; display: none; }
+
+        .face { position: relative; width: 100%; height: 100%; z-index: 3; }
         .eyes { position: absolute; top: 25px; left: 16px; width: 35px; display: flex; justify-content: space-between; }
         .eye { width: 7px; height: 7px; background: #333; border-radius: 50%; }
-        .mouth { position: absolute; bottom: 15px; left: 27px; width: 14px; height: 7px; background: #333; border-radius: 0 0 8px 8px; transition: 0.08s ease; }
+        .mouth { position: absolute; bottom: 12px; left: 27px; width: 14px; height: 7px; background: #333; border-radius: 0 0 8px 8px; transition: 0.08s ease; }
 
         .torso { width: 80px; height: 100px; background: var(--accent); border-radius: 12px; top: 70px; left: 25px; }
         .arm-left { width: 22px; height: 80px; background: #eab18e; border-radius: 10px; top: 75px; left: 2px; transform-origin: top center; }
@@ -70,7 +76,13 @@
         #char2 .torso { background: #e74c3c !important; }
         #char2 .head { background: #f5cba7 !important; }
 
-        .hidden-char { display: none !important; }
+        /* আসবাবপত্র ও প্রপস স্টাইল */
+        .prop-item { padding: 12px 18px; border-radius: 10px; font-weight: bold; text-align: center; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        #propHouse { width: 140px; height: 100px; background: #8e44ad; border-radius: 10px 10px 0 0; left: 170px; top: 50px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+        #propTable { width: 120px; height: 35px; background: #d35400; border-radius: 6px; left: 180px; top: 320px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+        #propTree { width: 70px; height: 90px; background: #27ae60; border-radius: 50% 50% 10px 10px; left: 20px; top: 250px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+
+        .hidden-item { display: none !important; }
 
         @keyframes walkLeftArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         @keyframes walkRightArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(30deg); } 100% { transform: rotate(0deg); } }
@@ -98,9 +110,9 @@
     </header>
 
     <main class="main-container">
-        <!-- বাম প্যানেল -->
+        <!-- বাম প্যানেল: চরিত্র ও প্রপস কন্ট্রোল -->
         <div class="sidebar-left">
-            <h3 id="t-sec1">১. চরিত্র ও কাস্টম</h3>
+            <h3 id="t-sec1">১. চরিত্র ও লুক কাস্টম</h3>
             <div class="control-group">
                 <label id="t-lbl-char">সক্রিয় চরিত্র</label>
                 <select id="activeCharSelect">
@@ -112,6 +124,23 @@
             <div class="control-group">
                 <label id="t-lbl-ctrl">চরিত্র কন্ট্রোল</label>
                 <button id="toggleChar2Btn" style="background: #e67e22;">👥 দ্বিতীয় চরিত্র আনুন</button>
+            </div>
+
+            <div class="control-group">
+                <label id="t-lbl-hair">চুলের স্টাইল (Hair Style)</label>
+                <select id="hairStyleSelect">
+                    <option value="normal" id="t-hair-norm">সাধারণ চুল (Normal)</option>
+                    <option value="spiky" id="t-hair-spiky">স্পাইকি চুল (Spiky)</option>
+                    <option value="bald" id="t-hair-bald">বলাড / শেভড (Bald)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label id="t-lbl-beard">দাড়ির স্টাইল (Beard)</label>
+                <select id="beardStyleSelect">
+                    <option value="none" id="t-beard-none">দাড়ি ছাড়া (Clean)</option>
+                    <option value="full" id="t-beard-full">ভরা দাড়ি (Full Beard)</option>
+                </select>
             </div>
 
             <div class="control-group">
@@ -128,7 +157,14 @@
                 <input type="color" id="torsoColor" value="#7057f5">
             </div>
 
-            <h3 id="t-sec2">২. সিন ও ব্যাকগ্রাউন্ড</h3>
+            <h3 id="t-sec2">২. ঘর-দুয়ার ও আসবাবপত্র (Props)</h3>
+            <div class="control-group">
+                <button id="toggleHouseBtn" style="background: #8e44ad;">🏠 ঘর-বাড়ি যোগ করুন</button>
+                <button id="toggleTableBtn" style="background: #d35400;">🪑 টেবিল যোগ করুন</button>
+                <button id="toggleTreeBtn" style="background: #27ae60;">🌲 গাছ যোগ করুন</button>
+            </div>
+
+            <h3 id="t-sec3">৩. সিন ও ব্যাকগ্রাউন্ড</h3>
             <div class="control-group">
                 <label id="t-lbl-bg">থিম সিলেক্ট করুন</label>
                 <select id="bgThemeSelect">
@@ -143,13 +179,21 @@
         <!-- স্টেজ এলাকা -->
         <div class="stage-area">
             <div class="canvas-box" id="canvasBox">
-                <div class="character-rig" id="char1">
+                <!-- প্রপস ও আসবাবপত্র (ড্র্যাগএবল) -->
+                <div class="draggable-item prop-item hidden-item" id="propHouse">ঘর (House)</div>
+                <div class="draggable-item prop-item hidden-item" id="propTable">টেবিল (Table)</div>
+                <div class="draggable-item prop-item hidden-item" id="propTree">গাছ (Tree)</div>
+
+                <!-- চরিত্র ১ -->
+                <div class="draggable-item character-rig" id="char1">
                     <div class="part arm-left"></div>
                     <div class="part arm-right"></div>
                     <div class="part torso" id="torsoPart1"></div>
                     <div class="part head">
+                        <div class="hair" id="hair1"></div>
                         <div class="face">
                             <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+                            <div class="beard" id="beard1"></div>
                             <div class="mouth" id="mouthPart1"></div>
                         </div>
                     </div>
@@ -157,13 +201,16 @@
                     <div class="part leg-right"></div>
                 </div>
 
-                <div class="character-rig hidden-char" id="char2">
+                <!-- চরিত্র ২ -->
+                <div class="draggable-item character-rig hidden-item" id="char2">
                     <div class="part arm-left"></div>
                     <div class="part arm-right"></div>
                     <div class="part torso"></div>
                     <div class="part head">
+                        <div class="hair" id="hair2"></div>
                         <div class="face">
                             <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+                            <div class="beard" id="beard2"></div>
                             <div class="mouth" id="mouthPart2"></div>
                         </div>
                     </div>
@@ -180,17 +227,17 @@
 
         <!-- ডান প্যানেল -->
         <div class="sidebar-right">
-            <h3 id="t-sec3">৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক</h3>
+            <h3 id="t-sec4">৪. রিয়েল ভয়েস ও লিপ-সিঙ্ক</h3>
             <div class="control-group">
                 <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক</button>
             </div>
 
-            <h3 id="t-sec4">৪. প্রিসেট অ্যানিমেশন</h3>
+            <h3 id="t-sec5">৫. প্রিসেট অ্যানিমেশন</h3>
             <div class="control-group">
                 <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
             </div>
 
-            <h3 id="t-sec5">৫. ভিডিও এক্সপোর্ট</h3>
+            <h3 id="t-sec6">৬. ভিডিও এক্সপোর্ট</h3>
             <div class="control-group">
                 <button id="exportVideoBtn" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড</button>
             </div>
@@ -201,7 +248,7 @@
     </main>
 
     <script>
-        // ভাষা পরিবর্তন (Language Toggle Logic)
+        // ভাষা পরিবর্তন (Language Toggle)
         const langToggleBtn = document.getElementById('langToggleBtn');
         let currentLang = 'bn';
 
@@ -209,19 +256,33 @@
             bn: {
                 logo: "টুনিবন্ধু স্টুডিও প্রো",
                 badge: "প্রো স্টুডিও",
-                sec1: "১. চরিত্র ও কাস্টম",
+                sec1: "১. চরিত্র ও লুক কাস্টম",
                 lblChar: "সক্রিয় চরিত্র",
                 optC1: "চরিত্র ১: হিরো (মূল)",
                 optC2: "চরিত্র ২: বন্ধু (সহকারী)",
                 lblCtrl: "চরিত্র কন্ট্রোল",
                 btnChar2Add: "👥 দ্বিতীয় চরিত্র আনুন",
                 btnChar2Rem: "❌ দ্বিতীয় চরিত্র সরান",
+                lblHair: "চুলের স্টাইল (Hair Style)",
+                hairNorm: "সাধারণ চুল (Normal)",
+                hairSpiky: "স্পাইকি চুল (Spiky)",
+                hairBald: "বলাড / শেভড (Bald)",
+                lblBeard: "দাড়ির স্টাইল (Beard)",
+                beardNone: "দাড়ি ছাড়া (Clean)",
+                beardFull: "ভরা দাড়ি (Full Beard)",
                 lblExpr: "মুখের ভাব (Expression)",
                 optSmile: "খুশি (Smile)",
                 optSerious: "গম্ভীর (Serious)",
                 optSurprised: "অবাক (Surprised)",
                 lblColor: "পোশাকের রঙ (Outfit Color)",
-                sec2: "২. সিন ও ব্যাকগ্রাউন্ড",
+                sec2: "২. ঘর-দুয়ার ও আসবাবপত্র (Props)",
+                btnHouseAdd: "🏠 ঘর-বাড়ি যোগ করুন",
+                btnHouseRem: "❌ ঘর-বাড়ি সরান",
+                btnTableAdd: "🪑 টেবিল যোগ করুন",
+                btnTableRem: "❌ টেবিল সরান",
+                btnTreeAdd: "🌲 গাছ যোগ করুন",
+                btnTreeRem: "❌ গাছ সরান",
+                sec3: "৩. সিন ও ব্যাকগ্রাউন্ড",
                 lblBg: "থিম সিলেক্ট করুন",
                 optT1: "স্টুডিও নাইট (ডিফল্ট)",
                 optT2: "সবুজ প্রকৃতি (Nature)",
@@ -229,12 +290,12 @@
                 optT4: "সাইবার পাঙ্ক (Cyber)",
                 playWalk: "▶ প্লে ওয়াক",
                 pauseWalk: "⏸ থামুন",
-                sec3: "৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক",
+                sec4: "৪. রিয়েল ভয়েস ও লিপ-সিঙ্ক",
                 micLive: "🎙️ মাইক অন ও লিপ-সিঙ্ক",
                 micOff: "🔴 মাইক লাইভ (বন্ধ করুন)",
-                sec4: "৪. প্রিসেট অ্যানিমেশন",
+                sec5: "৫. প্রিসেট অ্যানিমেশন",
                 walkToggle: "🚶‍♂️ হাঁটার স্টাইল টগল",
-                sec5: "৫. ভিডিও এক্সপোর্ট",
+                sec6: "৬. ভিডিও এক্সপোর্ট",
                 exportBtn: "🎬 ভিডিও এক্সপোর্ট ও ডাউনলোড",
                 shareBtn: "🔗 সোশ্যাল মিডিয়ায় শেয়ার",
                 alertShare: "স্টুডিও লিংক কপি হয়েছে!",
@@ -244,19 +305,33 @@
             en: {
                 logo: "ToonBondhu Studio Pro",
                 badge: "Pro Studio",
-                sec1: "1. Character & Custom",
+                sec1: "1. Character & Look Custom",
                 lblChar: "Active Character",
                 optC1: "Character 1: Hero (Main)",
                 optC2: "Character 2: Friend (Helper)",
                 lblCtrl: "Character Control",
                 btnChar2Add: "👥 Add 2nd Character",
                 btnChar2Rem: "❌ Remove 2nd Character",
+                lblHair: "Hair Style",
+                hairNorm: "Normal Hair",
+                hairSpiky: "Spiky Hair",
+                hairBald: "Bald / Clean",
+                lblBeard: "Beard Style",
+                beardNone: "Clean Shaven",
+                beardFull: "Full Beard",
                 lblExpr: "Facial Expression",
                 optSmile: "Smile",
                 optSerious: "Serious",
                 optSurprised: "Surprised",
                 lblColor: "Outfit Color",
-                sec2: "2. Scene & Background",
+                sec2: "2. Props & Furniture",
+                btnHouseAdd: "🏠 Add House",
+                btnHouseRem: "❌ Remove House",
+                btnTableAdd: "🪑 Add Table",
+                btnTableRem: "❌ Remove Table",
+                btnTreeAdd: "🌲 Add Tree",
+                btnTreeRem: "❌ Remove Tree",
+                sec3: "3. Scene & Background",
                 lblBg: "Select Theme",
                 optT1: "Studio Night (Default)",
                 optT2: "Green Nature",
@@ -264,12 +339,12 @@
                 optT4: "Cyberpunk",
                 playWalk: "▶ Play Walk",
                 pauseWalk: "⏸ Pause",
-                sec3: "3. Real Voice & Lip-Sync",
+                sec4: "4. Real Voice & Lip-Sync",
                 micLive: "🎙️ Mic On & Lip-Sync",
                 micOff: "🔴 Mic Live (Stop)",
-                sec4: "4. Preset Animation",
+                sec5: "5. Preset Animation",
                 walkToggle: "🚶‍♂️ Toggle Walking",
-                sec5: "5. Video Export",
+                sec6: "6. Video Export",
                 exportBtn: "🎬 Export & Download Video",
                 shareBtn: "🔗 Share on Social Media",
                 alertShare: "Studio link copied!",
@@ -278,9 +353,8 @@
             }
         };
 
-        let isChar2Visible = false;
-        let isMicActive = false;
-        let isWalking = false;
+        let isChar2Visible = false, isHouseVisible = false, isTableVisible = false, isTreeVisible = false;
+        let isMicActive = false, isWalking = false;
 
         langToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'bn' ? 'en' : 'bn';
@@ -298,28 +372,39 @@
             document.getElementById('t-opt-c2').innerText = t.optC2;
             document.getElementById('t-lbl-ctrl').innerText = t.lblCtrl;
             document.getElementById('toggleChar2Btn').innerText = isChar2Visible ? t.btnChar2Rem : t.btnChar2Add;
+            document.getElementById('t-lbl-hair').innerText = t.lblHair;
+            document.getElementById('t-hair-norm').innerText = t.hairNorm;
+            document.getElementById('t-hair-spiky').innerText = t.hairSpiky;
+            document.getElementById('t-hair-bald').innerText = t.hairBald;
+            document.getElementById('t-lbl-beard').innerText = t.lblBeard;
+            document.getElementById('t-beard-none').innerText = t.beardNone;
+            document.getElementById('t-beard-full').innerText = t.beardFull;
             document.getElementById('t-lbl-expr').innerText = t.lblExpr;
             document.getElementById('t-opt-smile').innerText = t.optSmile;
             document.getElementById('t-opt-serious').innerText = t.optSerious;
             document.getElementById('t-opt-surprised').innerText = t.optSurprised;
             document.getElementById('t-lbl-color').innerText = t.lblColor;
             document.getElementById('t-sec2').innerText = t.sec2;
+            document.getElementById('toggleHouseBtn').innerText = isHouseVisible ? t.btnHouseRem : t.btnHouseAdd;
+            document.getElementById('toggleTableBtn').innerText = isTableVisible ? t.btnTableRem : t.btnTableAdd;
+            document.getElementById('toggleTreeBtn').innerText = isTreeVisible ? t.btnTreeRem : t.btnTreeAdd;
+            document.getElementById('t-sec3').innerText = t.sec3;
             document.getElementById('t-lbl-bg').innerText = t.lblBg;
             document.getElementById('t-opt-t1').innerText = t.optT1;
             document.getElementById('t-opt-t2').innerText = t.optT2;
             document.getElementById('t-opt-t3').innerText = t.optT3;
             document.getElementById('t-opt-t4').innerText = t.optT4;
             document.getElementById('playBtn').innerText = isWalking ? t.pauseWalk : t.playWalk;
-            document.getElementById('t-sec3').innerText = t.sec3;
-            document.getElementById('micRecordBtn').innerText = isMicActive ? t.micOff : t.micLive;
             document.getElementById('t-sec4').innerText = t.sec4;
-            document.getElementById('walkPresetBtn').innerText = t.walkToggle;
+            document.getElementById('micRecordBtn').innerText = isMicActive ? t.micOff : t.micLive;
             document.getElementById('t-sec5').innerText = t.sec5;
+            document.getElementById('walkPresetBtn').innerText = t.walkToggle;
+            document.getElementById('t-sec6').innerText = t.sec6;
             document.getElementById('exportVideoBtn').innerText = t.exportBtn;
             document.getElementById('shareBtn').innerText = t.shareBtn;
         }
 
-        // ড্র্যাগ অ্যান্ড ড্রপ লজিক
+        // ড্র্যাগ অ্যান্ড ড্রপ লজিক (সব এলিমেন্টের জন্য)
         function makeDraggable(elm) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elm.onmousedown = dragMouseDown;
@@ -358,32 +443,85 @@
 
         makeDraggable(document.getElementById('char1'));
         makeDraggable(document.getElementById('char2'));
+        makeDraggable(document.getElementById('propHouse'));
+        makeDraggable(document.getElementById('propTable'));
+        makeDraggable(document.getElementById('propTree'));
 
-        // চরিত্র ২ টগল
+        // চরিত্র ও প্রপস টগল লজিক
         const toggleChar2Btn = document.getElementById('toggleChar2Btn');
         const char2 = document.getElementById('char2');
         toggleChar2Btn.addEventListener('click', () => {
             isChar2Visible = !isChar2Visible;
             let t = translations[currentLang];
             if(isChar2Visible) {
-                char2.classList.remove('hidden-char');
+                char2.classList.remove('hidden-item');
                 toggleChar2Btn.style.background = '#c0392b';
                 toggleChar2Btn.innerText = t.btnChar2Rem;
             } else {
-                char2.classList.add('hidden-char');
+                char2.classList.add('hidden-item');
                 toggleChar2Btn.style.background = '#e67e22';
                 toggleChar2Btn.innerText = t.btnChar2Add;
             }
         });
 
-        // পোশাকের রঙ পরিবর্তন (Outfit Color Fix)
+        const toggleHouseBtn = document.getElementById('toggleHouseBtn');
+        const propHouse = document.getElementById('propHouse');
+        toggleHouseBtn.addEventListener('click', () => {
+            isHouseVisible = !isHouseVisible;
+            let t = translations[currentLang];
+            if(isHouseVisible) { propHouse.classList.remove('hidden-item'); toggleHouseBtn.style.background = '#c0392b'; toggleHouseBtn.innerText = t.btnHouseRem; }
+            else { propHouse.classList.add('hidden-item'); toggleHouseBtn.style.background = '#8e44ad'; toggleHouseBtn.innerText = t.btnHouseAdd; }
+        });
+
+        const toggleTableBtn = document.getElementById('toggleTableBtn');
+        const propTable = document.getElementById('propTable');
+        toggleTableBtn.addEventListener('click', () => {
+            isTableVisible = !isTableVisible;
+            let t = translations[currentLang];
+            if(isTableVisible) { propTable.classList.remove('hidden-item'); toggleTableBtn.style.background = '#c0392b'; toggleTableBtn.innerText = t.btnTableRem; }
+            else { propTable.classList.add('hidden-item'); toggleTableBtn.style.background = '#d35400'; toggleTableBtn.innerText = t.btnTableAdd; }
+        });
+
+        const toggleTreeBtn = document.getElementById('toggleTreeBtn');
+        const propTree = document.getElementById('propTree');
+        toggleTreeBtn.addEventListener('click', () => {
+            isTreeVisible = !isTreeVisible;
+            let t = translations[currentLang];
+            if(isTreeVisible) { propTree.classList.remove('hidden-item'); toggleTreeBtn.style.background = '#c0392b'; toggleTreeBtn.innerText = t.btnTreeRem; }
+            else { propTree.classList.add('hidden-item'); toggleTreeBtn.style.background = '#27ae60'; toggleTreeBtn.innerText = t.btnTreeAdd; }
+        });
+
+        // চুল ও দাড়ি কাস্টমাইজেশন
+        const hairStyleSelect = document.getElementById('hairStyleSelect');
+        hairStyleSelect.addEventListener('change', (e) => {
+            let style = e.target.value;
+            let activeId = document.getElementById('activeCharSelect').value;
+            let hair = activeId === 'char1' ? document.getElementById('hair1') : document.getElementById('hair2');
+            if(hair) {
+                if(style === 'normal') { hair.style.display = 'block'; hair.style.borderRadius = '35px 35px 10px 10px'; hair.style.height = '35px'; }
+                else if(style === 'spiky') { hair.style.display = 'block'; hair.style.borderRadius = '10px 40px 0 0'; hair.style.height = '42px'; }
+                else if(style === 'bald') { hair.style.display = 'none'; }
+            }
+        });
+
+        const beardStyleSelect = document.getElementById('beardStyleSelect');
+        beardStyleSelect.addEventListener('change', (e) => {
+            let style = e.target.value;
+            let activeId = document.getElementById('activeCharSelect').value;
+            let beard = activeId === 'char1' ? document.getElementById('beard1') : document.getElementById('beard2');
+            if(beard) {
+                if(style === 'none') { beard.style.display = 'none'; }
+                else if(style === 'full') { beard.style.display = 'block'; }
+            }
+        });
+
+        // পোশাকের রঙ পরিবর্তন
         const torsoColor = document.getElementById('torsoColor');
         const activeCharSelect = document.getElementById('activeCharSelect');
-        const torsoPart1 = document.getElementById('torsoPart1');
         torsoColor.addEventListener('input', (e) => {
             let activeId = activeCharSelect.value;
             if(activeId === 'char1') {
-                torsoPart1.style.backgroundColor = e.target.value;
+                document.getElementById('torsoPart1').style.backgroundColor = e.target.value;
             } else {
                 const torso2 = document.querySelector('#char2 .torso');
                 if(torso2) torso2.style.backgroundColor = e.target.value;
