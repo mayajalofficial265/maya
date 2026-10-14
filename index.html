@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Dashboard</title>
+  <title>CartoonStudio - Dashboard & Character Maker</title>
   <style>
     * {
       margin: 0;
@@ -292,14 +292,14 @@
     .c4 .icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
     .c5 .icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
 
-    /* Recent Projects & My Projects Grid */
-    .projects-grid {
+    /* Grids */
+    .projects-grid, .characters-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 18px;
     }
 
-    .project-card {
+    .project-card, .character-card {
       background: white;
       border-radius: 16px;
       overflow: hidden;
@@ -308,12 +308,12 @@
       cursor: pointer;
     }
 
-    .project-card:hover {
+    .project-card:hover, .character-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
-    .project-thumb {
+    .project-thumb, .char-thumb {
       height: 140px;
       background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
       display: flex;
@@ -322,16 +322,16 @@
       font-size: 50px;
     }
 
-    .project-info {
+    .project-info, .char-info {
       padding: 14px 16px;
     }
 
-    .project-info h4 {
+    .project-info h4, .char-info h4 {
       font-size: 15px;
       margin-bottom: 4px;
     }
 
-    .project-info .meta {
+    .project-info .meta, .char-info .meta {
       font-size: 12px;
       color: #6b7280;
       margin-bottom: 10px;
@@ -347,6 +347,43 @@
     .progress-fill {
       height: 100%;
       border-radius: 10px;
+    }
+
+    /* Character Maker Form Styling */
+    .maker-container {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #8b5cf6;
+      background: white;
     }
 
     /* ========== MOBILE BOTTOM NAV ========== */
@@ -627,47 +664,21 @@
             </div>
           </div>
         </div>
-
-        <div class="project-card" onclick="alert('Opening: City Heroes')">
-          <div class="project-thumb">🦸‍♂️🌃</div>
-          <div class="project-info">
-            <h4>City Heroes</h4>
-            <div class="meta">Drama • Episode 2</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:40%; background:#ec4899;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card" onclick="alert('Opening: Adventure Awaits')">
-          <div class="project-thumb">🎒🏞️</div>
-          <div class="project-info">
-            <h4>Adventure Awaits</h4>
-            <div class="meta">Movie • Teaser</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:90%; background:#f59e0b;"></div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
-    <!-- MY PROJECTS SECTION (Updated & Functional) -->
+    <!-- MY PROJECTS SECTION -->
     <div id="projects-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
           <h1 style="color:#6d28d9; font-size:24px;">📁 আমার প্রজেক্টস</h1>
-          <p>আপনার তৈরি করা সকল প্রজেক্ট এখানে দেখতে পাবেন এবং পরিচালনা করতে পারবেন।</p>
+          <p>আপনার তৈরি করা সকল প্রজেক্ট এখানে দেখতে পাবেন।</p>
         </div>
         <button class="btn btn-primary" onclick="openCreateModal()">+ নতুন প্রজেক্ট</button>
       </div>
 
-      <div class="section-title">
-        <span>সকল প্রজেক্টস (৪)</span>
-      </div>
-
       <div class="projects-grid">
-        <div class="project-card" onclick="alert('Opening: The Little Explorer')">
+        <div class="project-card">
           <div class="project-thumb">👦🐕</div>
           <div class="project-info">
             <h4>The Little Explorer</h4>
@@ -677,8 +688,7 @@
             </div>
           </div>
         </div>
-
-        <div class="project-card" onclick="alert('Opening: The Secret Kingdom')">
+        <div class="project-card">
           <div class="project-thumb">🏰🌲</div>
           <div class="project-info">
             <h4>The Secret Kingdom</h4>
@@ -688,40 +698,59 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="project-card" onclick="alert('Opening: City Heroes')">
-          <div class="project-thumb">🦸‍♂️🌃</div>
-          <div class="project-info">
-            <h4>City Heroes</h4>
-            <div class="meta">Drama • Episode 2</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:40%; background:#ec4899;"></div>
-            </div>
+    <!-- CHARACTER LIBRARY & MAKER SECTION (Active Feature) -->
+    <div id="characters-section" style="display:none;">
+      <div class="welcome" style="margin-bottom: 20px;">
+        <div>
+          <h1 style="color:#6d28d9; font-size:24px;">👤 Character Library & Maker</h1>
+          <p>আপনার পরিবারের সদস্য ও বিভিন্ন কার্টুন চরিত্র তৈরি এবং সংরক্ষণ করুন।</p>
+        </div>
+        <button class="btn btn-primary" onclick="openCharacterMaker()">+ নতুন চরিত্র তৈরি করুন</button>
+      </div>
+
+      <div class="section-title">
+        <span>সংরক্ষিত চরিত্রসমূহ</span>
+      </div>
+
+      <div class="characters-grid" id="characterGrid">
+        <div class="character-card">
+          <div class="char-thumb">👨</div>
+          <div class="char-info">
+            <h4>রহিম (বাবা)</h4>
+            <div class="meta">বয়স্ক • প্রাপ্তবয়স্ক</div>
           </div>
         </div>
-
-        <div class="project-card" onclick="alert('Opening: Adventure Awaits')">
-          <div class="project-thumb">🎒🏞️</div>
-          <div class="project-info">
-            <h4>Adventure Awaits</h4>
-            <div class="meta">Movie • Teaser</div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width:90%; background:#f59e0b;"></div>
-            </div>
+        <div class="character-card">
+          <div class="char-thumb">👩</div>
+          <div class="char-info">
+            <h4>রোকেয়া (মা)</h4>
+            <div class="meta">বয়স্ক • প্রাপ্তবয়স্ক</div>
+          </div>
+        </div>
+        <div class="character-card">
+          <div class="char-thumb">👦</div>
+          <div class="char-info">
+            <h4>রাহুল (ছেলে)</h4>
+            <div class="meta">কিশোর • ছাত্র</div>
+          </div>
+        </div>
+        <div class="character-card">
+          <div class="char-thumb">👧</div>
+          <div class="char-info">
+            <h4>মিতু (মেয়ে)</h4>
+            <div class="meta">শিশু • ছাত্রছাত্রী</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- OTHER SECTIONS (hidden by default) -->
+    <!-- OTHER SECTIONS -->
     <div id="templates-section" style="display:none;">
       <h2 style="margin-bottom:20px; color:#6d28d9;">🧩 টেমপ্লেটস</h2>
       <p>রেডিমেড টেমপ্লেট থেকে শুরু করুন।</p>
-    </div>
-
-    <div id="characters-section" style="display:none;">
-      <h2 style="margin-bottom:20px; color:#6d28d9;">👤 Character Library</h2>
-      <p>আপনার তৈরি করা ক্যারেক্টারগুলো এখানে থাকবে।</p>
     </div>
 
     <div id="ai-section" style="display:none;">
@@ -754,18 +783,18 @@
       <div class="bn-create" onclick="openCreateModal()">
         +
       </div>
-      <div class="bn-item" onclick="showSection('templates')">
-        <div class="icon">🧩</div>
-        <span>Templates</span>
+      <div class="bn-item" onclick="showSection('characters')">
+        <div class="icon">👤</div>
+        <span>Characters</span>
       </div>
       <div class="bn-item" onclick="showSection('settings')">
-        <div class="icon">👤</div>
-        <span>Profile</span>
+        <div class="icon">⚙️</div>
+        <span>Settings</span>
       </div>
     </div>
   </nav>
 
-  <!-- CREATE MODAL -->
+  <!-- CREATE PROJECT MODAL -->
   <div class="modal-overlay" id="createModal">
     <div class="modal">
       <h2 id="modalTitle">নতুন প্রজেক্ট তৈরি করুন</h2>
@@ -777,18 +806,55 @@
     </div>
   </div>
 
+  <!-- CHARACTER MAKER MODAL -->
+  <div class="modal-overlay" id="characterModal">
+    <div class="modal" style="max-width: 500px; text-align: left;">
+      <h2 style="color:#6d28d9; text-align: center; margin-bottom: 20px;">🎨 ক্যারেক্টার মেকার</h2>
+      <div class="form-group">
+        <label>চরিত্রের নাম (Character Name):</label>
+        <input type="text" id="charNameInput" placeholder="যেমন: সোহেল (বড় ভাই)">
+      </div>
+      <div class="form-group">
+        <label>চরিত্রের ধরন (Character Type):</label>
+        <select id="charTypeSelect">
+          <option value="👨">বাবা / Uncle / Hero</option>
+          <option value="👩">মা / Aunt / Heroine</option>
+          <option value="👦">বড় ভাই / ছেলে</option>
+          <option value="👧">বড় বোন / মেয়ে</option>
+          <option value="👶">শিশু / Baby</option>
+          <option value="👵">দাদি / নানি</option>
+          <option value="👴">দাদা / নানা</option>
+          <option value="🦸‍♂️">সুপারহিরো / ভিলেন</option>
+          <option value="🤖">রোবট</option>
+          <option value="🐶">প্রাণী (কুত্তা/বিড়াল)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>বয়স ও ক্যাটাগরি:</label>
+        <select id="charAgeSelect">
+          <option value="প্রাপ্তবয়স্ক • অভিভাবক">প্রাপ্তবয়স্ক</option>
+          <option value="কিশোর • ছাত্র">কিশোর</option>
+          <option value="শিশু • ছাত্রছাত্রী">শিশু</option>
+          <option value="বয়স্ক • দাদা/দাদি">বয়স্ক</option>
+        </select>
+      </div>
+      <div class="modal-btns" style="margin-top: 24px;">
+        <button class="btn btn-secondary" onclick="closeCharacterMaker()">বাতিল</button>
+        <button class="btn btn-primary" onclick="saveCharacter()">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let currentType = '';
 
     function showSection(section) {
-      // Hide all sections
       const sections = ['home', 'projects', 'templates', 'characters', 'ai', 'analytics', 'settings'];
       sections.forEach(s => {
         const el = document.getElementById(s + '-section');
         if (el) el.style.display = 'none';
       });
 
-      // Show selected
       const target = document.getElementById(section + '-section');
       if (target) target.style.display = 'block';
 
@@ -811,7 +877,7 @@
         item.classList.remove('active');
         if ((section === 'home' && index === 0) ||
             (section === 'projects' && index === 1) ||
-            (section === 'templates' && index === 2) ||
+            (section === 'characters' && index === 2) ||
             (section === 'settings' && index === 3)) {
           item.classList.add('active');
         }
@@ -840,14 +906,51 @@
     }
 
     function startCreate() {
-      alert((currentType || 'নতুন') + ' প্রজেক্ট তৈরির পেজে যাচ্ছে...\n\n(এখানে আপনি পরবর্তী স্ক্রিন যোগ করতে পারবেন)');
+      alert((currentType || 'নতুন') + ' প্রজেক্ট তৈরির পেজে যাচ্ছে...');
       closeModal();
     }
 
-    // Close modal when clicking outside
-    document.getElementById('createModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
+    // Character Maker Functions
+    function openCharacterMaker() {
+      document.getElementById('characterModal').style.display = 'flex';
+    }
+
+    function closeCharacterMaker() {
+      document.getElementById('characterModal').style.display = 'none';
+    }
+
+    function saveCharacter() {
+      const name = document.getElementById('charNameInput').value;
+      const icon = document.getElementById('charTypeSelect').value;
+      const age = document.getElementById('charAgeSelect').value;
+
+      if (!name) {
+        alert('দয়া করে চরিত্রের নাম লিখুন!');
+        return;
+      }
+
+      const grid = document.getElementById('characterGrid');
+      const card = document.createElement('div');
+      card.className = 'character-card';
+      card.innerHTML = `
+        <div class="char-thumb">${icon}</div>
+        <div class="char-info">
+          <h4>${name}</h4>
+          <div class="meta">${age}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+
+      document.getElementById('charNameInput').value = '';
+      closeCharacterMaker();
+      alert('চরিত্রটি সফলভাবে Character Library-তে সংরক্ষিত হয়েছে!');
+    }
+
+    // Close modals when clicking outside
+    window.onclick = function(e) {
+      if (e.target === document.getElementById('createModal')) closeModal();
+      if (e.target === document.getElementById('characterModal')) closeCharacterMaker();
+    }
   </script>
 </body>
 </html>
