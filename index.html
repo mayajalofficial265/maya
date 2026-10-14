@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Scene Builder</title>
+  <title>CartoonStudio - Scene & Sequence Builder</title>
   <style>
     * {
       margin: 0;
@@ -310,6 +310,28 @@
       background: #f9fafb;
     }
 
+    .scene-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .scene-tab {
+      padding: 6px 12px;
+      background: #f3f4f6;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #4b5563;
+    }
+
+    .scene-tab.active {
+      background: #7c3aed;
+      color: white;
+    }
+
     /* ========== MOBILE BOTTOM NAV ========== */
     .bottom-nav {
       display: none;
@@ -526,14 +548,20 @@
     <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">🎬 Scene & Expression Builder</h1>
-          <p>চরিত্রের পোজ এবং এক্সপ্রেশন নিয়ন্ত্রণ করুন।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">🎬 Multi-Scene & Sequence Builder</h1>
+          <p>একাধিক দৃশ্য এবং সিকোয়েন্স তৈরি করে গল্প সাজান।</p>
         </div>
+      </div>
+
+      <div class="scene-tabs">
+        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Scene 1)</button>
+        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Scene 2)</button>
+        <button class="scene-tab" onclick="addNewScene()">+ নতুন দৃশ্য</button>
       </div>
 
       <div class="builder-workspace">
         <div class="scene-preview-box" id="previewBox">
-          <h3 style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য প্রিভিউ</h3>
+          <h3 id="sceneTitleDisplay" style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য ১ প্রিভিউ</h3>
           <div class="stage-characters" id="stageCharacters">
             <span id="char1Display">👨</span>
             <span id="char2Display">👩</span>
@@ -544,7 +572,7 @@
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ পোজ ও এক্সপ্রেশন কন্ট্রোল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ সিন ও পোজ কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
@@ -587,7 +615,7 @@
             <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="চল আজ ঘুরতে যাই!">
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; margin-top: 6px;" onclick="applyDialogue()">আপডেট করুন</button>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 6px;" onclick="applyDialogue()">দৃশ্য আপডেট করুন</button>
         </div>
       </div>
     </div>
@@ -638,6 +666,12 @@
   </div>
 
   <script>
+    let currentScene = 1;
+    const scenesData = {
+      1: { bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', c1: '👨', c2: '👩', text: 'চল আজ ঘুরতে যাই!' },
+      2: { bg: 'linear-gradient(135deg, #065f46, #047857)', c1: '🦸‍♂️', c2: '👧', text: 'আমরা এখন মাঠে খেলব!' }
+    };
+
     function showSection(section) {
       ['home', 'projects', 'scene-builder', 'characters'].forEach(s => {
         const el = document.getElementById(s + '-section');
@@ -660,9 +694,36 @@
       showSection('scene-builder');
     }
 
+    function switchScene(sceneNum) {
+      currentScene = sceneNum;
+      document.getElementById('tab1').classList.toggle('active', sceneNum === 1);
+      document.getElementById('tab2').classList.toggle('active', sceneNum === 2);
+      document.getElementById('sceneTitleDisplay').textContent = `দৃশ্য ${sceneNum} প্রিভিউ`;
+
+      // Load scene data
+      const data = scenesData[sceneNum];
+      if (data) {
+        document.getElementById('previewBox').style.background = data.bg;
+        document.getElementById('bgSelect').value = data.bg;
+        document.getElementById('char1Select').value = data.c1;
+        document.getElementById('char2Select').value = data.c2;
+        document.getElementById('char1Display').textContent = data.c1;
+        document.getElementById('char2Display').textContent = data.c2;
+        document.getElementById('dialogueInput').value = data.text;
+        document.getElementById('dialogueDisplay').textContent = `"${data.text}"`;
+      }
+    }
+
+    function addNewScene() {
+      const nextNum = Object.keys(scenesData).length + 1;
+      scenesData[nextNum] = { bg: 'linear-gradient(135deg, #9a3412, #c2410c)', c1: '👨', c2: '🐶', text: `নতুন দৃশ্য ${nextNum} এর গল্প...` };
+      alert(`দৃশ্য ${nextNum} সফলভাবে যোগ করা হয়েছে! (শীঘ্রই ট্যাবে যুক্ত হবে)`);
+    }
+
     function updateSceneBackground() {
       const bg = document.getElementById('bgSelect').value;
       document.getElementById('previewBox').style.background = bg;
+      scenesData[currentScene].bg = bg;
     }
 
     function updateCharacters() {
@@ -670,6 +731,8 @@
       const c2 = document.getElementById('char2Select').value;
       document.getElementById('char1Display').textContent = c1;
       document.getElementById('char2Display').textContent = c2;
+      scenesData[currentScene].c1 = c1;
+      scenesData[currentScene].c2 = c2;
     }
 
     function updatePoseStyle() {
@@ -687,7 +750,8 @@
     function applyDialogue() {
       const text = document.getElementById('dialogueInput').value;
       document.getElementById('dialogueDisplay').textContent = `"${text}"`;
-      alert('পোজ ও সংলাপ সফলভাবে আপডেট হয়েছে!');
+      scenesData[currentScene].text = text;
+      alert(`দৃশ্য ${currentScene} সফলভাবে আপডেট হয়েছে!`);
     }
   </script>
 </body>
