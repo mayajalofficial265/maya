@@ -1,758 +1,1330 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Complete Cartoon Studio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6c5ce7">
+<title>ToonBondhu Studio Pro</title>
 
-    body {
-      background: #f8f9fc;
-      color: #1f2937;
-      min-height: 100vh;
-    }
+<style>
+:root {
+  --primary: #6c5ce7;
+  --primary-light: #eeeaff;
+  --pink: #ff6b9a;
+  --bg: #f6f7fb;
+  --white: #ffffff;
+  --text: #25243a;
+  --muted: #8588a5;
+  --border: #e9eaf3;
+  --shadow: 0 10px 30px rgba(42,36,99,.08);
+}
 
-    /* ========== DESKTOP SIDEBAR ========== */
-    .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 240px;
-      height: 100vh;
-      background: white;
-      border-right: 1px solid #e5e7eb;
-      padding: 20px 12px;
-      display: flex;
-      flex-direction: column;
-      z-index: 100;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      margin-bottom: 30px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans Bengali", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 18px;
-    }
+button, input, select, textarea {
+  font: inherit;
+}
 
-    .logo-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: #7c3aed;
-    }
+button {
+  cursor: pointer;
+}
 
-    .logo-sub {
-      font-size: 11px;
-      color: #9ca3af;
-    }
+.app {
+  min-height: 100vh;
+}
 
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-bottom: 4px;
-      color: #4b5563;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
+/* SIDEBAR */
 
-    .nav-item:hover {
-      background: #f3f4f6;
-    }
+.sidebar {
+  width: 245px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  background: white;
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
 
-    .nav-item.active {
-      background: #8b5cf6;
-      color: white;
-    }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px 30px;
+}
 
-    .nav-item i {
-      font-size: 18px;
-      width: 22px;
-      text-align: center;
-    }
+.logo {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg,#6c5ce7,#ff6b9a);
+  color: white;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 23px;
+}
 
-    /* ========== MAIN CONTENT ========== */
-    .main {
-      margin-left: 240px;
-      padding: 20px 30px 40px;
-      min-height: 100vh;
-    }
+.brand h2 {
+  font-size: 15px;
+  margin: 0;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
+.brand small {
+  display: block;
+  margin-top: 5px;
+  color: var(--primary);
+  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: bold;
+}
 
-    .search-box {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 30px;
-      padding: 10px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 400px;
-      max-width: 100%;
-    }
+.nav-title {
+  font-size: 10px;
+  color: #a3a5bb;
+  letter-spacing: 1.5px;
+  margin: 12px 10px;
+}
 
-    .search-box input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 14px;
-    }
+.nav-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 5px;
+  border: none;
+  border-radius: 12px;
+  color: #777b99;
+  background: transparent;
+  text-align: left;
+  font-size: 13px;
+}
 
-    .top-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+.nav-button:hover,
+.nav-button.active {
+  color: var(--primary);
+  background: var(--primary-light);
+}
 
-    .notification {
-      position: relative;
-      cursor: pointer;
-      font-size: 20px;
-    }
+.sidebar-bottom {
+  margin-top: auto;
+}
 
-    .badge {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      background: #ef4444;
-      color: white;
-      font-size: 10px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.upgrade {
+  background: linear-gradient(135deg,#6c5ce7,#9b74f7);
+  color: white;
+  padding: 17px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
 
-    .user {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-    }
+.upgrade h3 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
 
-    .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-    }
+.upgrade p {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #eee9ff;
+}
 
-    /* Welcome */
-    .welcome {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 28px;
-    }
+.upgrade button {
+  background: white;
+  color: var(--primary);
+  border: 0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-weight: bold;
+  font-size: 11px;
+}
 
-    .welcome h1 {
-      font-size: 28px;
-      color: #6d28d9;
-      margin-bottom: 6px;
-    }
+.profile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 5px;
+  border-top: 1px solid var(--border);
+}
 
-    .welcome p {
-      color: #6b7280;
-      font-size: 15px;
-    }
+.avatar {
+  width: 38px;
+  height: 38px;
+  background: #ffe0eb;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
 
-    /* Quick Create Cards */
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
+.profile strong {
+  font-size: 12px;
+}
 
-    .create-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-      margin-bottom: 36px;
-    }
+.profile small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
 
-    .create-card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s;
-      border: 1px solid #f3f4f6;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
+/* MAIN */
 
-    .create-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    }
+.main {
+  margin-left: 245px;
+  padding: 28px;
+}
 
-    .create-card .icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
-      font-size: 22px;
-      color: white;
-    }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+}
 
-    .create-card.active-card {
-      border: 2px solid #7c3aed;
-      background: #faf5ff;
-    }
+.welcome h1 {
+  margin: 0;
+  font-size: 25px;
+}
 
-    .c1 .icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
-    .c2 .icon { background: linear-gradient(135deg, #ec4899, #f472b6); }
-    .c3 .icon { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
-    .c4 .icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-    .c5 .icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+.welcome p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
 
-    /* Scene Builder Workspace */
-    .builder-workspace {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-    }
+.primary-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 11px;
+  font-weight: bold;
+  font-size: 12px;
+}
 
-    .scene-preview-box {
-      background: linear-gradient(135deg, #1e1b4b, #312e81);
-      border-radius: 20px;
-      height: 440px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding-bottom: 25px;
-      color: white;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
+.primary-btn:hover {
+  background: #5847d3;
+}
 
-    .stage-characters {
-      display: flex;
-      gap: 45px;
-      align-items: flex-end;
-      margin-bottom: 15px;
-    }
+.page {
+  display: none;
+}
 
-    .detailed-char {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      animation: floatChar 3s ease-in-out infinite;
-    }
+.page.active {
+  display: block;
+}
 
-    @keyframes floatChar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
+/* HERO */
 
-    .char-head-box {
-      font-size: 48px;
-      margin-bottom: -6px;
-      z-index: 3;
-    }
+.hero {
+  background: linear-gradient(115deg,#29214e,#5441a3,#8d6de4);
+  color: white;
+  border-radius: 22px;
+  padding: 32px;
+  min-height: 220px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
 
-    .char-torso {
-      width: 65px;
-      height: 90px;
-      border-radius: 20px 20px 8px 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      z-index: 2;
-    }
+.hero h2 {
+  font-size: 28px;
+  line-height: 1.35;
+  margin: 15px 0 10px;
+}
 
-    .outfit-label {
-      font-size: 11px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-      text-align: center;
-      padding: 0 4px;
-    }
+.hero p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #e6e0ff;
+  max-width: 470px;
+}
 
-    .hand-left, .hand-right {
-      position: absolute;
-      width: 14px;
-      height: 55px;
-      border-radius: 10px;
-      top: 5px;
-      z-index: 1;
-    }
-    .hand-left { left: -14px; transform: rotate(15deg); }
-    .hand-right { right: -14px; transform: rotate(-15deg); }
+.hero .primary-btn {
+  background: white;
+  color: var(--primary);
+  margin-top: 8px;
+}
 
-    .char-legs {
-      display: flex;
-      gap: 12px;
-      margin-top: -4px;
-      z-index: 1;
-    }
+.hero-art {
+  position: absolute;
+  right: 7%;
+  bottom: -5px;
+  font-size: 110px;
+}
 
-    .leg {
-      width: 16px;
-      height: 45px;
-      border-radius: 0 0 8px 8px;
-    }
+/* STATS */
 
-    .scene-controls {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
 
-    .form-group {
-      margin-bottom: 12px;
-    }
+.stat {
+  background: white;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
 
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: #4b5563;
-      margin-bottom: 4px;
-    }
+.stat span {
+  font-size: 24px;
+}
 
-    .form-group select, .form-group input {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-      background: #f9fafb;
-    }
+.stat small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 12px;
+}
 
-    .scene-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
+.stat strong {
+  display: block;
+  font-size: 23px;
+  margin-top: 7px;
+}
 
-    .scene-tab {
-      padding: 6px 12px;
-      background: #f3f4f6;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      color: #4b5563;
-    }
+/* SECTIONS */
 
-    .scene-tab.active {
-      background: #7c3aed;
-      color: white;
-    }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 15px;
+  gap: 10px;
+}
 
-    /* ========== MOBILE BOTTOM NAV ========== */
-    .bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid #e5e7eb;
-      padding: 8px 0 12px;
-      z-index: 100;
-    }
+.section-head h2 {
+  font-size: 17px;
+  margin: 0;
+}
 
-    .bottom-nav-inner {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-    }
+.section-head p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
 
-    .bn-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      font-size: 11px;
-      color: #6b7280;
-      cursor: pointer;
-    }
+/* CREATE CARDS */
 
-    .bn-item.active {
-      color: #7c3aed;
-    }
+.create-grid {
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 13px;
+}
 
-    .bn-item .icon {
-      font-size: 22px;
-    }
+.create-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: left;
+  transition: .2s;
+}
 
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 900px) {
-      .sidebar {
-        display: none;
-      }
-      .main {
-        margin-left: 0;
-        padding: 16px 16px 90px;
-      }
-      .bottom-nav {
-        display: block;
-      }
-      .builder-workspace {
-        grid-template-columns: 1fr;
-      }
-      .create-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+.create-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.create-card .art {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 15px;
+}
+
+.create-card strong {
+  font-size: 12px;
+  display: block;
+}
+
+.create-card small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+  margin-top: 7px;
+}
+
+/* PROJECTS */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 15px;
+}
+
+.project-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.project-cover {
+  height: 130px;
+  display: grid;
+  place-items: center;
+  font-size: 55px;
+}
+
+.purple { background: linear-gradient(135deg,#d9ceff,#a89aff); }
+.pink { background: linear-gradient(135deg,#ffd8e7,#ff9ec3); }
+.blue { background: linear-gradient(135deg,#d4f4ff,#86d9ef); }
+.green { background: linear-gradient(135deg,#d8f8e8,#87dfbb); }
+.orange { background: linear-gradient(135deg,#ffe6c7,#ffba85); }
+
+.project-info {
+  padding: 14px;
+}
+
+.project-info h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
+.project-info p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.project-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-actions button {
+  border: 0;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.project-actions .delete {
+  background: #fff0f4;
+  color: #e05276;
+}
+
+.empty {
+  background: white;
+  border: 1px dashed #d8d8e9;
+  border-radius: 16px;
+  text-align: center;
+  padding: 35px;
+  color: var(--muted);
+  grid-column: 1/-1;
+}
+
+/* PANELS */
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.panel h3 {
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.panel p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.character-grid,
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 14px;
+}
+
+.character,
+.tool-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.character .face {
+  font-size: 43px;
+  margin-bottom: 10px;
+}
+
+.character strong {
+  font-size: 12px;
+}
+
+.character small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 6px;
+}
+
+.tool-grid {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+}
+
+.tool-card .face {
+  font-size: 28px;
+}
+
+.tool-card h3 {
+  font-size: 13px;
+}
+
+.tool-card p {
+  font-size: 11px;
+}
+
+.tool-card button {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* SETTINGS */
+
+.field {
+  margin: 15px 0;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  background: white;
+}
+
+/* MODAL */
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #211b3c80;
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-head h2 {
+  font-size: 18px;
+}
+
+.close-btn {
+  border: 0;
+  background: #f2f2f8;
+  border-radius: 9px;
+  padding: 8px 12px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.secondary-btn {
+  border: 1px solid var(--border);
+  background: white;
+  padding: 11px 15px;
+  border-radius: 10px;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav {
+  display: none;
+}
+
+.toast {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #29214e;
+  color: white;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: .2s;
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .create-grid { grid-template-columns: repeat(3,1fr); }
+  .project-grid { grid-template-columns: repeat(2,1fr); }
+  .main { padding: 22px; }
+}
+
+@media(max-width:720px) {
+  .sidebar { display: none; }
+
+  .main {
+    margin-left: 0;
+    padding: 17px 14px 95px;
+  }
+
+  .welcome h1 { font-size: 20px; }
+  .welcome p { font-size: 11px; }
+  .topbar { align-items: flex-start; }
+
+  .hero {
+    padding: 22px;
+    min-height: 225px;
+  }
+
+  .hero h2 { font-size: 23px; }
+  .hero-art { font-size: 70px; right: 2px; opacity: .75; }
+
+  .create-grid { grid-template-columns: repeat(2,1fr); }
+  .project-grid { grid-template-columns: repeat(2,1fr); }
+  .project-cover { height: 105px; }
+  .character-grid { grid-template-columns: repeat(2,1fr); }
+  .tool-grid { grid-template-columns: repeat(2,1fr); }
+
+  .mobile-nav {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 20;
+    padding: 8px 2px;
+    border-radius: 17px;
+    background: white;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .mobile-nav button {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+
+  .mobile-nav button span { font-size: 19px; }
+  .mobile-nav button.active { color: var(--primary); }
+  .toast { left: 15px; right: 15px; bottom: 80px; text-align: center; }
+}
+
+@media(max-width:380px) {
+  .project-grid,
+  .tool-grid { grid-template-columns: 1fr; }
+
+  .hero-art { font-size: 55px; }
+}
+</style>
 </head>
+
 <body>
+<div class="app">
 
-  <!-- SIDEBAR (Desktop) -->
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-icon">🤖</div>
-      <div>
-        <div class="logo-text">CartoonStudio</div>
-        <div class="logo-sub">Create • Imagine • Inspire</div>
-      </div>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">🎬</div>
+    <div>
+      <h2>ToonBondhu</h2>
+      <small>STUDIO PRO</small>
     </div>
+  </div>
 
-    <div class="nav-item active" id="nav-home" onclick="showSection('home')">
-      <i>🏠</i> Home
-    </div>
-    <div class="nav-item" id="nav-builder" onclick="showSection('scene-builder')">
-      <i>🎬</i> Cartoon Studio
-    </div>
-  </aside>
+  <div class="nav-title">WORKSPACE</div>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
-    <div class="topbar">
-      <div class="search-box">
-        <span>🔍</span>
-        <input type="text" placeholder="Search characters, scenes...">
-      </div>
-      <div class="top-right">
-        <div class="notification">🔔<span class="badge">3</span></div>
-        <div class="user">
-          <div class="avatar">A</div>
-          <span>Aarav Creator</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- HOME SECTION -->
-    <div id="home-section">
-      <div class="welcome">
-        <div>
-          <h1>👋 স্বাগতম, ক্রিয়েটর!</h1>
-          <p>আপনার কার্টুন অ্যানিমেশন ও স্টোরি স্টুডিও পরিচালনা করুন।</p>
-        </div>
-        <div style="font-size: 50px;">🤖✨</div>
-      </div>
-
-      <div class="section-title"><span>দ্রুত শুরু করুন (Quick Create)</span></div>
-
-      <div class="create-grid">
-        <div class="create-card c1 active-card" onclick="showSection('scene-builder')">
-          <div class="icon">✨</div>
-          <h3>Cartoon</h3>
-          <p>Full-body characters & scenes</p>
-        </div>
-        <div class="create-card c2" onclick="alert('শীঘ্রই আসছে: ড্রামা সিরিজ ফিচার!')">
-          <div class="icon">🎬</div>
-          <h3>Drama</h3>
-          <p>Build drama series</p>
-        </div>
-        <div class="create-card c3" onclick="alert('শীঘ্রই আসছে: শর্ট ভিডিও ফিচার!')">
-          <div class="icon">▶️</div>
-          <h3>Short Video</h3>
-          <p>Viral shorts</p>
-        </div>
-        <div class="create-card c4" onclick="alert('শীঘ্রই আসছে: মুভি মেকার ফিচার!')">
-          <div class="icon">🎥</div>
-          <h3>Movie</h3>
-          <p>Cinematic stories</p>
-        </div>
-        <div class="create-card c5" onclick="alert('শীঘ্রই আসছে: স্টোরি রাইটিং ফিচার!')">
-          <div class="icon">📖</div>
-          <h3>Story</h3>
-          <p>Illustrated stories</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARTOON SCENE BUILDER SECTION -->
-    <div id="scene-builder-section" style="display:none;">
-      <div class="welcome" style="margin-bottom: 20px;">
-        <div>
-          <h1 style="color:#6d28d9; font-size:24px;">✨ Cartoon Studio (Complete Builder)</h1>
-          <p>পোশাক, হাত-পা এবং মাল্টি-সিন সিকোয়েন্সসহ সম্পূর্ণ কার্টুন মেকার।</p>
-        </div>
-      </div>
-
-      <div class="scene-tabs">
-        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Scene 1)</button>
-        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Scene 2)</button>
-      </div>
-
-      <div class="builder-workspace">
-        <div class="scene-preview-box" id="previewBox">
-          <h3 id="sceneTitleDisplay" style="position: absolute; top: 15px; left: 20px; font-size: 14px; opacity: 0.8;">দৃশ্য ১ প্রিভিউ</h3>
-          
-          <div class="stage-characters" id="stageCharacters">
-            
-            <!-- Character 1 -->
-            <div class="detailed-char">
-              <div class="char-head-box" id="c1Head">👨‍💼</div>
-              <div class="hand-left" id="c1HandL" style="background: #3b82f6;"></div>
-              <div class="hand-right" id="c1HandR" style="background: #3b82f6;"></div>
-              <div class="char-torso" id="c1Torso" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
-                <span class="outfit-label" id="c1Name">বাবা (শার্ট)</span>
-              </div>
-              <div class="char-legs">
-                <div class="leg" id="c1LegL" style="background: #1e3a8a;"></div>
-                <div class="leg" id="c1LegR" style="background: #1e3a8a;"></div>
-              </div>
-            </div>
-
-            <!-- Character 2 -->
-            <div class="detailed-char">
-              <div class="char-head-box" id="c2Head">👩‍🦰</div>
-              <div class="hand-left" id="c2HandL" style="background: #ec4899;"></div>
-              <div class="hand-right" id="c2HandR" style="background: #ec4899;"></div>
-              <div class="char-torso" id="c2Torso" style="background: linear-gradient(135deg, #ec4899, #be185d);">
-                <span class="outfit-label" id="c2Name">মা (থ্রিপিস)</span>
-              </div>
-              <div class="char-legs">
-                <div class="leg" id="c2LegL" style="background: #831843;"></div>
-                <div class="leg" id="c2LegR" style="background: #831843;"></div>
-              </div>
-            </div>
-
-            <!-- Character 3 -->
-            <div class="detailed-char">
-              <div class="char-head-box" id="c3Head">👦</div>
-              <div class="hand-left" id="c3HandL" style="background: #10b981;"></div>
-              <div class="hand-right" id="c3HandR" style="background: #10b981;"></div>
-              <div class="char-torso" id="c3Torso" style="background: linear-gradient(135deg, #10b981, #047857);">
-                <span class="outfit-label" id="c3Name">ছেলে (টি-শার্ট)</span>
-              </div>
-              <div class="char-legs">
-                <div class="leg" id="c3LegL" style="background: #064e3b;"></div>
-                <div class="leg" id="c3LegR" style="background: #064e3b;"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <p id="dialogueDisplay" style="font-size: 15px; font-style: italic; background: rgba(0,0,0,0.5); padding: 8px 18px; border-radius: 20px; margin-top: 10px;">
-            "আজ আমরা সবাই নতুন জামা পরে ঘুরব!"
-          </p>
-        </div>
-
-        <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ কার্টুন ও পোশাক কন্ট্রোল</h3>
-          
-          <div class="form-group">
-            <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
-            <select id="bgSelect" onchange="updateSceneBackground()">
-              <option value="linear-gradient(135deg, #1e1b4b, #312e81)">বসার ঘর (Living Room)</option>
-              <option value="linear-gradient(135deg, #065f46, #047857)">স্কুলের মাঠ (School Field)</option>
-              <option value="linear-gradient(135deg, #7c2d12, #9a3412)">প্রকৃতি / বন (Forest)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>চরিত্র ১ (পোশাকসহ):</label>
-            <select id="char1Select" onchange="updateCharacters()">
-              <option value="👨‍💼|বাবা (শার্ট)|#3b82f6|#1e3a8a">বাবা (ব্লু ফরমাল শার্ট)</option>
-              <option value="🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95">সুপারহিরো (অ্যাকশন সুট)</option>
-              <option value="👴|দাদা (পাঞ্জাবি)|#64748b|#334155">দাদা (সাদা পাঞ্জাবি)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>চরিত্র ২ (পোশাকসহ):</label>
-            <select id="char2Select" onchange="updateCharacters()">
-              <option value="👩‍🦰|মা (থ্রিপিস)|#ec4899|#831843">মা (গোলাপি থ্রিপিস)</option>
-              <option value="🧕|নানি (শাড়ি)|#14b8a6|#0f766e">নানি (সবুজ শাড়ি)</option>
-              <option value="👸|রানী (গাউন)|#f59e0b|#b45309">রানী (রাজকীয় গাউন)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>চরিত্র ৩ (পোশাকসহ):</label>
-            <select id="char3Select" onchange="updateCharacters()">
-              <option value="👦|ছেলে (টি-শার্ট)|#10b981|#064e3b">ছেলে (সবুজ টি-শার্ট)</option>
-              <option value="👧|মেয়ে (ফ্রক)|#f43f5e|#9f1239">মেয়ে (লাল ফ্রক)</option>
-              <option value="🐶|পোষা কুকুর|#d97706|#78350f">পোষা কুকুর (Dog)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>সংলাপ (Dialogue):</label>
-            <input type="text" id="dialogueInput" placeholder="সংলাপ লিখুন..." value="আজ আমরা সবাই নতুন জামা পরে ঘুরব!">
-          </div>
-
-          <button class="btn btn-primary" style="width: 100%; margin-top: 6px; background: #7c3aed; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;" onclick="applyDialogue()">দৃশ্য আপডেট করুন</button>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- MOBILE BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <div class="bottom-nav-inner">
-      <div class="bn-item active" onclick="showSection('home')">
-        <div class="icon">🏠</div>
-        <span>Home</span>
-      </div>
-      <div class="bn-item" onclick="showSection('scene-builder')">
-        <div class="icon">🎬</div>
-        <span>Cartoon</span>
-      </div>
-    </div>
+  <nav>
+    <button class="nav-button active" data-page="dashboard">🏠 ড্যাশবোর্ড</button>
+    <button class="nav-button" data-page="projects">📁 আমার প্রজেক্ট</button>
+    <button class="nav-button" data-page="templates">▦ টেমপ্লেট</button>
+    <button class="nav-button" data-page="characters">🧑‍🎨 ক্যারেক্টার স্টুডিও</button>
+    <button class="nav-button" data-page="tools">✨ AI টুলস</button>
+    <button class="nav-button" data-page="analytics">📊 অ্যানালিটিক্স</button>
+    <button class="nav-button" data-page="settings">⚙️ সেটিংস</button>
   </nav>
 
-  <script>
-    let currentScene = 1;
-    const scenesData = {
-      1: { 
-        bg: 'linear-gradient(135deg, #1e1b4b, #312e81)', 
-        c1: '👨‍💼|বাবা (শার্ট)|#3b82f6|#1e3a8a', 
-        c2: '👩‍🦰|মা (থ্রিপিস)|#ec4899|#831843', 
-        c3: '👦|ছেলে (টি-শার্ট)|#10b981|#064e3b',
-        text: 'আজ আমরা সবাই নতুন জামা পরে ঘুরব!' 
-      },
-      2: { 
-        bg: 'linear-gradient(135deg, #065f46, #047857)', 
-        c1: '🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95', 
-        c2: '👸|রানী (গাউন)|#f59e0b|#b45309', 
-        c3: '👧|মেয়ে (ফ্রক)|#f43f5e|#9f1239',
-        text: 'আমাদের নতুন পোশাকগুলো দারুণ লাগছে!' 
-      }
-    };
+  <div class="sidebar-bottom">
+    <div class="upgrade">
+      <h3>✨ Studio Pro</h3>
+      <p>আপনার সৃজনশীলতার নতুন জগৎ আবিষ্কার করুন।</p>
+      <button onclick="notify('প্রো ফিচারটি এখন ডেমো মোডে আছে।')">প্রো ফিচার দেখুন ↗</button>
+    </div>
 
-    function showSection(section) {
-      document.getElementById('home-section').style.display = (section === 'home') ? 'block' : 'none';
-      document.getElementById('scene-builder-section').style.display = (section === 'scene-builder') ? 'block' : 'none';
+    <div class="profile">
+      <div class="avatar">🧑‍🎨</div>
+      <div>
+        <strong id="profileName">Studio Creator</strong>
+        <small>Free Plan</small>
+      </div>
+    </div>
+  </div>
+</aside>
 
-      document.getElementById('nav-home').classList.toggle('active', section === 'home');
-      document.getElementById('nav-builder').classList.toggle('active', section === 'scene-builder');
-    }
+<main class="main">
 
-    function switchScene(sceneNum) {
-      currentScene = sceneNum;
-      document.getElementById('tab1').classList.toggle('active', sceneNum === 1);
-      document.getElementById('tab2').classList.toggle('active', sceneNum === 2);
-      document.getElementById('sceneTitleDisplay').textContent = `দৃশ্য ${sceneNum} প্রিভিউ`;
+  <header class="topbar">
+    <div class="welcome">
+      <h1 id="pageTitle">হ্যালো, ক্রিয়েটর! 👋</h1>
+      <p id="pageSubtitle">আজ আপনার কল্পনাকে জীবন্ত করে তুলুন।</p>
+    </div>
 
-      const data = scenesData[sceneNum];
-      if (data) {
-        document.getElementById('previewBox').style.background = data.bg;
-        document.getElementById('bgSelect').value = data.bg;
-        document.getElementById('char1Select').value = data.c1;
-        document.getElementById('char2Select').value = data.c2;
-        document.getElementById('char3Select').value = data.c3;
-        document.getElementById('dialogueInput').value = data.text;
-        document.getElementById('dialogueDisplay').textContent = `"${data.text}"`;
-        renderDetailedCharacters(data.c1, data.c2, data.c3);
-      }
-    }
+    <button class="primary-btn" onclick="openModal()">＋ নতুন প্রজেক্ট</button>
+  </header>
 
-    function updateSceneBackground() {
-      const bg = document.getElementById('bgSelect').value;
-      document.getElementById('previewBox').style.background = bg;
-      scenesData[currentScene].bg = bg;
-    }
+  <!-- DASHBOARD -->
+  <section class="page active" id="page-dashboard">
 
-    function updateCharacters() {
-      const c1 = document.getElementById('char1Select').value;
-      const c2 = document.getElementById('char2Select').value;
-      const c3 = document.getElementById('char3Select').value;
-      renderDetailedCharacters(c1, c2, c3);
-      scenesData[currentScene].c1 = c1;
-      scenesData[currentScene].c2 = c2;
-      scenesData[currentScene].c3 = c3;
-    }
+    <div class="hero">
+      <div style="position:relative;z-index:2">
+        <span style="font-size:10px;letter-spacing:1px">✦ YOUR CREATIVE SPACE</span>
+        <h2>আপনার গল্প, আপনার<br>অ্যানিমেশনের দুনিয়া!</h2>
+        <p>কার্টুন, অ্যানিমেশন, শর্ট ভিডিও কিংবা গল্প—সবকিছু তৈরির যাত্রা শুরু হোক এখান থেকেই।</p>
+        <button class="primary-btn" onclick="openModal()">＋ এখনই তৈরি করুন</button>
+      </div>
+      <div class="hero-art">🦊</div>
+    </div>
 
-    function renderDetailedCharacters(v1, v2, v3) {
-      const [e1, n1, color1, legColor1] = v1.split('|');
-      document.getElementById('c1Head').textContent = e1;
-      document.getElementById('c1Name').textContent = n1;
-      document.getElementById('c1Torso').style.background = `linear-gradient(135deg, ${color1}, #111)`;
-      document.getElementById('c1HandL').style.background = color1;
-      document.getElementById('c1HandR').style.background = color1;
-      document.getElementById('c1LegL').style.background = legColor1;
-      document.getElementById('c1LegR').style.background = legColor1;
+    <div class="stats">
+      <div class="stat"><span>🎬</span><small>মোট প্রজেক্ট</small><strong id="totalCount">03</strong></div>
+      <div class="stat"><span>🕒</span><small>চলমান</small><strong id="activeCount">02</strong></div>
+      <div class="stat"><span>✅</span><small>সম্পন্ন</small><strong id="doneCount">01</strong></div>
+      <div class="stat"><span>⭐</span><small>ক্রিয়েটর স্কোর</small><strong>86</strong></div>
+    </div>
 
-      const [e2, n2, color2, legColor2] = v2.split('|');
-      document.getElementById('c2Head').textContent = e2;
-      document.getElementById('c2Name').textContent = n2;
-      document.getElementById('c2Torso').style.background = `linear-gradient(135deg, ${color2}, #111)`;
-      document.getElementById('c2HandL').style.background = color2;
-      document.getElementById('c2HandR').style.background = color2;
-      document.getElementById('c2LegL').style.background = legColor2;
-      document.getElementById('c2LegR').style.background = legColor2;
+    <div class="section-head">
+      <div>
+        <h2>⚡ দ্রুত তৈরি করুন</h2>
+        <p>আপনার পছন্দের ফরম্যাট বেছে নিন</p>
+      </div>
+    </div>
 
-      const [e3, n3, color3, legColor3] = v3.split('|');
-      document.getElementById('c3Head').textContent = e3;
-      document.getElementById('c3Name').textContent = n3;
-      document.getElementById('c3Torso').style.background = `linear-gradient(135deg, ${color3}, #111)`;
-      document.getElementById('c3HandL').style.background = color3;
-      document.getElementById('c3HandR').style.background = color3;
-      document.getElementById('c3LegL').style.background = legColor3;
-      document.getElementById('c3LegR').style.background = legColor3;
-    }
+    <div class="create-grid">
+      <button class="create-card" data-kind="কার্টুন অ্যানিমেশন">
+        <span class="art">🎨</span><strong>কার্টুন অ্যানিমেশন</strong>
+        <small>মজার চরিত্র ও অ্যানিমেশন</small>
+      </button>
 
-    function applyDialogue() {
-      const text = document.getElementById('dialogueInput').value;
-      document.getElementById('dialogueDisplay').textContent = `"${text}"`;
-      scenesData[currentScene].text = text;
-      alert(`দৃশ্য ${currentScene} সফলভাবে আপডেট হয়েছে!`);
-    }
-  </script>
+      <button class="create-card" data-kind="ড্রামা">
+        <span class="art">🎭</span><strong>ড্রামা / সিরিজ</strong>
+        <small>এপিসোড ও গল্প তৈরি করুন</small>
+      </button>
+
+      <button class="create-card" data-kind="শর্ট ভিডিও">
+        <span class="art">📱</span><strong>শর্ট ভিডিও</strong>
+        <small>রিলস ও শর্টসের আইডিয়া</small>
+      </button>
+
+      <button class="create-card" data-kind="মুভি">
+        <span class="art">🎥</span><strong>মুভি প্রজেক্ট</strong>
+        <small>সিনেমার পরিকল্পনা করুন</small>
+      </button>
+
+      <button class="create-card" data-kind="গল্প">
+        <span class="art">📚</span><strong>গল্প / স্ক্রিপ্ট</strong>
+        <small>কল্পনার গল্প লিখুন</small>
+      </button>
+    </div>
+
+    <div class="section-head">
+      <div>
+        <h2>🗂️ সাম্প্রতিক প্রজেক্ট</h2>
+        <p>আপনার সাম্প্রতিক কাজগুলো</p>
+      </div>
+      <button class="primary-btn" onclick="navigate('projects')">সব দেখুন →</button>
+    </div>
+
+    <div class="project-grid" id="recentProjects"></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="page" id="page-projects">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>📁 আমার প্রজেক্ট</h2>
+        <p>আপনার সব কাজ এক জায়গায়</p>
+      </div>
+      <button class="primary-btn" onclick="openModal()">＋ নতুন প্রজেক্ট</button>
+    </div>
+    <div class="project-grid" id="allProjects"></div>
+  </section>
+
+  <!-- TEMPLATES -->
+  <section class="page" id="page-templates">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>▦ টেমপ্লেট লাইব্রেরি</h2>
+        <p>শুরু করার জন্য একটি ফরম্যাট বেছে নিন</p>
+      </div>
+    </div>
+
+    <div class="create-grid">
+      <button class="create-card" data-kind="কার্টুন অ্যানিমেশন"><span class="art">🦊</span><strong>কিডস কার্টুন</strong><small>শিশুদের অ্যানিমেশন</small></button>
+      <button class="create-card" data-kind="ড্রামা"><span class="art">🎭</span><strong>ড্রামা এপিসোড</strong><small>এপিসোডভিত্তিক গল্প</small></button>
+      <button class="create-card" data-kind="শর্ট ভিডিও"><span class="art">📱</span><strong>শর্ট ভিডিও</strong><small>৩০–৬০ সেকেন্ডের ভিডিও</small></button>
+      <button class="create-card" data-kind="মুভি"><span class="art">🎬</span><strong>মুভি স্টোরিবোর্ড</strong><small>সিনেমার পরিকল্পনা</small></button>
+      <button class="create-card" data-kind="গল্প"><span class="art">📚</span><strong>গল্পের খাতা</strong><small>গল্প ও সংলাপ</small></button>
+    </div>
+  </section>
+
+  <!-- CHARACTERS -->
+  <section class="page" id="page-characters">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>🧑‍🎨 ক্যারেক্টার স্টুডিও</h2>
+        <p>আপনার গল্পের চরিত্রদের সঙ্গে পরিচিত হোন</p>
+      </div>
+    </div>
+
+    <div class="character-grid">
+      <div class="character"><div class="face">🦊</div><strong>ফক্সি</strong><small>বন্ধুসুলভ ও চালাক</small></div>
+      <div class="character"><div class="face">🐰</div><strong>মিমি</strong><small>মিষ্টি ও সাহসী</small></div>
+      <div class="character"><div class="face">🐻</div><strong>বুবু</strong><small>শান্ত ও শক্তিশালী</small></div>
+      <div class="character"><div class="face">🐱</div><strong>টুনি</strong><small>কৌতূহলী ও মজার</small></div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <h3>আপনার চরিত্রের নোট</h3>
+      <div class="field">
+        <textarea id="characterNotes" rows="4" placeholder="চরিত্রের নাম, স্বভাব, পোশাক ও বিশেষ ক্ষমতা লিখুন..."></textarea>
+      </div>
+      <button class="primary-btn" onclick="saveNotes()">নোট সেভ করুন</button>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="page" id="page-tools">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>✨ AI ক্রিয়েটিভ টুলস</h2>
+        <p>আপনার আইডিয়া সাজাতে সহায়ক টুলস</p>
+      </div>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card"><div class="face">✍️</div><h3>গল্প ও স্ক্রিপ্ট</h3><p>গল্পের ধারণা ও সংলাপের খসড়া তৈরি করুন।</p><button onclick="openModal('গল্প')">শুরু করুন</button></div>
+      <div class="tool-card"><div class="face">🧩</div><h3>স্টোরিবোর্ড</h3><p>ভিডিওকে দৃশ্য অনুযায়ী সাজান।</p><button onclick="openModal('স্টোরিবোর্ড')">প্ল্যান করুন</button></div>
+      <div class="tool-card"><div class="face">🎙️</div><h3>ভয়েস ও ডায়লগ</h3><p>চরিত্রের ভয়েস ও সংলাপের নোট রাখুন।</p><button onclick="openModal('ভয়েস ও ডায়লগ')">নোট শুরু</button></div>
+      <div class="tool-card"><div class="face">🎨</div><h3>দৃশ্যের ধারণা</h3><p>লোকেশন, রঙ ও আলোর পরিকল্পনা লিখুন।</p><button onclick="openModal('দৃশ্যের ধারণা')">আইডিয়া লিখুন</button></div>
+      <div class="tool-card"><div class="face">📋</div><h3>প্রোডাকশন চেকলিস্ট</h3><p>কাজের ধাপগুলো সাজিয়ে রাখুন।</p><button onclick="openModal('প্রোডাকশন চেকলিস্ট')">তৈরি করুন</button></div>
+      <div class="tool-card"><div class="face">💡</div><h3>আইডিয়া বোর্ড</h3><p>নতুন আইডিয়া জমা রাখুন।</p><button onclick="openModal('আইডিয়া বোর্ড')">আইডিয়া যোগ</button></div>
+    </div>
+
+    <div class="panel" style="margin-top:20px">
+      <h3>ℹ️ AI টুলস সম্পর্কে</h3>
+      <p>এই সংস্করণে আপনি প্রজেক্ট ও পরিকল্পনার নোট রাখতে পারবেন। সরাসরি AI দিয়ে ছবি, ভয়েস বা ভিডিও তৈরি করতে হলে পরবর্তীতে AI API এবং ব্যাকএন্ড সংযোগ করতে হবে।</p>
+    </div>
+  </section>
+
+  <!-- ANALYTICS -->
+  <section class="page" id="page-analytics">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>📊 ক্রিয়েটর অ্যানালিটিক্স</h2>
+        <p>আপনার কাজের অগ্রগতি</p>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span>🎬</span><small>মোট প্রজেক্ট</small><strong id="analyticsTotal">03</strong></div>
+      <div class="stat"><span>🕒</span><small>চলমান</small><strong id="analyticsActive">02</strong></div>
+      <div class="stat"><span>✅</span><small>সম্পন্ন</small><strong id="analyticsDone">01</strong></div>
+      <div class="stat"><span>📈</span><small>সাপ্তাহিক লক্ষ্য</small><strong>60%</strong></div>
+    </div>
+
+    <div class="panel">
+      <h3>আপনার পরবর্তী লক্ষ্য</h3>
+      <p>এই সপ্তাহে একটি নতুন গল্প তৈরি করুন, সেটিকে দৃশ্যে ভাগ করুন এবং প্রজেক্টের অগ্রগতি নিয়মিত আপডেট করুন।</p>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="page" id="page-settings">
+    <div class="section-head" style="margin-top:0">
+      <div>
+        <h2>⚙️ সেটিংস</h2>
+        <p>আপনার স্টুডিও নিজের মতো সাজান</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>প্রোফাইল সেটিংস</h3>
+      <div class="field">
+        <label for="creatorName">ক্রিয়েটরের নাম</label>
+        <input id="creatorName" type="text" placeholder="আপনার নাম">
+      </div>
+      <button class="primary-btn" onclick="saveSettings()">সেটিংস সেভ করুন</button>
+      <hr style="border:0;border-top:1px solid var(--border);margin:24px 0">
+      <h3>ডেটা ম্যানেজমেন্ট</h3>
+      <p>আপনার প্রজেক্ট এই ব্রাউজারের Local Storage-এ রাখা হয়।</p>
+      <button class="primary-btn" onclick="exportData()">ডেটা এক্সপোর্ট করুন</button>
+      <button class="primary-btn" style="background:#e05276;margin-left:5px" onclick="clearProjects()">সব প্রজেক্ট মুছুন</button>
+    </div>
+  </section>
+
+</main>
+
+<nav class="mobile-nav">
+  <button class="active" data-page="dashboard"><span>🏠</span>হোম</button>
+  <button data-page="projects"><span>📁</span>প্রজেক্ট</button>
+  <button data-page="templates"><span>▦</span>টেমপ্লেট</button>
+  <button data-page="characters"><span>🧑‍🎨</span>চরিত্র</button>
+  <button data-page="settings"><span>⚙️</span>সেটিংস</button>
+</nav>
+
+</div>
+
+<!-- CREATE PROJECT MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>✨ নতুন প্রজেক্ট তৈরি</h2>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+
+    <form id="projectForm">
+      <div class="field">
+        <label for="projectName">প্রজেক্টের নাম *</label>
+        <input id="projectName" required maxlength="70" placeholder="যেমন: ফক্সির মজার অভিযান">
+      </div>
+
+      <div class="field">
+        <label for="projectKind">প্রজেক্টের ধরন</label>
+        <select id="projectKind">
+          <option>কার্টুন অ্যানিমেশন</option>
+          <option>ড্রামা</option>
+          <option>শর্ট ভিডিও</option>
+          <option>মুভি</option>
+          <option>গল্প</option>
+          <option>স্টোরিবোর্ড</option>
+          <option>ভয়েস ও ডায়লগ</option>
+          <option>দৃশ্যের ধারণা</option>
+          <option>প্রোডাকশন চেকলিস্ট</option>
+          <option>আইডিয়া বোর্ড</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="projectDesc">ছোট বিবরণ</label>
+        <textarea id="projectDesc" rows="3" maxlength="240" placeholder="এই প্রজেক্টে কী তৈরি করবেন?"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" onclick="closeModal()">বাতিল</button>
+        <button type="submit" class="primary-btn">প্রজেক্ট তৈরি করুন ↗</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const starterProjects = [
+  {
+    id: "starter1",
+    title: "ফক্সির মজার অভিযান",
+    kind: "কার্টুন অ্যানিমেশন",
+    desc: "একটি ছোট্ট শিয়ালের মজার গল্প।",
+    emoji: "🦊",
+    cover: "purple",
+    status: "চলমান",
+    progress: 65
+  },
+  {
+    id: "starter2",
+    title: "বন্ধুত্বের গল্প",
+    kind: "ড্রামা",
+    desc: "বন্ধুত্ব আর সাহসের ছোট গল্প।",
+    emoji: "🐰",
+    cover: "pink",
+    status: "চলমান",
+    progress: 35
+  },
+  {
+    id: "starter3",
+    title: "এক মিনিটের পৃথিবী",
+    kind: "শর্ট ভিডিও",
+    desc: "এক মিনিটের ভিডিও কনসেপ্ট।",
+    emoji: "🌎",
+    cover: "blue",
+    status: "সম্পন্ন",
+    progress: 100
+  }
+];
+
+const pageTitles = {
+  dashboard: ["হ্যালো, ক্রিয়েটর! 👋", "আজ আপনার কল্পনাকে জীবন্ত করে তুলুন।"],
+  projects: ["আমার প্রজেক্ট 📁", "আপনার সব কাজ এক জায়গায়।"],
+  templates: ["টেমপ্লেট লাইব্রেরি ▦", "একটি ফরম্যাট বেছে নিয়ে কাজ শুরু করুন।"],
+  characters: ["ক্যারেক্টার স্টুডিও 🧑‍🎨", "আপনার গল্পের চরিত্রদের সাজান।"],
+  tools: ["AI ক্রিয়েটিভ টুলস ✨", "আপনার আইডিয়া সাজানোর সহায়ক টুলস।"],
+  analytics: ["ক্রিয়েটর অ্যানালিটিক্স 📊", "আপনার কাজের অগ্রগতি দেখুন।"],
+  settings: ["সেটিংস ⚙️", "আপনার স্টুডিও পরিচালনা করুন।"]
+};
+
+let projects = [];
+
+try {
+  const saved = localStorage.getItem("toonbondhu_projects");
+  projects = saved ? JSON.parse(saved) : starterProjects;
+  if (!Array.isArray(projects)) projects = starterProjects;
+} catch (error) {
+  projects = starterProjects;
+}
+
+function saveProjects() {
+  try {
+    localStorage.setItem("toonbondhu_projects", JSON.stringify(projects));
+  } catch (error) {
+    notify("ডেটা সেভ করা যায়নি।");
+  }
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  }[char]));
+}
+
+function projectCard(project) {
+  return `
+    <article class="project-card">
+      <div class="project-cover ${escapeHTML(project.cover || "purple")}">
+        ${project.emoji || "✨"}
+      </div>
+      <div class="project-info">
+        <h3>${escapeHTML(project.title)}</h3>
+        <p>${escapeHTML(project.kind)} · ${escapeHTML(project.status || "চলমান")}</p>
+        <p>${escapeHTML(project.desc || "কোনো বিবরণ দেওয়া হয়নি।")}</p>
+        <div style="height:5px;background:#eee;border-radius:8px;overflow:hidden;margin:12px 0">
+          <div style="height:100%;width:${Math.max(0,Math.min(100,Number(project.progress)||0))}%;background:#6c5ce7"></div>
+        </div>
+        <div class="project-actions">
+          <button onclick="editProgress('${escapeHTML(project.id)}')">অগ্রগতি আপডেট</button>
+          <button class="delete" onclick="deleteProject('${escapeHTML(project.id)}')">মুছুন</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderProjects() {
+  const recent = document.getElementById("recentProjects");
+  const all = document.getElementById("allProjects");
+
+  const empty = `
+    <div class="empty">
+      <div style="font-size:35px">🗂️</div>
+      <h3>এখনো কোনো প্রজেক্ট নেই</h3>
+      <p>নতুন প্রজেক্ট তৈরি করে শুরু করুন।</p>
+      <button class="primary-btn" onclick="openModal()">＋ প্রজেক্ট তৈরি</button>
+    </div>
+  `;
+
+  recent.innerHTML = projects.slice(0, 3).map(projectCard).join("") || empty;
+  all.innerHTML = projects.map(projectCard).join("") || empty;
+
+  const total = projects.length;
+  const done = projects.filter(p => p.status === "সম্পন্ন").length;
+  const active = total - done;
+
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("activeCount").textContent = active;
+  document.getElementById("doneCount").textContent = done;
+
+  document.getElementById("analyticsTotal").textContent = total;
+  document.getElementById("analyticsActive").textContent = active;
+  document.getElementById("analyticsDone").textContent = done;
+}
+
+function navigate(page) {
+  if (!pageTitles[page]) return;
+
+  document.querySelectorAll(".page").forEach(section => {
+    section.classList.toggle("active", section.id === "page-" + page);
+  });
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === page);
+  });
+
+  document.getElementById("pageTitle").textContent = pageTitles[page][0];
+  document.getElementById("pageSubtitle").textContent = pageTitles[page][1];
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => navigate(button.dataset.page));
+});
+
+document.querySelectorAll(".create-card").forEach(button => {
+  button.addEventListener("click", () => openModal(button.dataset.kind));
+});
+
+function openModal(kind = "") {
+  document.getElementById("modalBackdrop").classList.add("open");
+  document.getElementById("projectKind").value = kind || "কার্টুন অ্যানিমেশন";
+  document.getElementById("projectName").value = "";
+  document.getElementById("projectDesc").value = "";
+  setTimeout(() => document.getElementById("projectName").focus(), 100);
+}
+
+function closeModal() {
+  document.getElementById("modalBackdrop").classList.remove("open");
+}
+
+document.getElementById("modalBackdrop").addEventListener("click", event => {
+  if (event.target.id === "modalBackdrop") closeModal();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+document.getElementById("projectForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const title = document.getElementById("projectName").value.trim();
+  if (!title) return;
+
+  const kind = document.getElementById("projectKind").value;
+
+  const types = {
+    "কার্টুন অ্যানিমেশন": ["🦊", "purple"],
+    "ড্রামা": ["🎭", "pink"],
+    "শর্ট ভিডিও": ["📱", "blue"],
+    "মুভি": ["🎥", "orange"],
+    "গল্প": ["📚", "green"],
+    "স্টোরিবোর্ড": ["🧩", "purple"],
+    "ভয়েস ও ডায়লগ": ["🎙️", "pink"],
+    "দৃশ্যের ধারণা": ["🎨", "purple"],
+    "প্রোডাকশন চেকলিস্ট": ["📋", "blue"],
+    "আইডিয়া বোর্ড": ["💡", "orange"]
+  };
+
+  const [emoji, cover] = types[kind] || ["✨", "purple"];
+
+  projects.unshift({
+    id: "p" + Date.now(),
+    title,
+    kind,
+    desc: document.getElementById("projectDesc").value.trim(),
+    emoji,
+    cover,
+    status: "চলমান",
+    progress: 0
+  });
+
+  saveProjects();
+  renderProjects();
+  closeModal();
+  navigate("projects");
+  notify("🎉 নতুন প্রজেক্ট তৈরি হয়েছে!");
+});
+
+function deleteProject(id) {
+  const project = projects.find(item => item.id === id);
+  if (!project) return;
+
+  if (!confirm("“" + project.title + "” প্রজেক্টটি মুছে ফেলবেন?")) return;
+
+  projects = projects.filter(item => item.id !== id);
+  saveProjects();
+  renderProjects();
+  notify("প্রজেক্ট মুছে ফেলা হয়েছে।");
+}
+
+function editProgress(id) {
+  const project = projects.find(item => item.id === id);
+  if (!project) return;
+
+  const current = Number(project.progress) || 0;
+  const input = prompt("নতুন অগ্রগতি লিখুন (০ থেকে ১০০):", current);
+
+  if (input === null || input.trim() === "") return;
+
+  const value = Number(input);
+
+  if (!Number.isFinite(value) || value < 0 || value > 100) {
+    notify("০ থেকে ১০০-এর মধ্যে একটি সংখ্যা লিখুন।");
+    return;
+  }
+
+  project.progress = value;
+
+  if (value === 100) {
+    project.status = "সম্পন্ন";
+  } else {
+    project.status = "চলমান";
+  }
+
+  saveProjects();
+  renderProjects();
+  notify("প্রজেক্টের অগ্রগতি আপডেট হয়েছে!");
+}
+
+function saveSettings() {
+  const name = document.getElementById("creatorName").value.trim() || "Studio Creator";
+
+  try {
+    localStorage.setItem("toonbondhu_name", name);
+  } catch (error) {}
+
+  document.getElementById("profileName").textContent = name;
+  notify("সেটিংস সেভ হয়েছে!");
+}
+
+function saveNotes() {
+  const notes = document.getElementById("characterNotes").value;
+
+  try {
+    localStorage.setItem("toonbondhu_character_notes", notes);
+  } catch (error) {}
+
+  notify("ক্যারেক্টারের নোট সেভ হয়েছে!");
+}
+
+function exportData() {
+  const data = {
+    app: "ToonBondhu Studio Pro",
+    exportedAt: new Date().toISOString(),
+    projects: projects
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "toonbondhu-studio-data.json";
+  link.click();
+
+  URL.revokeObjectURL(url);
+  notify("আপনার ডেটা এক্সপোর্ট হয়েছে!");
+}
+
+function clearProjects() {
+  if (!confirm("সব প্রজেক্ট মুছে ফেলবেন? এই কাজ ফিরিয়ে নেওয়া যাবে না।")) return;
+
+  projects = [];
+  saveProjects();
+  renderProjects();
+  notify("সব প্রজেক্ট মুছে ফেলা হয়েছে।");
+}
+
+function notify(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
+}
+
+/* LOAD SAVED SETTINGS */
+
+try {
+  const savedName = localStorage.getItem("toonbondhu_name");
+  const savedNotes = localStorage.getItem("toonbondhu_character_notes");
+
+  if (savedName) {
+    document.getElementById("profileName").textContent = savedName;
+    document.getElementById("creatorName").value = savedName;
+  }
+
+  if (savedNotes) {
+    document.getElementById("characterNotes").value = savedNotes;
+  }
+} catch (error) {}
+
+renderProjects();
+</script>
 </body>
 </html>
