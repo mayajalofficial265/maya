@@ -51,7 +51,7 @@
         .face { position: relative; width: 100%; height: 100%; }
         .eyes { position: absolute; top: 30px; left: 20px; width: 40px; display: flex; justify-content: space-between; }
         .eye { width: 8px; height: 8px; background: #333; border-radius: 50%; }
-        .mouth { position: absolute; bottom: 20px; left: 32px; width: 16px; height: 8px; background: #333; border-radius: 0 0 10px 10px; transition: 0.15s; }
+        .mouth { position: absolute; bottom: 20px; left: 32px; width: 16px; height: 8px; background: #333; border-radius: 0 0 10px 10px; transition: 0.08s ease; }
 
         .torso { width: 90px; height: 110px; background: var(--accent); border-radius: 15px; top: 80px; left: 30px; }
         .arm-left { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 2px; transform-origin: top center; }
@@ -78,7 +78,7 @@
 
     <header>
         <div class="logo"><span>✦</span> টুনিবন্ধু স্টুডিও প্রো (ToonBondhu Pro)</div>
-        <div class="badge-pro">ফ্রিমিয়াম সংস্করণ</div>
+        <div class="badge-pro">প্রো রিয়েল স্টুডিও</div>
     </header>
 
     <main class="main-container">
@@ -155,12 +155,12 @@
             </div>
         </div>
 
-        <!-- ডান পাশের প্যানেল: ভয়েস, এক্সপোর্ট ও অ্যানিমেশন -->
+        <!-- ডান পাশের প্যানেল: রিয়েল ভয়েস, লিপ-সিঙ্ক ও এক্সপোর্ট -->
         <div class="sidebar-right">
-            <h3>৩. ভয়েস ও সাউন্ড স্টুডিও</h3>
+            <h3>৩. রিয়েল ভয়েস ও লিপ-সিঙ্ক</h3>
             <div class="control-group">
-                <label>ডায়লগ ভয়েস রেকর্ডিং</label>
-                <button id="micRecordBtn">🎙️ ভয়েস রেকর্ড শুরু করুন</button>
+                <label>লাইভ মাইক অডিও & লিপ-সিঙ্ক</label>
+                <button id="micRecordBtn">🎙️ মাইক অন ও লিপ-সিঙ্ক</button>
             </div>
             <div class="control-group">
                 <label>সাউন্ড এফেক্টস (SFX)</label>
@@ -171,7 +171,6 @@
             <h3>৪. প্রিসেট অ্যানিমেশন</h3>
             <div class="control-group">
                 <button id="walkPresetBtn">🚶‍♂️ হাঁটার স্টাইল টগল</button>
-                <button id="talkPresetBtn">🗣️ কথা বলা অ্যাকশন</button>
             </div>
 
             <h3>৫. সেভ ও এক্সপোর্ট</h3>
@@ -251,18 +250,59 @@
             }
         });
 
-        // ভয়েস রেকর্ডিং সিমুলেশন লজিক
+        // রিয়েল মাইক্রোফোন এবং ফ্রিকোয়েন্সি বেসড লিপ-সিঙ্ক লজিক
         const micRecordBtn = document.getElementById('micRecordBtn');
-        let isRecording = false;
-        micRecordBtn.addEventListener('click', () => {
-            isRecording = !isRecording;
-            if(isRecording) {
-                micRecordBtn.classList.add('recording');
-                micRecordBtn.innerText = '🔴 রেকর্ডিং চলছে... (বন্ধ করুন)';
+        let audioContext, analyser, microphone, javascriptNode;
+        let isMicActive = false;
+
+        micRecordBtn.addEventListener('click', async () => {
+            if (!isMicActive) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    microphone = audioContext.createMediaStreamSource(stream);
+                    javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                    analyser.smoothingTimeConstant = 0.8;
+                    analyser.fftSize = 1024;
+
+                    microphone.connect(analyser);
+                    analyser.connect(javascriptNode);
+                    javascriptNode.connect(audioContext.destination);
+
+                    javascriptNode.onaudioprocess = () => {
+                        const array = new Uint8Array(analyser.frequencyBinCount);
+                        analyser.getByteFrequencyData(array);
+                        let values = 0;
+                        for (let i = 0; i < array.length; i++) {
+                            values += array[i];
+                        }
+                        let average = values / array.length;
+
+                        // ভলিউমের ওপর ভিত্তি করে মুখের সাইজ পরিবর্তন হবে
+                        let mouthHeight = Math.min(Math.max(average * 0.4, 4), 25);
+                        mouthPart.style.height = mouthHeight + 'px';
+                        let mouthWidth = Math.min(Math.max(12 + (average * 0.2), 10), 22);
+                        mouthPart.style.width = mouthWidth + 'px';
+                    };
+
+                    isMicActive = true;
+                    micRecordBtn.classList.add('recording');
+                    micRecordBtn.innerText = '🔴 মাইক লাইভ (বন্ধ করুন)';
+                } catch (err) {
+                    alert('মাইক্রোফোন পার্মিশন দেওয়া হয়নি বা ব্রাউজার সাপোর্ট করছে না!');
+                }
             } else {
+                if (javascriptNode) javascriptNode.onaudioprocess = null;
+                if (audioContext && audioContext.state !== 'closed') {
+                    audioContext.close();
+                }
+                isMicActive = false;
                 micRecordBtn.classList.remove('recording');
-                micRecordBtn.innerText = '🎙️ ভয়েস রেকর্ড শুরু করুন';
-                alert('ভয়েস সফলভাবে রেকর্ড ও লিপ-সিঙ্কের সাথে যুক্ত হয়েছে!');
+                micRecordBtn.innerText = '🎙️ মাইক অন ও লিপ-সিঙ্ক';
+                mouthPart.style.width = '16px';
+                mouthPart.style.height = '8px';
             }
         });
 
@@ -270,7 +310,6 @@
         const characterRig = document.getElementById('characterRig');
         const playBtn = document.getElementById('playBtn');
         const walkPresetBtn = document.getElementById('walkPresetBtn');
-        const talkPresetBtn = document.getElementById('talkPresetBtn');
 
         let isWalking = false;
         function toggleWalking() {
@@ -290,28 +329,6 @@
 
         playBtn.addEventListener('click', toggleWalking);
         walkPresetBtn.addEventListener('click', toggleWalking);
-
-        // কথা বলার অ্যাকশন সিমুলেশন
-        let isTalking = false;
-        talkPresetBtn.addEventListener('click', () => {
-            isTalking = !isTalking;
-            if(isTalking) {
-                talkPresetBtn.classList.add('active-anim');
-                talkPresetBtn.innerText = '🗣️ কথা বলা বন্ধ করুন';
-                window.talkInterval = setInterval(() => {
-                    let w = Math.random() > 0.5 ? '14px' : '8px';
-                    let h = Math.random() > 0.5 ? '10px' : '4px';
-                    mouthPart.style.width = w;
-                    mouthPart.style.height = h;
-                }, 200);
-            } else {
-                talkPresetBtn.classList.remove('active-anim');
-                talkPresetBtn.innerText = '🗣️ কথা বলা অ্যাকশন';
-                clearInterval(window.talkInterval);
-                mouthPart.style.width = '16px';
-                mouthPart.style.height = '8px';
-            }
-        });
     </script>
 </body>
 </html>
