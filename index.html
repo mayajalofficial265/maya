@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CartoonStudio - Detailed 3D Characters</title>
+  <title>CartoonStudio - Complete Cartoon Studio</title>
   <style>
     * {
       margin: 0;
@@ -190,7 +190,60 @@
       font-size: 15px;
     }
 
-    /* Scene Builder Styling */
+    /* Quick Create Cards */
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .create-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .create-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: 1px solid #f3f4f6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .create-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .create-card .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 22px;
+      color: white;
+    }
+
+    .create-card.active-card {
+      border: 2px solid #7c3aed;
+      background: #faf5ff;
+    }
+
+    .c1 .icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .c2 .icon { background: linear-gradient(135deg, #ec4899, #f472b6); }
+    .c3 .icon { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+    .c4 .icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    .c5 .icon { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+
+    /* Scene Builder Workspace */
     .builder-workspace {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -212,7 +265,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* Detailed Character Structure with Limbs & Outfit */
     .stage-characters {
       display: flex;
       gap: 45px;
@@ -261,7 +313,6 @@
       padding: 0 4px;
     }
 
-    /* Hands */
     .hand-left, .hand-right {
       position: absolute;
       width: 14px;
@@ -273,7 +324,6 @@
     .hand-left { left: -14px; transform: rotate(15deg); }
     .hand-right { right: -14px; transform: rotate(-15deg); }
 
-    /* Legs */
     .char-legs {
       display: flex;
       gap: 12px;
@@ -287,7 +337,6 @@
       border-radius: 0 0 8px 8px;
     }
 
-    /* Scene Controls */
     .scene-controls {
       background: white;
       border-radius: 20px;
@@ -391,6 +440,9 @@
       .builder-workspace {
         grid-template-columns: 1fr;
       }
+      .create-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
@@ -406,8 +458,11 @@
       </div>
     </div>
 
-    <div class="nav-item active" onclick="showSection('scene-builder')">
-      <i>🎬</i> Scene Builder
+    <div class="nav-item active" id="nav-home" onclick="showSection('home')">
+      <i>🏠</i> Home
+    </div>
+    <div class="nav-item" id="nav-builder" onclick="showSection('scene-builder')">
+      <i>🎬</i> Cartoon Studio
     </div>
   </aside>
 
@@ -416,7 +471,7 @@
     <div class="topbar">
       <div class="search-box">
         <span>🔍</span>
-        <input type="text" placeholder="Search characters, outfits...">
+        <input type="text" placeholder="Search characters, scenes...">
       </div>
       <div class="top-right">
         <div class="notification">🔔<span class="badge">3</span></div>
@@ -427,18 +482,59 @@
       </div>
     </div>
 
-    <!-- SCENE BUILDER SECTION -->
-    <div id="scene-builder-section">
+    <!-- HOME SECTION -->
+    <div id="home-section">
+      <div class="welcome">
+        <div>
+          <h1>👋 স্বাগতম, ক্রিয়েটর!</h1>
+          <p>আপনার কার্টুন অ্যানিমেশন ও স্টোরি স্টুডিও পরিচালনা করুন।</p>
+        </div>
+        <div style="font-size: 50px;">🤖✨</div>
+      </div>
+
+      <div class="section-title"><span>দ্রুত শুরু করুন (Quick Create)</span></div>
+
+      <div class="create-grid">
+        <div class="create-card c1 active-card" onclick="showSection('scene-builder')">
+          <div class="icon">✨</div>
+          <h3>Cartoon</h3>
+          <p>Full-body characters & scenes</p>
+        </div>
+        <div class="create-card c2" onclick="alert('শীঘ্রই আসছে: ড্রামা সিরিজ ফিচার!')">
+          <div class="icon">🎬</div>
+          <h3>Drama</h3>
+          <p>Build drama series</p>
+        </div>
+        <div class="create-card c3" onclick="alert('শীঘ্রই আসছে: শর্ট ভিডিও ফিচার!')">
+          <div class="icon">▶️</div>
+          <h3>Short Video</h3>
+          <p>Viral shorts</p>
+        </div>
+        <div class="create-card c4" onclick="alert('শীঘ্রই আসছে: মুভি মেকার ফিচার!')">
+          <div class="icon">🎥</div>
+          <h3>Movie</h3>
+          <p>Cinematic stories</p>
+        </div>
+        <div class="create-card c5" onclick="alert('শীঘ্রই আসছে: স্টোরি রাইটিং ফিচার!')">
+          <div class="icon">📖</div>
+          <h3>Story</h3>
+          <p>Illustrated stories</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARTOON SCENE BUILDER SECTION -->
+    <div id="scene-builder-section" style="display:none;">
       <div class="welcome" style="margin-bottom: 20px;">
         <div>
-          <h1 style="color:#6d28d9; font-size:24px;">👕 Detailed Outfit & Limb Scene Builder</h1>
-          <p>হাত, পা এবং জামাকাপড় সহ নিখুঁত থ্রিডি কার্টুন ক্যারেক্টার দৃশ্য।</p>
+          <h1 style="color:#6d28d9; font-size:24px;">✨ Cartoon Studio (Complete Builder)</h1>
+          <p>পোশাক, হাত-পা এবং মাল্টি-সিন সিকোয়েন্সসহ সম্পূর্ণ কার্টুন মেকার।</p>
         </div>
       </div>
 
       <div class="scene-tabs">
-        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Family)</button>
-        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Hero & Kids)</button>
+        <button class="scene-tab active" id="tab1" onclick="switchScene(1)">দৃশ্য ১ (Scene 1)</button>
+        <button class="scene-tab" id="tab2" onclick="switchScene(2)">দৃশ্য ২ (Scene 2)</button>
       </div>
 
       <div class="builder-workspace">
@@ -497,7 +593,7 @@
         </div>
 
         <div class="scene-controls">
-          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ পোশাক ও ক্যারেক্টার কন্ট্রোল</h3>
+          <h3 style="font-size: 15px; color:#6d28d9; margin-bottom: 12px;">🛠️ কার্টুন ও পোশাক কন্ট্রোল</h3>
           
           <div class="form-group">
             <label>ব্যাকগ্রাউন্ড নির্বাচন:</label>
@@ -512,7 +608,7 @@
             <label>চরিত্র ১ (পোশাকসহ):</label>
             <select id="char1Select" onchange="updateCharacters()">
               <option value="👨‍💼|বাবা (শার্ট)|#3b82f6|#1e3a8a">বাবা (ব্লু ফরমাল শার্ট)</option>
-              <option value="🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95">সুপারহিরো (অ্যাকশন సూট)</option>
+              <option value="🦸‍♂️|নায়ক (কস্টিউম)|#8b5cf6|#4c1d95">সুপারহিরো (অ্যাকশন সুট)</option>
               <option value="👴|দাদা (পাঞ্জাবি)|#64748b|#334155">দাদা (সাদা পাঞ্জাবি)</option>
             </select>
           </div>
@@ -546,6 +642,20 @@
     </div>
   </main>
 
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <div class="bn-item active" onclick="showSection('home')">
+        <div class="icon">🏠</div>
+        <span>Home</span>
+      </div>
+      <div class="bn-item" onclick="showSection('scene-builder')">
+        <div class="icon">🎬</div>
+        <span>Cartoon</span>
+      </div>
+    </div>
+  </nav>
+
   <script>
     let currentScene = 1;
     const scenesData = {
@@ -564,6 +674,14 @@
         text: 'আমাদের নতুন পোশাকগুলো দারুণ লাগছে!' 
       }
     };
+
+    function showSection(section) {
+      document.getElementById('home-section').style.display = (section === 'home') ? 'block' : 'none';
+      document.getElementById('scene-builder-section').style.display = (section === 'scene-builder') ? 'block' : 'none';
+
+      document.getElementById('nav-home').classList.toggle('active', section === 'home');
+      document.getElementById('nav-builder').classList.toggle('active', section === 'scene-builder');
+    }
 
     function switchScene(sceneNum) {
       currentScene = sceneNum;
@@ -633,7 +751,7 @@
       const text = document.getElementById('dialogueInput').value;
       document.getElementById('dialogueDisplay').textContent = `"${text}"`;
       scenesData[currentScene].text = text;
-      alert(`দৃশ্য ${currentScene} পোশাক ও সংলাপসহ সফলভাবে আপডেট হয়েছে!`);
+      alert(`দৃশ্য ${currentScene} সফলভাবে আপডেট হয়েছে!`);
     }
   </script>
 </body>
