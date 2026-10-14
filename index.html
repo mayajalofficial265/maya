@@ -3,165 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToonBondhu Studio Pro — All-in-One Cartoon Creator</title>
+    <title>ToonBondhu Studio Pro</title>
     <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --panel-bg: #ffffff;
-            --accent: #6c5ce7;
-            --text-main: #2d3436;
-            --text-muted: #636e72;
-            --border: #e2e8f0;
-        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: var(--bg-color); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        body { background: #f0f2f5; color: #333; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* হেডার */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: var(--panel-bg); border-bottom: 1px solid var(--border); height: 55px; }
-        .logo { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; color: #2c3e50; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #fff; border-bottom: 1px solid #ddd; height: 50px; }
+        .logo { font-size: 16px; font-weight: bold; color: #2c3e50; }
         .logo span { color: #f1c40f; }
-        
-        .header-right { display: flex; align-items: center; gap: 10px; }
-        .lang-toggle { display: flex; background: #f1f2f6; border-radius: 20px; padding: 2px; border: 1px solid var(--border); }
-        .lang-btn { background: transparent; border: none; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; cursor: pointer; color: #555; }
-        .lang-btn.active { background: var(--accent); color: #fff; }
-        .badge-pro { background: linear-gradient(135deg, #f1c40f, #e67e22); color: #fff; font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: bold; }
 
-        /* মূল লেআউট ড্যাশবোর্ড */
-        .main-container { display: grid; grid-template-columns: 260px 1fr 260px; flex: 1; height: calc(100vh - 110px); gap: 8px; padding: 8px; overflow: hidden; }
-        .sidebar { background: var(--panel-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; overflow-y: auto; }
+        .main-container { display: flex; flex: 1; height: calc(100vh - 100px); gap: 10px; padding: 10px; overflow: hidden; }
         
-        .section-title { font-size: 11px; text-transform: uppercase; color: #fff; background: var(--accent); padding: 6px 10px; border-radius: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .sidebar { width: 250px; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; overflow-y: auto; }
+        .section-title { font-size: 11px; text-transform: uppercase; color: #fff; background: #6c5ce7; padding: 6px 10px; border-radius: 4px; margin-bottom: 8px; font-weight: bold; }
         
-        .control-group { margin-bottom: 10px; }
-        .control-group label { display: block; font-size: 11px; margin-bottom: 4px; color: var(--text-muted); font-weight: 600; }
-        select, input[type="range"], input[type="color"], button.action-btn { width: 100%; padding: 7px 10px; background: #f8f9fa; border: 1px solid var(--border); color: #333; border-radius: 6px; margin-bottom: 4px; outline: none; font-size: 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
-        button.action-btn:hover { background: #e2e8f0; border-color: var(--accent); }
+        .control-group { margin-bottom: 8px; }
+        .control-group label { display: block; font-size: 11px; margin-bottom: 3px; color: #666; font-weight: 600; }
+        select, input[type="color"], button.action-btn { width: 100%; padding: 6px 8px; background: #f8f9fa; border: 1px solid #ddd; color: #333; border-radius: 4px; margin-bottom: 4px; font-size: 11px; cursor: pointer; }
 
-        /* স্টেজ ও ক্যানভাস এরিয়া */
-        .stage-area { display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; height: 100%; }
+        /* স্টেজ ও ক্যানভাস */
+        .stage-area { flex: 1; background: #fff; border: 1px solid #ddd; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         
-        .canvas-box { width: 100%; height: 100%; background: linear-gradient(180deg, #dff9fb 0%, #c7ecee 45%, #badc58 45%, #6ab04c 100%); position: relative; overflow: hidden; touch-action: none; }
+        .canvas-box { width: 100%; height: 100%; background: linear-gradient(180deg, #dff9fb 0%, #c7ecee 50%, #badc58 50%, #6ab04c 100%); position: relative; overflow: hidden; touch-action: none; }
         
-        /* সিন প্রপস (ঘর ও গাছ ফিক্সড সাইজ) */
-        .scene-house { position: absolute; left: 15px; top: 15px; width: 120px; height: 90px; background: #ff7675; border-radius: 6px 6px 0 0; border: 2px solid #d63031; z-index: 1; }
-        .scene-house::before { content: ''; position: absolute; top: -30px; left: -6px; width: 132px; height: 30px; background: #d63031; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
-        .scene-tree { position: absolute; right: 15px; top: 15px; width: 70px; height: 95px; background: #27ae60; border-radius: 50% 50% 6px 6px; border: 2px solid #1e8449; z-index: 1; }
-        .scene-table { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 130px; height: 35px; background: #d35400; border-radius: 6px; border: 2px solid #a04000; z-index: 2; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 10px; }
+        /* ফিক্সড প্রপস ডিজাইন */
+        .scene-house { position: absolute; left: 20px; top: 20px; width: 110px; height: 80px; background: #ff7675; border: 2px solid #d63031; z-index: 1; }
+        .scene-house-roof { position: absolute; left: 10px; top: -25px; width: 130px; height: 25px; background: #d63031; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); z-index: 2; }
+        
+        .scene-tree { position: absolute; right: 20px; top: 20px; width: 60px; height: 80px; background: #27ae60; border-radius: 50% 50% 4px 4px; border: 2px solid #1e8449; z-index: 1; }
+        
+        .scene-table { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); width: 120px; height: 30px; background: #d35400; border-radius: 4px; border: 2px solid #a04000; z-index: 2; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 10px; }
 
-        /* ড্র্যাগএবল ক্যারেক্টার */
+        /* ক্যারেক্টার */
         .draggable-item { position: absolute; cursor: grab; user-select: none; z-index: 5; display: flex; flex-direction: column; align-items: center; }
-        .draggable-item:active { cursor: grabbing; }
+        .character-rig { width: 80px; height: 160px; }
+        #char1 { left: 80px; bottom: 40px; }
+        #char2 { right: 80px; bottom: 40px; }
 
-        .character-rig { width: 90px; height: 180px; }
-        #char1 { left: 60px; bottom: 20px; }
-        #char2 { right: 60px; bottom: 20px; }
-
-        .char-head { width: 42px; height: 42px; background: #ffeaa7; border-radius: 50%; border: 2px solid #fdcb6e; position: relative; display: flex; align-items: center; justify-content: center; }
-        .char-hair { position: absolute; top: -3px; width: 46px; height: 18px; background: #2d3436; border-radius: 20px 20px 4px 4px; }
-        .char-hair.girl { background: #d63031; width: 48px; height: 26px; border-radius: 20px 20px 12px 12px; }
-        .char-eyes { display: flex; gap: 8px; margin-top: 2px; }
-        .char-eye { width: 4px; height: 4px; background: #2d3436; border-radius: 50%; }
-        .char-mouth { width: 7px; height: 3px; background: #d63031; border-radius: 0 0 4px 4px; margin-top: 3px; }
+        .char-head { width: 36px; height: 36px; background: #ffeaa7; border-radius: 50%; border: 2px solid #fdcb6e; position: relative; display: flex; align-items: center; justify-content: center; }
+        .char-hair { position: absolute; top: -3px; width: 40px; height: 16px; background: #2d3436; border-radius: 15px 15px 4px 4px; }
+        .char-hair.girl { background: #d63031; width: 42px; height: 22px; border-radius: 15px 15px 10px 10px; }
+        .char-eyes { display: flex; gap: 6px; }
+        .char-eye { width: 3px; height: 3px; background: #2d3436; border-radius: 50%; }
+        .char-mouth { width: 6px; height: 2px; background: #d63031; margin-top: 2px; }
         
-        .char-torso { width: 50px; height: 60px; background: var(--accent); border-radius: 6px; margin-top: -2px; border: 2px solid rgba(0,0,0,0.1); }
-        .char-limbs { display: flex; justify-content: space-between; width: 60px; margin-top: -52px; z-index: -1; }
-        .arm { width: 11px; height: 50px; background: #ffeaa7; border-radius: 4px; transform-origin: top center; }
-        .legs { display: flex; justify-content: space-between; width: 34px; margin-top: 10px; z-index: -1; }
-        .leg { width: 13px; height: 55px; background: #2d3436; border-radius: 4px; transform-origin: top center; }
+        .char-torso { width: 44px; height: 50px; background: #6c5ce7; border-radius: 4px; margin-top: -2px; }
+        .char-limbs { display: flex; justify-content: space-between; width: 52px; margin-top: -42px; z-index: -1; }
+        .arm { width: 9px; height: 40px; background: #ffeaa7; border-radius: 3px; transform-origin: top center; }
+        .legs { display: flex; justify-content: space-between; width: 30px; margin-top: 8px; z-index: -1; }
+        .leg { width: 10px; height: 45px; background: #2d3436; border-radius: 3px; transform-origin: top center; }
 
         #char2 .char-torso { background: #e17055 !important; }
-
         .hidden-item { display: none !important; }
 
-        @keyframes walkArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } 100% { transform: rotate(0deg); } }
-        @keyframes walkLeg { 0% { transform: rotate(0deg); } 50% { transform: rotate(20deg); } 100% { transform: rotate(0deg); } }
+        @keyframes walkArm { 0% { transform: rotate(0deg); } 50% { transform: rotate(-20deg); } 100% { transform: rotate(0deg); } }
+        @keyframes walkLeg { 0% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } 100% { transform: rotate(0deg); } }
+        .walking .arm { animation: walkArm 0.6s infinite ease-in-out; }
+        .walking .leg { animation: walkLeg 0.6s infinite ease-in-out; }
 
-        .walking .arm { animation: walkArm 0.7s infinite ease-in-out; }
-        .walking .leg { animation: walkLeg 0.7s infinite ease-in-out; }
-
-        /* নিচের টাইমলাইন কন্ট্রোল */
-        .bottom-timeline { grid-column: 1 / -1; background: var(--panel-bg); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; height: 50px; }
-        .timeline-controls { display: flex; gap: 6px; }
-        .timeline-controls button { padding: 6px 12px; background: #f1f2f6; border: 1px solid var(--border); border-radius: 6px; font-weight: bold; cursor: pointer; color: #333; font-size: 11px; }
-        .timeline-controls button.active-play { background: #27ae60; color: #fff; }
-        .timeline-slider-box { display: flex; align-items: center; gap: 10px; width: 50%; }
-        .timeline-slider-box input { flex: 1; accent-color: var(--accent); }
-        .time-counter { font-size: 11px; font-weight: bold; color: var(--text-muted); background: #f8f9fa; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); }
+        /* টাইমলাইন */
+        .bottom-timeline { height: 50px; background: #fff; border-top: 1px solid #ddd; display: flex; align-items: center; justify-content: center; padding: 0 15px; gap: 15px; }
+        .bottom-timeline button { padding: 6px 15px; background: #6c5ce7; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; }
+        .bottom-timeline button.active-play { background: #27ae60; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><span>▶</span> <span id="t-logo">টুনিবন্ধু স্টুডিও প্রো</span></div>
-        <div class="header-right">
-            <div class="lang-toggle">
-                <button class="lang-btn active" id="bnBtn">বাংলা</button>
-                <button class="lang-btn" id="enBtn">English</button>
-            </div>
-            <div class="badge-pro">PRO</div>
-        </div>
+        <div class="logo"><span>▶</span> টুনিবন্ধু স্টুডিও প্রো</div>
     </header>
 
     <main class="main-container">
-        <!-- বাম প্যানেল -->
         <div class="sidebar">
-            <div class="section-title"><span>১. ক্যারেক্টার ও লুক</span> <span>👤</span></div>
+            <div class="section-title">১. ক্যারেক্টার কন্ট্রোল</div>
             <div class="control-group">
                 <label>সক্রিয় চরিত্র</label>
                 <select id="activeCharSelect">
-                    <option value="char1">চরিত্র ১: হিরো (ছেলে)</option>
-                    <option value="char2">চরিত্র ২: টুনি (মেয়ে)</option>
+                    <option value="char1">হিরো (ছেলে)</option>
+                    <option value="char2">টুনি (মেয়ে)</option>
                 </select>
             </div>
-            
             <div class="control-group">
-                <button class="action-btn" id="toggleChar2Btn"><span>👥 দ্বিতীয় চরিত্র সরান</span> <span>›</span></button>
+                <button class="action-btn" id="toggleChar2Btn">👥 দ্বিতীয় চরিত্র টগল</button>
             </div>
-
-            <div class="control-group">
-                <label>চুলের স্টাইল</label>
-                <select id="hairStyleSelect">
-                    <option value="normal">সাধারণ চুল</option>
-                    <option value="spiky">স্টাইলিশ চুল</option>
-                    <option value="bald">ছোট চুল / শেভড</option>
-                </select>
-            </div>
-
-            <div class="control-group">
-                <label>মুখের ভাব</label>
-                <select id="expressionSelect">
-                    <option value="smile">খুশি (Smile)</option>
-                    <option value="serious">গম্ভীর (Serious)</option>
-                    <option value="surprised">অবাক (Surprised)</option>
-                </select>
-            </div>
-
             <div class="control-group">
                 <label>পোশাকের রঙ</label>
                 <input type="color" id="torsoColor" value="#6c5ce7">
             </div>
 
-            <div class="section-title" style="margin-top: 10px;"><span>২. প্রপস ও আসবাব</span> <span>🏠</span></div>
+            <div class="section-title" style="margin-top: 10px;">২. প্রপস টগল</div>
             <div class="control-group">
-                <button class="action-btn" id="toggleHouseBtn" style="color: #d63031;"><span>🏠 ঘর-বাড়ি সরান</span> <span>›</span></button>
-                <button class="action-btn" id="toggleTableBtn" style="color: #e17055;"><span>🪑 টেবিল সরান</span> <span>›</span></button>
-                <button class="action-btn" id="toggleTreeBtn" style="color: #27ae60;"><span>🌲 গাছ সরান</span> <span>›</span></button>
+                <button class="action-btn" id="toggleHouseBtn">🏠 ঘর টগল</button>
+                <button class="action-btn" id="toggleTableBtn">🪑 টেবিল টগল</button>
+                <button class="action-btn" id="toggleTreeBtn">🌲 গাছ টগল</button>
             </div>
         </div>
 
-        <!-- মাঝের স্টেজ এলাকা -->
         <div class="stage-area">
             <div class="canvas-box" id="canvasBox">
-                <div class="draggable-item scene-house" id="sceneHouse"></div>
-                <div class="draggable-item scene-tree" id="sceneTree"></div>
+                <!-- ঘর এবং ছাদ আলাদাভাবে فکسড -->
+                <div class="draggable-item" id="houseWrapper" style="left: 20px; top: 20px;">
+                    <div class="scene-house-roof" id="houseRoof"></div>
+                    <div class="scene-house" id="sceneHouse"></div>
+                </div>
+
+                <div class="draggable-item scene-tree" id="sceneTree" style="right: 20px; top: 20px; left: auto;"></div>
                 <div class="draggable-item scene-table" id="sceneTable">অধ্যয়ন টেবিল</div>
 
                 <div class="draggable-item character-rig" id="char1">
                     <div class="char-head">
-                        <div class="char-hair" id="hair1"></div>
+                        <div class="char-hair"></div>
                         <div class="char-eyes"><div class="char-eye"></div><div class="char-eye"></div></div>
-                        <div class="char-mouth" id="mouth1"></div>
+                        <div class="char-mouth"></div>
                     </div>
                     <div class="char-limbs"><div class="arm"></div><div class="arm"></div></div>
                     <div class="char-torso" id="torso1"></div>
@@ -170,9 +123,9 @@
 
                 <div class="draggable-item character-rig" id="char2">
                     <div class="char-head">
-                        <div class="char-hair girl" id="hair2"></div>
+                        <div class="char-hair girl"></div>
                         <div class="char-eyes"><div class="char-eye"></div><div class="char-eye"></div></div>
-                        <div class="char-mouth" id="mouth2"></div>
+                        <div class="char-mouth"></div>
                     </div>
                     <div class="char-limbs"><div class="arm"></div><div class="arm"></div></div>
                     <div class="char-torso" id="torso2"></div>
@@ -181,41 +134,20 @@
             </div>
         </div>
 
-        <!-- ডান প্যানেল -->
         <div class="sidebar">
-            <div class="section-title"><span>৩. রিয়েল ভয়েস</span> <span>🎙️</span></div>
+            <div class="section-title">৩. অ্যানিমেশন ও এক্সপোর্ট</div>
             <div class="control-group">
-                <button class="action-btn" style="background: #e8f4fd; color: #2980b9;"><span>🎙️ মাইক লিপ-সিঙ্ক</span> <span>▶</span></button>
-            </div>
-
-            <div class="section-title" style="margin-top: 10px;"><span>৪. অ্যানিমেশন</span> <span>🚶‍♂️</span></div>
-            <div class="control-group">
-                <button class="action-btn" id="walkPresetBtn" style="background: #eafaf1; color: #27ae60;"><span>🚶‍♂️ ওয়াক সাইকেল</span> <span>›</span></button>
-            </div>
-
-            <div class="section-title" style="margin-top: 10px;"><span>৫. এক্সপোর্ট</span> <span>🎬</span></div>
-            <div class="control-group">
-                <button class="action-btn" id="exportVideoBtn" style="background: #fef9e7; color: #d35400;"><span>🎬 ভিডিও ডাউনলোড</span> <span>↓</span></button>
-                <button class="action-btn" id="shareBtn" style="background: #f4ecf7; color: #8e44ad;"><span>🔗 সোশ্যাল শেয়ার</span> <span>↗</span></button>
-            </div>
-        </div>
-
-        <!-- নিচের টাইমলাইন প্যানেল -->
-        <div class="bottom-timeline">
-            <div class="timeline-controls">
-                <button id="playBtn">▶ প্লে ওয়াক</button>
-            </div>
-            <div class="timeline-slider-box">
-                <input type="range" min="0" max="100" value="0" id="timeSlider">
-                <div class="time-counter" id="timeDisplay">00:05 / 00:30</div>
+                <button class="action-btn" id="walkPresetBtn" style="background: #eafaf1; color: #27ae60;">🚶‍♂️ ওয়াক সাইকেল</button>
+                <button class="action-btn" id="exportVideoBtn" style="background: #fef9e7; color: #d35400;">🎬 ভিডিও ডাউনলোড</button>
             </div>
         </div>
     </main>
 
-    <script>
-        let isChar2Visible = true, isHouseVisible = true, isTableVisible = true, isTreeVisible = true;
-        let isWalking = false;
+    <div class="bottom-timeline">
+        <button id="playBtn">▶ প্লে ওয়াক</button>
+    </div>
 
+    <script>
         function makeDraggable(elm) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             elm.onmousedown = dragMouseDown;
@@ -230,32 +162,28 @@
 
         makeDraggable(document.getElementById('char1'));
         makeDraggable(document.getElementById('char2'));
-        makeDraggable(document.getElementById('sceneHouse'));
+        makeDraggable(document.getElementById('houseWrapper'));
         makeDraggable(document.getElementById('sceneTable'));
         makeDraggable(document.getElementById('sceneTree'));
 
+        // টগল লজিক
+        let isChar2Visible = true, isHouseVisible = true, isTableVisible = true, isTreeVisible = true, isWalking = false;
+
         document.getElementById('toggleChar2Btn').addEventListener('click', () => {
             isChar2Visible = !isChar2Visible;
-            if(isChar2Visible) { document.getElementById('char2').classList.remove('hidden-item'); document.getElementById('toggleChar2Btn').children[0].innerText = "👥 দ্বিতীয় চরিত্র সরান"; }
-            else { document.getElementById('char2').classList.add('hidden-item'); document.getElementById('toggleChar2Btn').children[0].innerText = "👥 দ্বিতীয় চরিত্র আনুন"; }
+            document.getElementById('char2').classList.toggle('hidden-item', !isChar2Visible);
         });
-
         document.getElementById('toggleHouseBtn').addEventListener('click', () => {
             isHouseVisible = !isHouseVisible;
-            if(isHouseVisible) { document.getElementById('sceneHouse').classList.remove('hidden-item'); document.getElementById('toggleHouseBtn').children[0].innerText = "🏠 ঘর-বাড়ি সরান"; }
-            else { document.getElementById('sceneHouse').classList.add('hidden-item'); document.getElementById('toggleHouseBtn').children[0].innerText = "🏠 ঘর-বাড়ি যোগ করুন"; }
+            document.getElementById('houseWrapper').classList.toggle('hidden-item', !isHouseVisible);
         });
-
         document.getElementById('toggleTableBtn').addEventListener('click', () => {
             isTableVisible = !isTableVisible;
-            if(isTableVisible) { document.getElementById('sceneTable').classList.remove('hidden-item'); document.getElementById('toggleTableBtn').children[0].innerText = "🪑 টেবিল সরান"; }
-            else { document.getElementById('sceneTable').classList.add('hidden-item'); document.getElementById('toggleTableBtn').children[0].innerText = "🪑 টেবিল যোগ করুন"; }
+            document.getElementById('sceneTable').classList.toggle('hidden-item', !isTableVisible);
         });
-
         document.getElementById('toggleTreeBtn').addEventListener('click', () => {
             isTreeVisible = !isTreeVisible;
-            if(isTreeVisible) { document.getElementById('sceneTree').classList.remove('hidden-item'); document.getElementById('toggleTreeBtn').children[0].innerText = "🌲 গাছ সরান"; }
-            else { document.getElementById('sceneTree').classList.add('hidden-item'); document.getElementById('toggleTreeBtn').children[0].innerText = "🌲 গাছ যোগ করুন"; }
+            document.getElementById('sceneTree').classList.toggle('hidden-item', !isTreeVisible);
         });
 
         document.getElementById('torsoColor').addEventListener('input', (e) => {
@@ -265,7 +193,6 @@
         });
 
         const playBtn = document.getElementById('playBtn');
-        const walkPresetBtn = document.getElementById('walkPresetBtn');
         function toggleWalking() {
             isWalking = !isWalking;
             const c1 = document.getElementById('char1'), c2 = document.getElementById('char2');
@@ -278,10 +205,8 @@
             }
         }
         playBtn.addEventListener('click', toggleWalking);
-        walkPresetBtn.addEventListener('click', toggleWalking);
-
+        document.getElementById('walkPresetBtn').addEventListener('click', toggleWalking);
         document.getElementById('exportVideoBtn').addEventListener('click', () => { alert("ভিডিও এক্সপোর্ট প্রসেস শুরু হয়েছে!"); });
-        document.getElementById('shareBtn').addEventListener('click', () => { alert("স্টুডিও লিংক কপি হয়েছে!"); });
     </script>
 </body>
 </html>
