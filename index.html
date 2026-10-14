@@ -32,7 +32,7 @@
         
         .control-group { margin-bottom: 20px; }
         .control-group label { display: block; font-size: 13px; margin-bottom: 8px; color: var(--text-main); }
-        select, input[type="range"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; outline: none; }
+        select, input[type="range"], input[type="color"], button { width: 100%; padding: 10px; background: #25284d; border: 1px solid var(--border); color: #fff; border-radius: 8px; margin-bottom: 10px; outline: none; }
         button { background: var(--accent); font-weight: bold; cursor: pointer; transition: 0.2s; }
         button:hover { opacity: 0.9; box-shadow: 0 0 10px var(--accent-glow); }
 
@@ -41,7 +41,14 @@
         
         .character-rig { position: relative; width: 150px; height: 300px; }
         .part { position: absolute; transition: transform 0.3s ease; }
-        .head { width: 80px; height: 80px; background: #eab18e; border-radius: 50%; top: 0; left: 35px; }
+        .head { width: 80px; height: 80px; background: #eab18e; border-radius: 50%; top: 0; left: 35px; display: flex; align-items: center; justify-content: center; }
+        
+        /* ফেসিয়াল এক্সপ্রেশনের জন্য চোখের স্টাইল */
+        .face { position: relative; width: 100%; height: 100%; }
+        .eyes { position: absolute; top: 30px; left: 20px; width: 40px; display: flex; justify-content: space-between; }
+        .eye { width: 8px; height: 8px; background: #333; border-radius: 50%; }
+        .mouth { position: absolute; bottom: 20px; left: 32px; width: 16px; height: 8px; background: #333; border-radius: 0 0 10px 10px; transition: 0.2s; }
+
         .torso { width: 90px; height: 110px; background: var(--accent); border-radius: 15px; top: 80px; left: 30px; }
         .arm-left { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 2px; transform-origin: top center; }
         .arm-right { width: 25px; height: 90px; background: #eab18e; border-radius: 12px; top: 85px; left: 123px; transform-origin: top center; }
@@ -64,16 +71,31 @@
     </header>
 
     <main class="main-container">
-        <!-- বাম পাশের প্যানেল: ক্যারেক্টার রিগিং -->
+        <!-- বাম পাশের প্যানেল: ক্যারেক্টার রিগিং ও কাস্টমাইজেশন -->
         <div class="sidebar-left">
             <h3>১. ক্যারেক্টার পার্টস ও জোড়া</h3>
             <div class="control-group">
-                <label>বডি স্টাইল (ফ্রি)</label>
+                <label>বডি স্টাইল</label>
                 <select id="bodyStyle">
                     <option value="normal">স্ট্যান্ডার্ড হিরো</option>
                     <option value="chibi">কিউট চিবি</option>
                 </select>
             </div>
+            
+            <div class="control-group">
+                <label>মুখের ভাব (Expression)</label>
+                <select id="expressionSelect">
+                    <option value="smile">খুশি (Smile)</option>
+                    <option value="serious">গম্ভীর (Serious)</option>
+                    <option value="surprised">অবাক (Surprised)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label>পোশাকের রঙ (Outfit Color)</label>
+                <input type="color" id="torsoColor" value="#7057f5">
+            </div>
+
             <div class="control-group">
                 <label>হাত নাড়ানোর জয়েন্ট</label>
                 <input type="range" id="armPos" min="-45" max="45" value="0">
@@ -81,13 +103,6 @@
             <div class="control-group">
                 <label>পা নাড়ানোর জয়েন্ট</label>
                 <input type="range" id="legPos" min="-30" max="30" value="0">
-            </div>
-
-            <h3>২. প্রো পার্টস (পেইড)</h3>
-            <div class="control-group locked-feature">
-                <span class="lock-tag">PRO</span>
-                <label>সুপারহিরো কেপ ও ডানা</label>
-                <select><option>প্রিমিয়াম উইংস</option></select>
             </div>
         </div>
 
@@ -97,8 +112,16 @@
                 <div class="character-rig">
                     <div class="part arm-left" id="leftArm"></div>
                     <div class="part arm-right" id="rightArm"></div>
-                    <div class="part torso"></div>
-                    <div class="part head"></div>
+                    <div class="part torso" id="torsoPart"></div>
+                    <div class="part head">
+                        <div class="face">
+                            <div class="eyes">
+                                <div class="eye"></div>
+                                <div class="eye"></div>
+                            </div>
+                            <div class="mouth" id="mouthPart"></div>
+                        </div>
+                    </div>
                     <div class="part leg-left" id="leftLeg"></div>
                     <div class="part leg-right" id="rightLeg"></div>
                 </div>
@@ -112,7 +135,7 @@
 
         <!-- ডান পাশের প্যানেল: ভয়েস ও মোশন -->
         <div class="sidebar-right">
-            <h3>৩. ভয়েস ও অ্যানিমেশন</h3>
+            <h3>২. ভয়েস ও অ্যানিমেশন</h3>
             <div class="control-group">
                 <label>লিপ-সিঙ্ক (কথা বলানো)</label>
                 <select>
@@ -133,6 +156,7 @@
     </main>
 
     <script>
+        // হাত ও পায়ের জয়েন্ট কন্ট্রোল
         const armPos = document.getElementById('armPos');
         const leftArm = document.getElementById('leftArm');
         const rightArm = document.getElementById('rightArm');
@@ -152,7 +176,33 @@
             leftLeg.style.transform = `rotate(${val}deg)`;
             rightLeg.style.transform = `rotate(${-val}deg)`;
         });
+
+        // পোশাকের রঙ পরিবর্তন
+        const torsoColor = document.getElementById('torsoColor');
+        const torsoPart = document.getElementById('torsoPart');
+        torsoColor.addEventListener('input', (e) => {
+            torsoPart.style.backgroundColor = e.target.value;
+        });
+
+        // মুখের ভাব পরিবর্তন
+        const expressionSelect = document.getElementById('expressionSelect');
+        const mouthPart = document.getElementById('mouthPart');
+        expressionSelect.addEventListener('change', (e) => {
+            let expr = e.target.value;
+            if(expr === 'smile') {
+                mouthPart.style.width = '16px';
+                mouthPart.style.height = '8px';
+                mouthPart.style.borderRadius = '0 0 10px 10px';
+            } else if(expr === 'serious') {
+                mouthPart.style.width = '16px';
+                mouthPart.style.height = '3px';
+                mouthPart.style.borderRadius = '2px';
+            } else if(expr === 'surprised') {
+                mouthPart.style.width = '10px';
+                mouthPart.style.height = '12px';
+                mouthPart.style.borderRadius = '50%';
+            }
+        });
     </script>
 </body>
-    </html>
-    
+</html>
